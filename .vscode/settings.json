@@ -1,0 +1,17 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "wifi_aprs",
+      "database": "wifi_aprs",
+      "username": "root",
+      "password": "root"
+    }
+  ]
+}
