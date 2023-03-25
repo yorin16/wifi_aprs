@@ -7,10 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends AbstractController
 {
-    public function index(): Response
+    public function page(): Response
     {
-        return new Response(
-            'adminTest'
-        );
+        return $this->render('admin/index.html.twig', [
+        ]);
     }
 }
