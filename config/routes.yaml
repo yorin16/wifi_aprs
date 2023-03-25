@@ -1,9 +1,15 @@
-#controllers:
-#    resource:
-#        path: ../src/Controller/
-#        namespace: App\Controller
-#    type: attribute
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
 
 Home:
     path: /
     controller: App\Controller\IndexController::index
+app_logout:
+    path: /logout
+    methods: GET
+app_admin:
+    path: /admin
+    controller: AdminController::index
