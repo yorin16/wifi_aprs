@@ -24,9 +24,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     private ?string $password = null;
 
@@ -67,14 +64,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
+    public function getPrintedRoles(): string
+    {
+        $roles = $this->getRoles();
+
+        return implode(',', $roles);
+    }
+
     public function setRoles(array $roles): self
     {
+        //super admin is houd deze rechten altijd.
+        if(in_array('ROLE_ADMIN', $this->getRoles())){
+            $roles[] = 'ROLE_ADMIN';
+        }
+
         $this->roles = $roles;
 
         return $this;

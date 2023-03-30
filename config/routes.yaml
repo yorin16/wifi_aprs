@@ -13,3 +13,7 @@ Home:
 app_logout:
     path: /logout
     methods: GET
+#[Route('/Admin/user/Edit{id}', name: 'app_admin_user_edit')]
+admin_user_edit:
+    path: /Admin/user/Edit{id}
+    controller: App\Controller\Admin\EditUserController::index

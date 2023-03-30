@@ -10,9 +10,9 @@ security:
                 class: App\Entity\User
                 property: username
     role_hierarchy:
-        ROLE_ADMIN: [ ROLE_ADMIN, ROLE_USER ] #superAdmin (ikzelf)
-        ROLE_USER: ROLE_USER #Jota mensen
-        ROLE_TEAM: ROLE_TEAM #teams
+        ROLE_ADMIN: ["ROLE_ADMIN", "ROLE_USER"] #superAdmin (ikzelf)
+        ROLE_USER: ["ROLE_USER"] #Jota mensen
+        ROLE_TEAM: ["ROLE_TEAM"] #teams
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

@@ -1,0 +1,43 @@
+{
+  "name": "wifi_aprs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yorin16/wifi_aprs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yorin16/wifi_aprs/issues"
+  },
+  "homepage": "https://github.com/yorin16/wifi_aprs#readme",
+  "devDependencies": {
+    "@popperjs/core": "^2.11.7",
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.4",
+    "sass": "^1.60.0",
+    "sass-loader": "^13.0.0",
+    "webpack-notifier": "^1.15.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.16.0",
+    "@hotwired/stimulus": "^3.2.1",
+    "@symfony/stimulus-bridge": "^3.2.2",
+    "@symfony/webpack-encore": "^4.2.0",
+    "core-js": "^3.29.1",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1"
+  }
+}
