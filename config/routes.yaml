@@ -1,19 +1,27 @@
+# symfony 6 controller support ( mostly unused )
 controllers:
     resource:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
 
-app_admin:
-    path: /admin
-    controller: App\Controller\AdminController::page
+# Main Routes
 Home:
     path: /
     controller: App\Controller\IndexController::index
 app_logout:
     path: /logout
     methods: GET
-#[Route('/Admin/user/Edit{id}', name: 'app_admin_user_edit')]
+
+# Admin Routes
+app_admin:
+    path: /admin
+    controller: App\Controller\AdminController::page
+
+# CRUD User
+admin_user:
+    path: /Admin/user
+    controller: App\Controller\Admin\UserController::index
 admin_user_edit:
-    path: /Admin/user/Edit{id}
-    controller: App\Controller\Admin\EditUserController::index
+    path: /Admin/user/{id}/edit
+    controller: App\Controller\Admin\UserController::edit
