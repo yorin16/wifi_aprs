@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('admin_project_create') }}" class="btn btn-primary" role="button">Create</a>
+    <div class="col-6">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                {% for field in fields %}
+                    <th scope="col">{{ field|capitalize }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr>
+                    {% for field in fields %}
+                        <td>{{ attribute(project, field) }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -25,3 +25,10 @@ admin_user:
 admin_user_edit:
     path: /Admin/user/{id}/edit
     controller: App\Controller\Admin\UserController::edit
+
+admin_project:
+    path: /Admin/project
+    controller: App\Controller\Admin\ProjectController::index
+admin_project_create:
+    path: /Admin/project/create
+    controller: App\Controller\Admin\ProjectController::add

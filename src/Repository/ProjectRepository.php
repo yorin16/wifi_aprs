@@ -39,6 +39,22 @@ class ProjectRepository extends ServiceEntityRepository
         }
     }
 
+    public function getFields(): array
+    {
+        $classMetadata = $this->getEntityManager()->getClassMetadata(Project::class);
+        $fieldNames = $classMetadata->getFieldNames();
+
+        return array_filter($fieldNames, function ($fieldName) use ($classMetadata) {
+            $fieldType = $classMetadata->getTypeOfField($fieldName);
+
+            return $fieldType !== 'datetime'
+                && $fieldType !== 'datetimetz'
+                && $fieldType !== 'time'
+                && $fieldType !== 'date'
+                && $fieldName !== 'id';
+        });
+    }
+
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */
