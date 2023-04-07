@@ -22,10 +22,20 @@ app_admin:
 admin_user:
     path: /Admin/user
     controller: App\Controller\Admin\UserController::index
+admin_user_add:
+    path: /Admin/user/add
+    controller: App\Controller\Admin\UserController::add
 admin_user_edit:
     path: /Admin/user/{id}/edit
     controller: App\Controller\Admin\UserController::edit
+admin_user_delete:
+    path: /Admin/user/{id}/delete
+    controller: App\Controller\Admin\UserController::delete
+admin_user_delete_confirm:
+    path: /Admin/user/{id}/delete/confirm
+    controller: App\Controller\Admin\UserController::confirmDelete
 
+# CRUD Project
 admin_project:
     path: /Admin/project
     controller: App\Controller\Admin\ProjectController::index

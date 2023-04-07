@@ -3,6 +3,7 @@
 {% block title %}Hello LoginController!{% endblock %}
 
 {% block body %}
+    <a href="{{ path('admin_user_add')}}" class="btn btn-primary" role="button">Add</a>
 <div class="col-6">
     <table class="table table-striped">
         <thead class="thead-dark">
@@ -22,6 +23,7 @@
                 <td>{{ user.printedRoles }}</td>
                 <td>{{ user.project.name|default }}</td>
                 <td><a href="{{ path('admin_user_edit', {'id': user.id }) }}" class="btn btn-primary" role="button">Edit</a></td>
+                <td><a href="{{ path('admin_user_delete_confirm', {'id': user.id }) }}" class="btn btn-danger" role="button">Delete</a></td>
             </tr>
         {% endfor %}
         </tbody>
