@@ -21,7 +21,7 @@ class Project
     #[ORM\OneToMany(mappedBy: 'Project', targetEntity: Location::class)]
     private Collection $locations;
 
-    #[ORM\OneToMany(mappedBy: 'SelectedProject', targetEntity: User::class)]
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: User::class)]
     private Collection $users;
 
     public function __construct()
@@ -89,7 +89,7 @@ class Project
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->setSelectedProject($this);
+            $user->setProject($this);
         }
 
         return $this;
@@ -99,8 +99,8 @@ class Project
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getSelectedProject() === $this) {
-                $user->setSelectedProject(null);
+            if ($user->getProject() === $this) {
+                $user->setProject(null);
             }
         }
 

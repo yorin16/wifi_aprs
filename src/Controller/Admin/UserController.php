@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\User;
 use App\Form\EditUserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,20 +27,14 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function edit($id, Request $request): RedirectResponse|Response
+    public function edit($id, Request $request, User $user): RedirectResponse|Response
     {
-        $user = $this->userRepository->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException(
-                'No user found for id '.$id
-            );
-        }
 
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($user);
             $this->entityManager->flush();
             return $this->redirectToRoute('app_admin', ['id' => $id]);
         }

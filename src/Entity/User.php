@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Project $SelectedProject = null;
+    private ?Project $project = null;
 
 
     public function getId(): ?int
@@ -111,14 +111,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getSelectedProject(): ?Project
+    public function getProject(): ?Project
     {
-        return $this->SelectedProject;
+        return $this->project;
     }
 
-    public function setSelectedProject(?Project $SelectedProject): self
+    public function setProject(?Project $project): self
     {
-        $this->SelectedProject = $SelectedProject;
+        $this->project = $project;
 
         return $this;
     }
