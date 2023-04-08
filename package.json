@@ -24,7 +24,7 @@
   "homepage": "https://github.com/yorin16/wifi_aprs#readme",
   "devDependencies": {
     "@popperjs/core": "^2.11.7",
-    "bootstrap": "^5.2.3",
+    "bootstrap": "^5.3.0-alpha3",
     "jquery": "^3.6.4",
     "sass": "^1.60.0",
     "sass-loader": "^13.0.0",

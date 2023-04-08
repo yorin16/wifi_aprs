@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="nl" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
@@ -44,6 +44,7 @@
                     </li>
                 {% endif %}
             </ul>
+            <button class="btn btn-dark shadow" id="btnSwitch">Toggle Mode</button>
         </div>
     </div>
 </nav>
@@ -72,12 +73,6 @@
     </nav>
 {% endif %}
 <body>
-{#        <ul> #}
-{#            <li><a href="{{ path('app_login') }}">Login</a></li> #}
-{#            <li><a href="{{ path('app_logout') }}">Logout</a></li> #}
-{#            <li><a href="{{ path('app_register') }}">Register</a></li> #}
-{#            <li><a href="{{ path('app_admin') }}">Admin</a></li> #}
-{#        </ul> #}
 {% block body %}{% endblock %}
 </body>
 </html>
