@@ -42,3 +42,12 @@ admin_project:
 admin_project_create:
     path: /Admin/project/create
     controller: App\Controller\Admin\ProjectController::add
+admin_project_edit:
+    path: /Admin/project/{id}/edit
+    controller: App\Controller\Admin\ProjectController::edit
+admin_project_delete:
+    path: /Admin/project/{id}/delete
+    controller: App\Controller\Admin\ProjectController::delete
+admin_project_delete_confirm:
+    path: /Admin/project/{id}/delete/confirm
+    controller: App\Controller\Admin\ProjectController::confirmDelete

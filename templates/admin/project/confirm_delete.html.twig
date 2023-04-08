@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block body %}
+    <h1>Confirm Delete</h1>
+    <p>Are you sure you want to delete {{ project.name }}?</p>
+    <form action="{{ path('admin_project_delete', {'id': project.id}) }}" method="POST">
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{{ path('admin_project') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

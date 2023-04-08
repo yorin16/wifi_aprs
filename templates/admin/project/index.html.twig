@@ -10,6 +10,8 @@
             <tr>
                 {% for field in fields %}
                     <th scope="col">{{ field|capitalize }}</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 {% endfor %}
             </tr>
             </thead>
@@ -19,6 +21,8 @@
                     {% for field in fields %}
                         <td>{{ attribute(project, field) }}</td>
                     {% endfor %}
+                    <td><a href="{{ path('admin_project_edit', {'id': project.id }) }}" class="btn btn-primary" role="button">Edit</a></td>
+                    <td><a href="{{ path('admin_project_delete_confirm', {'id': project.id }) }}" class="btn btn-danger" role="button">Delete</a></td>
                 </tr>
             {% endfor %}
             </tbody>
