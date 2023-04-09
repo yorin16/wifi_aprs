@@ -17,6 +17,7 @@ class Location
     private ?string $Coordinate = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
+    #[ORM\JoinColumn(name: 'device_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Device $Device = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]

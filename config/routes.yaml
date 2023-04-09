@@ -39,8 +39,8 @@ admin_user_delete_confirm:
 admin_project:
     path: /Admin/project
     controller: App\Controller\Admin\ProjectController::index
-admin_project_create:
-    path: /Admin/project/create
+admin_project_add:
+    path: /Admin/project/add
     controller: App\Controller\Admin\ProjectController::add
 admin_project_edit:
     path: /Admin/project/{id}/edit
@@ -51,3 +51,20 @@ admin_project_delete:
 admin_project_delete_confirm:
     path: /Admin/project/{id}/delete/confirm
     controller: App\Controller\Admin\ProjectController::confirmDelete
+
+# CRUD Devices
+admin_device:
+    path: /Admin/Devices
+    controller: App\Controller\Admin\DeviceController::index
+admin_device_add:
+    path: /Admin/Devices/add
+    controller: App\Controller\Admin\DeviceController::add
+admin_device_edit:
+    path: /Admin/Devices
+    controller: App\Controller\Admin\DeviceController::index
+admin_device_delete:
+    path: /Admin/Devices
+    controller: App\Controller\Admin\DeviceController::index
+admin_device_delete_confirm:
+    path: /Admin/Devices
+    controller: App\Controller\Admin\DeviceController::index

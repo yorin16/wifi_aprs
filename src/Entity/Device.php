@@ -13,20 +13,20 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 class Device
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::GUID)]
-    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\Column(type: Types::GUID, nullable: true)]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     private ?string $guid = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?bool $disabled = null;
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $disabled = false;
 
     #[ORM\OneToMany(mappedBy: 'Device', targetEntity: Location::class)]
     private Collection $locations;
@@ -65,7 +65,7 @@ class Device
         return $this;
     }
 
-    public function isDisabled(): ?bool
+    public function isDisabled(): bool
     {
         return $this->disabled;
     }

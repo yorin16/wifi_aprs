@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('admin_device_add') }}" class="btn btn-primary" role="button">Create</a>
+    <div class="col-6">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                {% for field in fields %}
+                    <th scope="col">{{ field|capitalize }}</th>
+                {% endfor %}
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for device in devices %}
+                <tr>
+                    <td>{{ device.guid }}</td>
+                    <td>{{ device.name }}</td>
+                    <td>{{ device.disabled }}</td>
+{#                    <td><a href="{{ path('admin_device_edit', {'id': device.id }) }}" class="btn btn-primary" role="button">Edit</a></td>#}
+{#                    <td><a href="{{ path('admin_device_delete_confirm', {'id': device.id }) }}" class="btn btn-danger" role="button">Delete</a></td>#}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

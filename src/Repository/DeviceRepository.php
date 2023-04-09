@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Device;
+use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,22 @@ class DeviceRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getFields(): array
+    {
+        $classMetadata = $this->getEntityManager()->getClassMetadata(Device::class);
+        $fieldNames = $classMetadata->getFieldNames();
+
+        return array_filter($fieldNames, function ($fieldName) use ($classMetadata) {
+            $fieldType = $classMetadata->getTypeOfField($fieldName);
+
+            return $fieldType !== 'datetime'
+                && $fieldType !== 'datetimetz'
+                && $fieldType !== 'time'
+                && $fieldType !== 'date'
+                && $fieldName !== 'id';
+        });
     }
 
 //    /**
