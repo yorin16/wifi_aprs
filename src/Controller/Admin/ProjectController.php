@@ -48,7 +48,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    public function edit($id, Request $request, Project $project): RedirectResponse|Response
+    public function edit(Request $request, Project $project): RedirectResponse|Response
     {
         $form = $this->createForm(ProjectEditType::class, $project);
         $form->handleRequest($request);
@@ -56,7 +56,7 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($project);
             $this->entityManager->flush();
-            return $this->redirectToRoute('admin_project', ['id' => $id]);
+            return $this->redirectToRoute('admin_project');
         }
 
         return $this->render('admin/project/edit.html.twig', [
@@ -66,10 +66,10 @@ class ProjectController extends AbstractController
 
     public function delete(Project $project, Request $request, EntityManagerInterface $entityManager): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete_user_' . $project->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete_project_' . $project->getId(), $request->request->get('_token'))) {
             $entityManager->remove($project);
             $entityManager->flush();
-            $this->addFlash('success', 'User deleted');
+            $this->addFlash('success', 'Project deleted');
         } else {
             $this->addFlash('error', 'Invalid CSRF token');
         }

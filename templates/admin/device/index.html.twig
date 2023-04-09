@@ -21,8 +21,8 @@
                     <td>{{ device.guid }}</td>
                     <td>{{ device.name }}</td>
                     <td>{{ device.disabled }}</td>
-{#                    <td><a href="{{ path('admin_device_edit', {'id': device.id }) }}" class="btn btn-primary" role="button">Edit</a></td>#}
-{#                    <td><a href="{{ path('admin_device_delete_confirm', {'id': device.id }) }}" class="btn btn-danger" role="button">Delete</a></td>#}
+                    <td><a href="{{ path('admin_device_edit', {'id': device.id }) }}" class="btn btn-primary" role="button">Edit</a></td>
+                    <td><a href="{{ path('admin_device_delete_confirm', {'id': device.id }) }}" class="btn btn-danger" role="button">Delete</a></td>
                 </tr>
             {% endfor %}
             </tbody>

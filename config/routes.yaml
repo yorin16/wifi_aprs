@@ -20,51 +20,51 @@ app_admin:
 
 # CRUD User
 admin_user:
-    path: /Admin/user
+    path: /admin/user
     controller: App\Controller\Admin\UserController::index
 admin_user_add:
-    path: /Admin/user/add
+    path: /admin/user/add
     controller: App\Controller\Admin\UserController::add
 admin_user_edit:
-    path: /Admin/user/{id}/edit
+    path: /admin/user/{id}/edit
     controller: App\Controller\Admin\UserController::edit
 admin_user_delete:
-    path: /Admin/user/{id}/delete
+    path: /admin/user/{id}/delete
     controller: App\Controller\Admin\UserController::delete
 admin_user_delete_confirm:
-    path: /Admin/user/{id}/delete/confirm
+    path: /admin/user/{id}/delete/confirm
     controller: App\Controller\Admin\UserController::confirmDelete
 
 # CRUD Project
 admin_project:
-    path: /Admin/project
+    path: /admin/project
     controller: App\Controller\Admin\ProjectController::index
 admin_project_add:
-    path: /Admin/project/add
+    path: /admin/project/add
     controller: App\Controller\Admin\ProjectController::add
 admin_project_edit:
-    path: /Admin/project/{id}/edit
+    path: /admin/project/{id}/edit
     controller: App\Controller\Admin\ProjectController::edit
 admin_project_delete:
-    path: /Admin/project/{id}/delete
+    path: /admin/project/{id}/delete
     controller: App\Controller\Admin\ProjectController::delete
 admin_project_delete_confirm:
-    path: /Admin/project/{id}/delete/confirm
+    path: /admin/project/{id}/delete/confirm
     controller: App\Controller\Admin\ProjectController::confirmDelete
 
 # CRUD Devices
 admin_device:
-    path: /Admin/Devices
+    path: /admin/devices
     controller: App\Controller\Admin\DeviceController::index
 admin_device_add:
-    path: /Admin/Devices/add
+    path: /admin/devices/add
     controller: App\Controller\Admin\DeviceController::add
 admin_device_edit:
-    path: /Admin/Devices
-    controller: App\Controller\Admin\DeviceController::index
+    path: /admin/devices/{id}/edit
+    controller: App\Controller\Admin\DeviceController::edit
 admin_device_delete:
-    path: /Admin/Devices
-    controller: App\Controller\Admin\DeviceController::index
+    path: /admin/devices/{id}/delete
+    controller: App\Controller\Admin\DeviceController::delete
 admin_device_delete_confirm:
-    path: /Admin/Devices
-    controller: App\Controller\Admin\DeviceController::index
+    path: /admin/devices/{id}/delete/confirm
+    controller: App\Controller\Admin\DeviceController::confirmDelete
