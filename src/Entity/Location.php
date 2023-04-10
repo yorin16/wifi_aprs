@@ -22,7 +22,7 @@ class Location
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Project $Project = null;
+    private Project $Project;
 
     public function getId(): ?int
     {
@@ -53,12 +53,12 @@ class Location
         return $this;
     }
 
-    public function getProject(): ?Project
+    public function getProject(): Project
     {
         return $this->Project;
     }
 
-    public function setProject(?Project $Project): self
+    public function setProject(Project $Project): self
     {
         $this->Project = $Project;
 

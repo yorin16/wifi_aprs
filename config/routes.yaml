@@ -68,3 +68,22 @@ admin_device_delete:
 admin_device_delete_confirm:
     path: /admin/devices/{id}/delete/confirm
     controller: App\Controller\Admin\DeviceController::confirmDelete
+
+# Project page
+admin_edit_project:
+    path: /admin/edit_project/{project}
+    controller: App\Controller\Admin\EditProject\EditProjectController::index
+
+# CRUD Locations
+admin_location_add:
+    path: /admin/edit_project/{project}/location/add
+    controller: App\Controller\Admin\EditProject\LocationController::add
+admin_location_edit:
+    path: /admin/edit_project/{project}/location/{location}/edit
+    controller: App\Controller\Admin\EditProject\LocationController::edit
+admin_location_delete:
+    path: /admin/edit_project/{project}/location/{location}/delete
+    controller: App\Controller\Admin\EditProject\LocationController::delete
+admin_location_delete_confirm:
+    path: /admin/edit_project/{project}/location/{location}/delete/confirm
+    controller: App\Controller\Admin\EditProject\LocationController::confirmDelete
