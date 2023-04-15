@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('admin_question_add', {'project': project}) }}" class="btn btn-primary" role="button">Add</a>
+    <div class="col-6">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Location</th>
+                <th scope="col">Text</th>
+                <th scope="col">Type</th>
+                <th scope="col">Points</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for question in questions %}
+                <tr>
+                    <th scope="row">{{ question.id }}</th>
+                    <td>{{ question.location.coordinate }}</td>
+                    <td>{{ question.text }}</td>
+                    <td>{{ question.type }}</td>
+                    <td>{{ question.points }}</td>
+{#                    <td><a href="{{ path('admin_user_edit', {'id': user.id }) }}" class="btn btn-primary" role="button">Edit</a></td>#}
+{#                    <td><a href="{{ path('admin_user_delete_confirm', {'id': user.id }) }}" class="btn btn-danger" role="button">Delete</a></td>#}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

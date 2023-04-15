@@ -19,10 +19,14 @@ class EditProjectController extends AbstractController
         $project = $this->projectRepository->find($project);
         /* @var Collection|Location[] $locations */
         $locations = $project->getLocations();
+
+        $questions = $this->projectRepository->findQuestionsByProjectId($project->getId());
+
         return $this->render('admin/editProject/index.html.twig', [
             'usersInProject' => $project->getUsers(),
             'locations' => $locations,
-            'project' => $project
+            'project' => $project,
+            'questions' => $questions
         ]);
     }
 }

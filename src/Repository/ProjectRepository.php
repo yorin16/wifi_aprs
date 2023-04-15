@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -53,6 +54,19 @@ class ProjectRepository extends ServiceEntityRepository
                 && $fieldType !== 'date'
                 && $fieldName !== 'id';
         });
+    }
+
+    public function findQuestionsByProjectId(int $projectId): array
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder->select('q')
+            ->from(Question::class, 'q')
+            ->join('q.Location', 'l')
+            ->join('l.Project', 'p')
+            ->where('p.id = :projectId')
+            ->setParameter('projectId', $projectId);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
 //    /**
