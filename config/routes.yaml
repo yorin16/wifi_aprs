@@ -87,3 +87,9 @@ admin_location_delete:
 admin_location_delete_confirm:
     path: /admin/edit_project/{project}/location/{location}/delete/confirm
     controller: App\Controller\Admin\EditProject\LocationController::confirmDelete
+
+
+# Game
+game_device:
+    path: /device/{guid}
+    controller: App\Controller\Game\QuestionController::index

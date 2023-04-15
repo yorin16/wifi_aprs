@@ -40,7 +40,7 @@
                     <tbody>
                     {% for location in locations %}
                         <tr>
-                            <td>{{ location.Coordinate }}</td>
+                            <td>{{ location.coordinate }}</td>
                             <td>{{ location.device.name }}</td>
                             <td><a href="{{ path('admin_location_edit', {'project': project.id, 'location': location.id }) }}" class="btn btn-primary" role="button">Edit</a></td>
                             <td><a href="{{ path('admin_location_delete_confirm', {'project': project.id, 'location': location.id }) }}" class="btn btn-danger" role="button">Delete</a></td>

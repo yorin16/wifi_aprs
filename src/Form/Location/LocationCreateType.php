@@ -13,7 +13,7 @@ class LocationCreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Coordinate')
+            ->add('coordinate')
             ->add('device', EntityType::class, [
                 'class' => Device::class,
                 'choice_label' => 'name',

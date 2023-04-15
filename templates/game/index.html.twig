@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+    Device name: {{ device.name }}<br>
+    Device Guid: {{ device.guid }}<br>
+    Location Coordinate: {{ location.coordinate }}<br>
+    Project name: {{ location.project.name }}<br>
+{% endblock %}

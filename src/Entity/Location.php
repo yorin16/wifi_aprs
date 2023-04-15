@@ -14,7 +14,7 @@ class Location
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Coordinate = null;
+    private ?string $coordinate = null;
 
     #[ORM\ManyToOne(inversedBy: 'locations')]
     #[ORM\JoinColumn(name: 'device_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
@@ -24,6 +24,9 @@ class Location
     #[ORM\JoinColumn(nullable: false)]
     private Project $Project;
 
+    #[ORM\OneToOne(mappedBy: 'Location', cascade: ['persist', 'remove'])]
+    private ?Question $question = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -31,12 +34,12 @@ class Location
 
     public function getCoordinate(): ?string
     {
-        return $this->Coordinate;
+        return $this->coordinate;
     }
 
-    public function setCoordinate(string $Coordinate): self
+    public function setCoordinate(string $coordinate): self
     {
-        $this->Coordinate = $Coordinate;
+        $this->coordinate = $coordinate;
 
         return $this;
     }
@@ -61,6 +64,28 @@ class Location
     public function setProject(Project $Project): self
     {
         $this->Project = $Project;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?Question
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(?Question $question): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($question === null && $this->question !== null) {
+            $this->question->setLocation(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($question !== null && $question->getLocation() !== $this) {
+            $question->setLocation($this);
+        }
+
+        $this->question = $question;
 
         return $this;
     }
