@@ -27,6 +27,9 @@ class Location
     #[ORM\OneToOne(mappedBy: 'Location', cascade: ['persist', 'remove'])]
     private ?Question $question = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +89,18 @@ class Location
         }
 
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

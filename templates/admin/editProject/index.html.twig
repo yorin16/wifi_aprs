@@ -32,6 +32,7 @@
                 <table class="table table-striped">
                     <thead class="thead-dark">
                     <tr>
+                        <th scope="col">Name</th>
                         <th scope="col">Coordinate</th>
                         <th scope="col">Device</th>
                         <th scope="col"></th>
@@ -41,6 +42,7 @@
                     <tbody>
                     {% for location in locations %}
                         <tr>
+                            <td>{{ location.name }}</td>
                             <td>{{ location.coordinate }}</td>
                             <td>{{ location.device.name }}</td>
                             <td>
@@ -67,6 +69,10 @@
                     <tr>
                         <td>Question: {{ questions|length }}</td>
                         <td><a href="{{ path('admin_question', {'project': project.id}) }}" class="btn btn-primary">Open</a></td>
+                    </tr>
+                    <tr>
+                        <td>Questions without Location: {{ questionCountWithoutLocation|default }}</td>
+                        <td></td>
                     </tr>
                     </tbody>
                 </table>

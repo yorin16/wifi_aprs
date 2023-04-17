@@ -95,6 +95,15 @@ admin_question:
 admin_question_add:
     path: /admin/edit_project/{project}/question/add
     controller: App\Controller\Admin\EditProject\QuestionController::add
+admin_question_edit:
+    path: /admin/edit_project/{project}/question/{question}/edit
+    controller: App\Controller\Admin\EditProject\QuestionController::edit
+admin_question_delete:
+    path: /admin/edit_project/{project}/question/{question}/delete
+    controller: App\Controller\Admin\EditProject\QuestionController::delete
+admin_question_delete_confirm:
+    path: /admin/edit_project/{project}/question/{question}/delete/confirm
+    controller: App\Controller\Admin\EditProject\QuestionController::confirmDelete
 
 # Game
 game_device:
