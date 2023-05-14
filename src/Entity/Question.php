@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
@@ -27,15 +25,12 @@ class Question
     #[ORM\Column(nullable: true)]
     private ?int $points = null;
 
-    #[ORM\OneToMany(mappedBy: 'Question', targetEntity: AnswerOptions::class, orphanRemoval: true)]
-    private Collection $answerOptions;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
     private ?Project $Project = null;
 
     public function __construct()
     {
-        $this->answerOptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,36 +82,6 @@ class Question
     public function setPoints(?int $points): self
     {
         $this->points = $points;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AnswerOptions>
-     */
-    public function getAnswerOptions(): Collection
-    {
-        return $this->answerOptions;
-    }
-
-    public function addAnswerOption(AnswerOptions $answerOption): self
-    {
-        if (!$this->answerOptions->contains($answerOption)) {
-            $this->answerOptions->add($answerOption);
-            $answerOption->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnswerOption(AnswerOptions $answerOption): self
-    {
-        if ($this->answerOptions->removeElement($answerOption)) {
-            // set the owning side to null (unless already changed)
-            if ($answerOption->getQuestion() === $this) {
-                $answerOption->setQuestion(null);
-            }
-        }
 
         return $this;
     }
