@@ -7,7 +7,6 @@ use App\Entity\Question;
 use App\Form\Question\QuestionCreateType;
 use App\Form\Question\QuestionEditType;
 use App\Repository\ProjectRepository;
-use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends AbstractController
 {
+    public const TYPE_MULTI = 1;
+    public const TYPE_OPEN = 2;
+    public const TYPE_PHOTO = 3;
+
     public function __construct(
         private ProjectRepository $projectRepository,
         private EntityManagerInterface $entityManager)
@@ -38,11 +41,20 @@ class QuestionController extends AbstractController
     public function add($project, Request $request): RedirectResponse|Response
     {
         $question = new Question();
-        $form = $this->createForm(QuestionCreateType::class, ['question' =>$question,  'projectId' => $project] );
+        $form = $this->createForm(QuestionCreateType::class, ['question' => $question,  'projectId' => $project] );
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $question->setProject($this->projectRepository->find($project));
+            $question->setText($form->get('text')->getData());
+            $question->setType($form->get('type')->getData());
+            $question->setMulti1($form->get('multi1')->getData());
+            $question->setMulti2($form->get('multi2')->getData());
+            $question->setMulti3($form->get('multi3')->getData());
+            $question->setMulti4($form->get('multi4')->getData());
+            $question->setOpen($form->get('open')->getData());
+            $question->setPoints($form->get('points')->getData());
+            $question->setLocation($form->get('Location')->getData());
 
             $this->entityManager->persist($question);
             $this->entityManager->flush();
@@ -57,10 +69,16 @@ class QuestionController extends AbstractController
 
     public function edit(Request $request, Question $question, Project $project): RedirectResponse|Response
     {
-        $form = $this->createForm(QuestionEditType::class, ['question' =>$question,  'projectId' => $project]);
+        $locations = $project->getLocations();
+        $form = $this->createForm(QuestionEditType::class, ['question' => $question,  'projectId' => $project,'locations' => $locations]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $formData =$form->getData();
+            $question->setText($formData['text']);
+            $question->setType($formData['type']);
+            $question->setPoints($formData['points']);
+            $question->setLocation($formData['location'] ?? $question->getLocation());
             $this->entityManager->persist($question);
             $this->entityManager->flush();
             return $this->redirectToRoute('admin_question', ['project' => $project->getId()]);

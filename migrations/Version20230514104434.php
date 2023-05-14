@@ -14,7 +14,7 @@ final class Version20230514104434 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'removed answer_options table, integrated into question';
     }
 
     public function up(Schema $schema): void

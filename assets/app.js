@@ -31,7 +31,34 @@ document.getElementById('btnSwitch').addEventListener('click',()=>{
 import './styles/global.scss';
 
 const $ = require('jquery');
+window.jQuery = $;
+window.$ = $;
+
 require('bootstrap');
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
-})
+
+    $(function() {
+        const $typeField = $('select[name="question_create[type]"]');
+        const $multiFields = $('[name^="question_create[multi"]'); // find all inputs starting with "question_create[Multi"
+        //const $openField = $('input[name="question_create[Open]"]');
+
+        function showFields() {
+            const selectedType = $typeField.val();
+
+            if (selectedType === '1') {
+                $multiFields.show().prev('label').show(); // show the inputs and their labels
+                //$openField.hide().prev('label').hide(); // hide the input and its label
+            } else if (selectedType === '2') {
+                $multiFields.hide().prev('label').hide(); // hide the inputs and their labels
+                //$openField.show().prev('label').show(); // show the input and its label
+            } else {
+                $multiFields.hide().prev('label').hide(); // hide the inputs and their labels
+                //$openField.hide().prev('label').hide(); // hide the input and its label
+            }
+        }
+
+        showFields();
+        $typeField.change(showFields);
+    });
+});

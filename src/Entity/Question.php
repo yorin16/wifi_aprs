@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
@@ -25,9 +26,23 @@ class Question
     #[ORM\Column(nullable: true)]
     private ?int $points = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'questions')]
     private ?Project $Project = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $multi1 = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $multi2 = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $multi3 = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $multi4 = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $open = null;
 
     public function __construct()
     {
@@ -94,6 +109,66 @@ class Question
     public function setProject(?Project $Project): self
     {
         $this->Project = $Project;
+
+        return $this;
+    }
+
+    public function getMulti1(): ?string
+    {
+        return $this->multi1;
+    }
+
+    public function setMulti1(?string $multi1): self
+    {
+        $this->multi1 = $multi1;
+
+        return $this;
+    }
+
+    public function getMulti2(): ?string
+    {
+        return $this->multi2;
+    }
+
+    public function setMulti2(?string $multi2): self
+    {
+        $this->multi2 = $multi2;
+
+        return $this;
+    }
+
+    public function getMulti3(): ?string
+    {
+        return $this->multi3;
+    }
+
+    public function setMulti3(?string $multi3): self
+    {
+        $this->multi3 = $multi3;
+
+        return $this;
+    }
+
+    public function getMulti4(): ?string
+    {
+        return $this->multi4;
+    }
+
+    public function setMulti4(?string $multi4): self
+    {
+        $this->multi4 = $multi4;
+
+        return $this;
+    }
+
+    public function getOpen(): ?string
+    {
+        return $this->open;
+    }
+
+    public function setOpen(?string $open): self
+    {
+        $this->open = $open;
 
         return $this;
     }
