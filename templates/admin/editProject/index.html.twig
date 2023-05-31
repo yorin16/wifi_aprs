@@ -42,9 +42,9 @@
                     <tbody>
                     {% for location in locations %}
                         <tr>
-                            <td>{{ location.name }}</td>
-                            <td>{{ location.coordinate }}</td>
-                            <td>{{ location.device.name }}</td>
+                            <td>{{ location.name|default }}</td>
+                            <td>{{ location.coordinate|default }}</td>
+                            <td>{{ location.device.name|default }}</td>
                             <td>
                                 <a href="{{ path('admin_location_edit', {'project': project.id, 'location': location.id }) }}"
                                    class="btn btn-primary" role="button">Edit</a></td>

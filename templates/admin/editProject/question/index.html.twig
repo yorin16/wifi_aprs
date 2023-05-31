@@ -26,7 +26,7 @@
                     <td>{{ question.location.name|default }}</td>
                     <td>{{ question.location.coordinate|default }}</td>
                     <td>{{ question.text|default }}</td>
-                    <td>{{ question.type|default }}</td>
+                    <td>{{ question.type|convert_question_type }}</td>
                     <td>{{ question.points|default }}</td>
                     <td><a href="{{ path('admin_question_edit', { 'project': project.id, 'question': question.id }) }}" class="btn btn-primary" role="button">Edit</a></td>
                     <td><a href="{{ path('admin_question_delete_confirm', { 'project': project.id, 'question': question.id }) }}" class="btn btn-danger" role="button">Delete</a></td>

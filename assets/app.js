@@ -41,20 +41,23 @@ $(document).ready(function() {
     $(function() {
         const $typeField = $('select[name="question_create[type]"]');
         const $multiFields = $('[name^="question_create[multi"]'); // find all inputs starting with "question_create[Multi"
-        //const $openField = $('input[name="question_create[Open]"]');
+        const $openField = $('input[name="question_create[open]"]');
+        const $pointsField = $('input[name="question_create[points]"]');
 
         function showFields() {
             const selectedType = $typeField.val();
-
+            console.log(selectedType);
             if (selectedType === '1') {
                 $multiFields.show().prev('label').show(); // show the inputs and their labels
-                //$openField.hide().prev('label').hide(); // hide the input and its label
+                $openField.hide().prev('label').hide(); // hide the input and its label
             } else if (selectedType === '2') {
                 $multiFields.hide().prev('label').hide(); // hide the inputs and their labels
-                //$openField.show().prev('label').show(); // show the input and its label
+                $openField.show().prev('label').show(); // show the input and its label
             } else {
+                console.log('else');
                 $multiFields.hide().prev('label').hide(); // hide the inputs and their labels
-                //$openField.hide().prev('label').hide(); // hide the input and its label
+                $openField.hide().prev('label').hide(); // hide the input and its label
+                $pointsField.hide().prev('label').hide(); // hide the input and its label
             }
         }
 
