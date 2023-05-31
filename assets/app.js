@@ -39,29 +39,40 @@ $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
 
     $(function() {
-        const $typeField = $('select[name="question_create[type]"]');
-        const $multiFields = $('[name^="question_create[multi"]'); // find all inputs starting with "question_create[Multi"
-        const $openField = $('input[name="question_create[open]"]');
-        const $pointsField = $('input[name="question_create[points]"]');
+        function setupForm(formName) {
+            const $typeField = $(`select[name="${formName}[type]"]`);
+            const $multiFields = $(`[name^="${formName}[multi"]`);
+            const $openField = $(`input[name="${formName}[open]"]`);
+            const $pointsField = $(`input[name="${formName}[points]"]`);
 
-        function showFields() {
-            const selectedType = $typeField.val();
-            console.log(selectedType);
-            if (selectedType === '1') {
-                $multiFields.show().prev('label').show(); // show the inputs and their labels
-                $openField.hide().prev('label').hide(); // hide the input and its label
-            } else if (selectedType === '2') {
-                $multiFields.hide().prev('label').hide(); // hide the inputs and their labels
-                $openField.show().prev('label').show(); // show the input and its label
-            } else {
-                console.log('else');
-                $multiFields.hide().prev('label').hide(); // hide the inputs and their labels
-                $openField.hide().prev('label').hide(); // hide the input and its label
-                $pointsField.hide().prev('label').hide(); // hide the input and its label
+            function showFields() {
+                const selectedType = $typeField.val();
+                if (selectedType === '1') {
+                    $multiFields.show().prev('label').show();
+                    $openField.hide().prev('label').hide();
+                    $pointsField.attr('required', 'required');
+                    $pointsField.show().prev('label').show();
+                } else if (selectedType === '2') {
+                    $multiFields.hide().prev('label').hide();
+                    $openField.show().prev('label').show();
+                    $pointsField.attr('required', false);
+                    $pointsField.hide().prev('label').hide();
+                } else {
+                    $multiFields.hide().prev('label').hide();
+                    $openField.hide().prev('label').hide();
+                    $pointsField.attr('required', false);
+                    $pointsField.hide().prev('label').hide();
+                }
             }
+
+            showFields();
+            $typeField.change(showFields);
         }
 
-        showFields();
-        $typeField.change(showFields);
+        const formNames = ['question_create', 'question_edit']; // Replace with the names of your Symfony forms
+        formNames.forEach(function(formName) {
+            setupForm(formName);
+        });
     });
+
 });

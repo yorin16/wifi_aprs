@@ -2,9 +2,8 @@
 
 namespace App\Form\Question;
 
+use App\Controller\Admin\EditProject\QuestionController;
 use App\Entity\Location;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -16,12 +15,14 @@ class QuestionCreateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $question = $options['data']['question'];
+        $questionLocation = $question->getLocation();
         $builder
             ->add('text', TextType::class)
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'Multiple Choice' => '1',
-                    'Open' => '2',
+                    'Multiple Choice' => QuestionController::TYPE_MULTI,
+                    'Open' => QuestionController::TYPE_OPEN,
                 ],
                 'placeholder' => 'Select a question type',
             ])
@@ -45,16 +46,33 @@ class QuestionCreateType extends AbstractType
                 'required' => false, //niet nodig, nog onduidelijk wat ik hiermee ga doen
             ])
             ->add('points', NumberType::class)
-            ->add('Location', EntityType::class,[
-                'class' => Location::class,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('l')
-                        ->where('l.Project = :projectId')
-                        ->setParameter('projectId', $options['data']['projectId']);
+            ->add('location', ChoiceType::class, [
+                'label' => 'Locations',
+                'choices' => $options['data']['locations'],
+                'choice_label' => function ($location) {
+                    $name = $location->getName();
+                    $question = $location->getQuestion();
+                    if ($question) {
+                        return "{$name} (Already used)";
+                    }
+                    return $name;
                 },
-                'choice_label' => 'name',
-                'placeholder' => 'No Location',
-                'required' => false
+                'choice_value' => 'id',
+                'placeholder' => 'Select a location',
+                'required' => false,
+                'choice_attr' => function ($choice, $key, $value) use ($questionLocation) {
+                    $attrs = ['class' => 'text-white'];
+                    if ($choice instanceof Location && ($questionLocation !== null && $choice->getId() === $questionLocation->getId())) {
+                        $attrs['selected'] = 'selected';
+                        $attrs['class'] = ' text-white';
+                    }else if ($choice instanceof Location && $choice->getQuestion() !== null) {
+                        $attrs['disabled'] = 'disabled';
+                        $attrs['class'] = ' text-muted';
+                    }
+
+                    return $attrs;
+                },
+                'data' => $questionLocation ? $questionLocation->getId() : null,
             ])
             ->add('submit', SubmitType::class);
     }

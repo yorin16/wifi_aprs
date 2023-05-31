@@ -4,6 +4,7 @@
 
 {% block body %}
     <a href="{{ path('admin_question_add', {'project': project.id}) }}" class="btn btn-primary" role="button">Add</a>
+    <a href="{{ path('admin_edit_project', {'project': project.id}) }}" class="btn btn-primary" role="button">Back to Project</a>
     <div class="col-6">
         <table class="table table-striped">
             <thead class="thead-dark">

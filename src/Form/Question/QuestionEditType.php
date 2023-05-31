@@ -24,11 +24,35 @@ class QuestionEditType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'Multiple choice' => QuestionController::TYPE_MULTI,
+                    'Multiple Choice' => QuestionController::TYPE_MULTI,
                     'Open' => QuestionController::TYPE_OPEN,
-                    'Photo' => QuestionController::TYPE_PHOTO,
                 ],
+                'placeholder' => 'Select a question type',
                 'data' => $question->getType(),
+            ])
+            ->add('multi1', TextType::class, [
+                'required' => false,
+                'label' => 'Option 1',
+                'data' => $question->getMulti1(),
+            ])
+            ->add('multi2', TextType::class, [
+                'required' => false,
+                'label' => 'Option 2',
+                'data' => $question->getMulti2(),
+            ])
+            ->add('multi3', TextType::class, [
+                'required' => false,
+                'label' => 'Option 3',
+                'data' => $question->getMulti3(),
+            ])
+            ->add('multi4', TextType::class, [
+                'required' => false,
+                'label' => 'Option 4',
+                'data' => $question->getMulti4(),
+            ])
+            ->add('open', TextType::class, [
+                'required' => false, //niet nodig, nog onduidelijk wat ik hiermee ga doen
+                'data' => $question->getOpen()
             ])
             ->add('points', IntegerType::class, [
                 'data' => $question->getPoints(),
