@@ -83,7 +83,11 @@ class QuestionController extends AbstractController
             $question->setMulti3($form->get('multi3')->getData());
             $question->setMulti4($form->get('multi4')->getData());
             $question->setOpen($form->get('open')->getData());
-            $question->setPoints($formData['points']);
+            if($formData['type'] == self::TYPE_MULTI){
+                $question->setPoints($formData['points']);
+            }else {
+                $question->setPoints(NULL);
+            }
             $question->setLocation($formData['location'] ?? $question->getLocation());
             $this->entityManager->persist($question);
             $this->entityManager->flush();
