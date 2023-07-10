@@ -1,0 +1,29 @@
+.container {
+  width: 90%;
+  margin-bottom: 25px;
+}
+
+.game .title {
+  margin-top: 25px;
+}
+
+.game .question-text {
+  margin-left: 25px;
+  margin-right: 25px;
+
+  p {
+    font-size: 15pt;
+  }
+}
+
+.inner-div {
+  min-height: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inner-div p {
+  color: black;
+  font-size: 13pt;
+  font-weight: bold;
+}

@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Device;
-use App\Entity\Project;
+use App\Entity\Location;
+use App\Entity\Question;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,9 +19,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DeviceRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private LocationRepository $locationRepository;
+
+    public function __construct(ManagerRegistry $registry, LocationRepository $locationRepository)
     {
         parent::__construct($registry, Device::class);
+        $this->locationRepository = $locationRepository;
     }
 
     public function save(Device $entity, bool $flush = false): void
@@ -56,28 +61,18 @@ class DeviceRepository extends ServiceEntityRepository
         });
     }
 
-//    /**
-//     * @return Device[] Returns an array of Device objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getQuestionByDevice(string $guid, User $user): Question
+    {
+        /* @var Device $device */
+        $device = $this->findOneBy(['guid' => $guid]);
+        $selectedProject = $user->getProject();
 
-//    public function findOneBySomeField($value): ?Device
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        /* @var Location $location */
+        $location = $this->locationRepository->findOneBy(['Device' => $device, 'Project' => $selectedProject]);
+
+        return $location->getQuestion();
+    }
+
+
+
 }

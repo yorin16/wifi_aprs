@@ -108,4 +108,4 @@ admin_question_delete_confirm:
 # Game
 game_device:
     path: /device/{guid}
-    controller: App\Controller\Game\QuestionController::index
+    controller: App\Controller\Game\GameController::index
