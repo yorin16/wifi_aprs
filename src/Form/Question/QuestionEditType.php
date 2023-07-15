@@ -32,7 +32,7 @@ class QuestionEditType extends AbstractType
             ])
             ->add('multi1', TextType::class, [
                 'required' => false,
-                'label' => 'Option 1',
+                'label' => 'Option 1 (Correct Answer)',
                 'data' => $question->getMulti1(),
             ])
             ->add('multi2', TextType::class, [

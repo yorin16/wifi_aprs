@@ -11,6 +11,8 @@
                 {% for field in fields %}
                     <th scope="col">{{ field|capitalize }}</th>
                 {% endfor %}
+                <th scope="col">Click for larger</th>
+                <th scope="col">Direct link</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -21,6 +23,8 @@
                     <td>{{ device.guid }}</td>
                     <td>{{ device.name }}</td>
                     <td>{{ device.disabled }}</td>
+                    <td><a href="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ app.request.getSchemeAndHttpHost() }}/game/{{ device.guid }}"><img src="https://api.qrserver.com/v1/create-qr-code/?size=75x75&data={{ app.request.getSchemeAndHttpHost() }}/game/{{ device.guid }}" alt="qr-code"></a></td>
+                    <td><a href="{{ app.request.getSchemeAndHttpHost() }}/game/{{ device.guid }}">Direct link</a> </td>
                     <td><a href="{{ path('admin_device_edit', {'id': device.id }) }}" class="btn btn-primary" role="button">Edit</a></td>
                     <td><a href="{{ path('admin_device_delete_confirm', {'id': device.id }) }}" class="btn btn-danger" role="button">Delete</a></td>
                 </tr>

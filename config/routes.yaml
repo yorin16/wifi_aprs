@@ -107,5 +107,5 @@ admin_question_delete_confirm:
 
 # Game
 game_device:
-    path: /device/{guid}
+    path: /game/{guid}
     controller: App\Controller\Game\GameController::index
