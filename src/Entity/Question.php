@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,8 +46,12 @@ class Question
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $open = null;
 
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answers::class, orphanRemoval: true)]
+    private Collection $answers;
+
     public function __construct()
     {
+        $this->answers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,6 +175,36 @@ class Question
     public function setOpen(?string $open): self
     {
         $this->open = $open;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Answers>
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answers $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers->add($answer);
+            $answer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answers $answer): self
+    {
+        if ($this->answers->removeElement($answer)) {
+            // set the owning side to null (unless already changed)
+            if ($answer->getQuestion() === $this) {
+                $answer->setQuestion(null);
+            }
+        }
 
         return $this;
     }
