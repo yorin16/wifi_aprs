@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AnswersRepository;
+use App\Repository\AnswerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AnswersRepository::class)]
-class Answers
+#[ORM\Entity(repositoryClass: AnswerRepository::class)]
+class Answer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,11 +22,14 @@ class Answers
     #[ORM\JoinColumn(nullable: false)]
     private ?question $question = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $multiAnswer = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $open = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $points = null;
 
     public function getId(): ?int
     {
@@ -77,6 +80,18 @@ class Answers
     public function setOpen(string $open): self
     {
         $this->open = $open;
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(?int $points): self
+    {
+        $this->points = $points;
 
         return $this;
     }

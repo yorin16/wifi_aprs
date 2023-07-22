@@ -3,7 +3,7 @@
     var selectedDiv = null; // Track the currently selected div
 
     function selectMultiAnswer(id) {
-        document.getElementById('selected_answer').value = id;
+        document.getElementById('answer_question_selected_answer').value = id;
 
         const clickedDiv = document.getElementById(id);
 
@@ -77,11 +77,11 @@
         </div>
     </div>
 
-    <form action="" method="post">
-        <input type="hidden" name="question_id" value="{{ question.id }}">
-        <input type="hidden" name="selected_answer" id="selected_answer">
-        <input type="submit" value="answer">
-    </form>
+{#    <form action="" method="post">#}
+{#        <input type="hidden" name="question_id" value="{{ question.id }}">#}
+{#        <input type="hidden" name="selected_answer" id="selected_answer">#}
+{#        <input type="submit" value="answer">#}
+{#    </form>#}
 
 
 </div>

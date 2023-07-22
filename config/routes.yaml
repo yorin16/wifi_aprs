@@ -109,3 +109,6 @@ admin_question_delete_confirm:
 game_device:
     path: /game/{guid}
     controller: App\Controller\Game\GameController::index
+game_answered_question:
+    path: /game/answered/{question}
+    controller: App\Controller\Game\GameController::answered

@@ -3,13 +3,17 @@
 {% block title %}Hello LoginController!{% endblock %}
 
 {% block body %}
+    {{ form_start(form) }}
 
-    {% if(question.type == 1) %}
+    {% if question.type == 1 %}
         {% include 'game/multi.html.twig' %}
-    {% elseif(question.type == 2) %}
+    {% elseif question.type == 2 %}
         {% include 'game/open.html.twig' %}
     {% else %}
         <p>Question type template not found</p>
     {% endif %}
 
+    {{ form_end(form) }}
 {% endblock %}
+
+

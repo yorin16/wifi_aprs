@@ -46,7 +46,7 @@ class Question
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $open = null;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answers::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]
     private Collection $answers;
 
     public function __construct()
@@ -180,14 +180,14 @@ class Question
     }
 
     /**
-     * @return Collection<int, Answers>
+     * @return Collection<int, Answer>
      */
     public function getAnswers(): Collection
     {
         return $this->answers;
     }
 
-    public function addAnswer(Answers $answer): self
+    public function addAnswer(Answer $answer): self
     {
         if (!$this->answers->contains($answer)) {
             $this->answers->add($answer);
@@ -197,7 +197,7 @@ class Question
         return $this;
     }
 
-    public function removeAnswer(Answers $answer): self
+    public function removeAnswer(Answer $answer): self
     {
         if ($this->answers->removeElement($answer)) {
             // set the owning side to null (unless already changed)
