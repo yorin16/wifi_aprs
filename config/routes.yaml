@@ -13,11 +13,6 @@ app_logout:
     path: /logout
     methods: GET
 
-# Admin Routes
-app_admin:
-    path: /admin
-    controller: App\Controller\AdminController::page
-
 # CRUD User
 admin_user:
     path: /admin/user
