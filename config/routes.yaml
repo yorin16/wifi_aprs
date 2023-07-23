@@ -70,6 +70,9 @@ admin_edit_project:
     controller: App\Controller\Admin\EditProject\EditProjectController::index
 
 # CRUD Locations
+admin_location:
+    path: /admin/edit_project/{project}/location
+    controller: App\Controller\Admin\EditProject\LocationController::index
 admin_location_add:
     path: /admin/edit_project/{project}/location/add
     controller: App\Controller\Admin\EditProject\LocationController::add

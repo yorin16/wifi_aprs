@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Location;
 use App\Entity\Project;
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -79,7 +80,7 @@ class ProjectRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         return $queryBuilder->select('count(q.id) as count')
-                    ->from(Question::class, 'q')
+            ->from(Question::class, 'q')
             ->where('q.Project = :project_id')
             ->andWhere('q.Location IS NULL')
             ->setParameter('project_id', $projectId)
@@ -87,4 +88,20 @@ class ProjectRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function CountLocationsInProjectWithoutQuestions(int $projectId): int
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        return $queryBuilder->select('count(l.id) as count')
+            ->from(Location::class, 'l')
+            ->leftJoin('l.question', 'q', 'WITH', 'l.id = q.Location')
+            ->where('q.id IS NULL')
+            ->andWhere('l.Project = :project_id')
+            ->setParameter('project_id', $projectId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

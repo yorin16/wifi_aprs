@@ -19,6 +19,17 @@ class LocationController extends AbstractController
     {
     }
 
+    public function index($project): Response
+    {
+        $project = $this->projectRepository->find($project);
+        $locations = $project->getLocations();
+
+        return $this->render('admin/editProject/location/index.html.twig', [
+            'project' => $project,
+            'locations' => $locations
+        ]);
+    }
+
     public function add($project, Request $request): Response
     {
         $project = $this->projectRepository->find($project);

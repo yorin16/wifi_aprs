@@ -52,6 +52,11 @@
             </ul>
             <button class="btn btn-dark shadow" id="btnSwitch">Toggle Mode</button>
         </div>
+        {% if project is defined %}
+            <div class="navbar-project-title">
+                {{ project.name }}
+            </div>
+        {% endif %}
     </div>
 </nav>
 

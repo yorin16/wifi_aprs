@@ -28,13 +28,15 @@ class EditProjectController extends AbstractController
 
         $questions = $project->getQuestions();
         $questionsWithoutLocation = $this->projectRepository->CountQuestionsInProjectWithoutLocation($project->getId());
+        $locationsWithoutQuestions = $this->projectRepository->CountLocationsInProjectWithoutQuestions($project->getId());
 
         return $this->render('admin/editProject/index.html.twig', [
             'usersInProject' => $project->getUsers(),
             'locations' => $locations,
             'project' => $project,
             'questions' => $questions,
-            'questionCountWithoutLocation' => $questionsWithoutLocation
+            'questionCountWithoutLocation' => $questionsWithoutLocation,
+            'locationCountWithoutQuestion' => $locationsWithoutQuestions
         ]);
     }
 }
