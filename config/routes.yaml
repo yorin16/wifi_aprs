@@ -102,7 +102,9 @@ admin_question_delete:
 admin_question_delete_confirm:
     path: /admin/edit_project/{project}/question/{question}/delete/confirm
     controller: App\Controller\Admin\EditProject\QuestionController::confirmDelete
-
+admin_question_fill_score:
+    path: /admin/edit_project/{project}/question/{question}/{user}/editscore
+    controller: App\Controller\Admin\EditProject\QuestionController::editsScore
 # Game
 game_device:
     path: /game/{guid}

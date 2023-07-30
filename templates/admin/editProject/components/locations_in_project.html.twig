@@ -1,0 +1,21 @@
+<div class="col-xl-12">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Locations:{{ locations|length }} </td>
+            <td><a href="{{ path('admin_location', {'project': project.id}) }}" class="btn btn-primary">Open</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Locations without question: {{ locationCountWithoutQuestion|default }}</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

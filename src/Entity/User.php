@@ -32,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Project $project = null;
 
-    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Answer::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Answer::class, orphanRemoval: true)]
     private Collection $answers;
 
     public function __construct()

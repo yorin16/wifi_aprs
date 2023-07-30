@@ -6,71 +6,51 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-3">
-                <div class="col-xl-12">
-                    Hoofd edit project pagina
 
-                    <p>Users in project:</p>
-                    <table class="table table-striped">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Username</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in usersInProject %}
-                            <tr>
-                                <td>{{ user.username }}</td>
-                            </tr>
+                {% include 'admin/editProject/components/users_in_project.html.twig' %}
+                {% include 'admin/editProject/components/locations_in_project.html.twig' %}
+                {% include 'admin/editProject/components/questions_in_project.html.twig' %}
+
+            </div>
+            <div class="col-xl-9">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        {% for key,result in userArray %}
+                            <th scope="col">{{ result }}</th>
                         {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-
-
-                <div class="col-xl-12">
-                    <table class="table table-striped">
-                        <thead class="thead-dark">
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,result in resultArray %}
                         <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+                            <td>{{ key }}</td>
+                            {% for userKey, userResult in userArray %}
+                                {% if result is defined and result[userKey] is defined %}
+                                    {% if result[userKey]['type'] == 1 %}
+                                        <td>{{ result[userKey]['score'] }}</td>
+                                    {% elseif result[userKey]['type'] == 2 %}
+                                        {% if result[userKey]['score'] is null%}
+                                            <td><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
+                                        {% else %}
+                                            <td><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
+                                        {%  endif %}
+                                    {% endif %}
+                                {% else %}
+                                    <td>-</td>
+                                {% endif %}
+                            {% endfor %}
                         </tr>
-                        </thead>
-                        <tbody>
+                    {% endfor %}
                         <tr>
-                            <td>Locations:{{ locations|length }} </td>
-                            <td><a href="{{ path('admin_location', {'project': project.id}) }}" class="btn btn-primary">Open</a>
-                            </td>
+                            <td>TotalScore</td>
+                            {% for score in totalResultArray %}
+                            <td>{{ score }}</td>
+                            {% endfor %}
                         </tr>
-                        <tr>
-                            <td>Locations without question: {{ locationCountWithoutQuestion|default }}</td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col-xl-12">
-                    <table class="table table-striped">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Questions</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Question: {{ questions|length }}</td>
-                            <td><a href="{{ path('admin_question', {'project': project.id}) }}" class="btn btn-primary">Open</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Questions without Location: {{ questionCountWithoutLocation|default }}</td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

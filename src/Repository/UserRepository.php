@@ -56,6 +56,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    public function getUsersInProject(int $projectId): Array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.project = :project_id')
+            ->setParameter('project_id', $projectId)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return user[] Returns an array of user objects
 //     */

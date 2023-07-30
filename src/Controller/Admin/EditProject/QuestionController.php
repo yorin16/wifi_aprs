@@ -4,8 +4,11 @@ namespace App\Controller\Admin\EditProject;
 
 use App\Entity\Project;
 use App\Entity\Question;
+use App\Entity\User;
+use App\Form\Answer\AnswerScoreEditType;
 use App\Form\Question\QuestionCreateType;
 use App\Form\Question\QuestionEditType;
+use App\Repository\AnswerRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +25,7 @@ class QuestionController extends AbstractController
 
     public function __construct(
         private ProjectRepository      $projectRepository,
+        private AnswerRepository $answerRepository,
         private EntityManagerInterface $entityManager)
     {
     }
@@ -98,6 +102,27 @@ class QuestionController extends AbstractController
 
         return $this->render('admin/editProject/question/edit.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    public function editsScore(Project $project, Question $question, User $user, Request $request): Response
+    {
+        $answer = $this->answerRepository->findOneBy(['question' => $question->getId(), 'user' => $user]);
+
+        $form = $this->createForm(AnswerScoreEditType::class, $answer);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($answer);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('admin_edit_project', ['project' => $project->getId()]);
+        }
+
+        return $this->render('admin/editProject/question/editscore.html.twig', [
+            'user' => $user,
+            'answer' => $answer,
+            'form' => $form
         ]);
     }
 
