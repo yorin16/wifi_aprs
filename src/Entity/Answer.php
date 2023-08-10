@@ -20,7 +20,7 @@ class Answer
 
     #[ORM\ManyToOne(inversedBy: 'answers')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?question $question = null;
+    private ?Question $question = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $multiAnswer = null;
@@ -48,12 +48,12 @@ class Answer
         return $this;
     }
 
-    public function getQuestion(): ?question
+    public function getQuestion(): ?Question
     {
         return $this->question;
     }
 
-    public function setQuestion(?question $question): self
+    public function setQuestion(?Question $question): self
     {
         $this->question = $question;
 

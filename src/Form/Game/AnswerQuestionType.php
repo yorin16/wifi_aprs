@@ -2,6 +2,7 @@
 
 namespace App\Form\Game;
 
+use App\Form\Components\VisibleAnswerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,7 +17,9 @@ class AnswerQuestionType extends AbstractType
             ->add('question_id', HiddenType::class, [
                 'data' => $options['question_id'],
             ])
-            ->add('selected_answer', HiddenType::class)
+            ->add('answer', VisibleAnswerType::class, [ // Use the custom form type
+                'visible' => $options['question_type'], // Set visibility based on question type
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Answer',
             ]);
@@ -24,6 +27,6 @@ class AnswerQuestionType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setRequired('question_id');
+        $resolver->setRequired(['question_id', 'question_type']);
     }
 }

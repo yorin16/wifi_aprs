@@ -37,6 +37,7 @@ class GameController extends AbstractController
 
         $form = $this->createForm(AnswerQuestionType::class, null, [
             'question_id' => $question->getId(),
+            'question_type' => $question->getType()
         ]);
 
         $form->handleRequest($request);
@@ -50,12 +51,12 @@ class GameController extends AbstractController
             $answer->setQuestion($question);
 
             switch ($question->getType()){
-                case 1:
+                case 1: //Multiple choice
                     $answer->setMultiAnswer($form->get('selected_answer')->getData());
                     $answer->setPoints($question->getPoints());
                     break;
-                case 2:
-//                    $answer->setOpen();
+                case 2: //Open
+                    $answer->setOpen($form->getData()['answer']['open']);
                     break;
                 default:
             }
