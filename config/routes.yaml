@@ -5,6 +5,11 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+backup_register:
+    path: /register
+    controller: App\Controller\BackupRegisterController::index
+    methods: GET
+
 # Main Routes
 Home:
     path: /
