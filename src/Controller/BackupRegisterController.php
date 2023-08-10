@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,23 +20,27 @@ class BackupRegisterController extends AbstractController
     {
         $submittedPassword = $request->get('password');
 
-        if($submittedPassword === 'secretkdg'){
-            $user = new User();
-            $user->setUsername('test');
-            $user->setPassword(
-                $this->userPasswordHasher->hashPassword(
-                    $user,
-                    'test1234'
-                )
-            );
-            $user->setRoles(['ROLE_ADMIN','ROLE_USER']);
+        try{
+            if($submittedPassword === 'secretkdg'){
+                $user = new User();
+                $user->setUsername('yorin');
+                $user->setPassword(
+                    $this->userPasswordHasher->hashPassword(
+                        $user,
+                        'test1234'
+                    )
+                );
+                $user->setRoles(['ROLE_ADMIN','ROLE_USER']);
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
 
-            return new Response('Basic account created for user "yorin" with roles ROLE_ADMIN and ROLE_USER');
-        } else {
-            return new Response('Wrong password');
+                return new Response('Basic account created for user "yorin" with roles ROLE_ADMIN and ROLE_USER');
+            } else {
+                return new Response('Wrong password');
+            }
+        }catch(UniqueConstraintViolationException $constraintViolationException) {
+            return new Response('User already created');
         }
     }
 
