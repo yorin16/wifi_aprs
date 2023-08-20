@@ -13,7 +13,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 class Device
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
