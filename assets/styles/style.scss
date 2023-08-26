@@ -19,14 +19,14 @@
   font-weight: 900;
 }
 
-//[data-bs-theme="dark"] {
-//  .banana {
-//    content: url("/public/images/download.jpg");
-//  }
-//}
-//
-//[data-bs-theme="light"] {
-//  .banana {
-//    content: url("/public/images/download2.jpg");
-//  }
-//}
+[data-bs-theme="dark"] {
+  .header-logo {
+    content: url("/public/images/WiFiFox logo light.png");
+  }
+}
+
+[data-bs-theme="light"] {
+  .header-logo {
+    content: url("/public/images/WiFiFox logo dark.png");
+  }
+}

@@ -3,39 +3,36 @@
 {% block title %}Hello LoginController!{% endblock %}
 
 {% block body %}
-    
-<div class="row justify-content-lg-center">
-    <div class="col-12 col-lg-5">
-        <table class="table table-striped">
-            <thead class="thead-dark">
-            <tr>
-                {# <th scope="col">#</th> #}
-                <th scope="col">Name</th>
-                <th scope="col">Roles</th>
-                <th scope="col">Selected Project</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    {# <th scope="row">{{ user.id }}</th> #}
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.printedRoles }}</td>
-                    <td>{{ user.project.name|default }}</td>
-                    <td class="table-align"><a href="{{ path('admin_user_edit', {'id': user.id }) }}" class="btn btn-primary" role="button"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                    <td class="table-align"><a href="{{ path('admin_user_delete_confirm', {'id': user.id }) }}" class="btn btn-danger" role="button"><i class="fa-regular fa-trash-can"></i></a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="2"></th>
-                    <th colspan="3" class="table-align">Add user <a href="{{ path('admin_user_add')}}" class="btn btn-primary" role="button"><i class="fa-solid fa-plus"></i></a></th>
-                </tr>
-            </tfoot>
-        </table>
+    <div class="row justify-content-lg-center">
+        <div class="col-12 col-lg-5">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Roles</th>
+                        <th scope="col">Selected Project</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.printedRoles }}</td>
+                        <td>{{ user.project.name|default }}</td>
+                        <td class="table-align"><a href="{{ path('admin_user_edit', {'id': user.id }) }}" class="btn btn-primary" role="button"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                        <td class="table-align"><a href="{{ path('admin_user_delete_confirm', {'id': user.id }) }}" class="btn btn-danger" role="button"><i class="fa-regular fa-trash-can"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2"></th>
+                        <th colspan="3" class="table-align">Add user <a href="{{ path('admin_user_add')}}" class="btn btn-primary" role="button"><i class="fa-solid fa-plus"></i></a></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
-</div>
 {% endblock %}

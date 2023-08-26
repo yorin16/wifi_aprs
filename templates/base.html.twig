@@ -19,15 +19,8 @@
                 aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{{ path('Home') }}"><img src="{{ asset('images/WiFiFox logo light.png') }}" class="logo" alt="Example Image"></a>
-        <noscript> 
-            <picture>
-                <source srcset="images/WiFiFox logo dark.png" media="(prefers-color-scheme: dark)" />
-                <source srcset="images/WiFiFox logo light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" />
-                <img decoding="async" id="screenshot" src="settings-light.png" />
-            </picture>
-        </noscript>
-        
+        <a class="navbar-brand" href="{{ path('Home') }}"><img src="" class="header-logo logo" alt="Example Image"></a>
+
         <div class="collapse navbar-collapse" id="navbarMain">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -58,13 +51,11 @@
             </ul>
             <button class="btn btn-dark shadow" id="btnSwitch">Toggle Mode</button>
         </div>
-        
     </div>
 </nav>
 
 <body>
     {% if project is defined %}
-        {# <div class="navbar-project-title"> #}
         <div class="title-font">
             {{ project.name }}
         </div>

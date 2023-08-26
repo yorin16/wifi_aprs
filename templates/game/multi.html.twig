@@ -49,28 +49,32 @@
         <div class="row">
             <div class="col-12 col-lg-6">
                 {% if(question.multi1 is not null) %}
-                    <div class="inner-div border border-2 rounded-3 border-danger d-flex align-items-center justify-content-center" id="1" onclick="selectMultiAnswer('1')">
+                    <div class="inner-div border border-2 rounded-3 border-danger d-flex align-items-center justify-content-center"
+                         id="1" onclick="selectMultiAnswer('1')">
                         <p>{{ question.multi1 }}</p>
                     </div>
                 {% endif %}
             </div>
             <div class="col-12 col-lg-6">
                 {% if(question.multi2 is not null) %}
-                    <div class="inner-div border border-2 rounded-3 border-success d-flex align-items-center justify-content-center" id="2" onclick="selectMultiAnswer('2')">
+                    <div class="inner-div border border-2 rounded-3 border-success d-flex align-items-center justify-content-center"
+                         id="2" onclick="selectMultiAnswer('2')">
                         <p>{{ question.multi2 }}</p>
                     </div>
                 {% endif %}
             </div>
             <div class="col-12 col-lg-6">
                 {% if(question.multi3 is not null) %}
-                    <div class="inner-div border border-2 rounded-3 border-primary d-flex align-items-center justify-content-center" id="3" onclick="selectMultiAnswer('3')">
+                    <div class="inner-div border border-2 rounded-3 border-primary d-flex align-items-center justify-content-center"
+                         id="3" onclick="selectMultiAnswer('3')">
                         <p>{{ question.multi3 }}</p>
                     </div>
                 {% endif %}
             </div>
             <div class="col-12 col-lg-6">
                 {% if(question.multi4 is not null) %}
-                    <div class="inner-div border border-2 rounded-3 border-warning d-flex align-items-center justify-content-center" id="4" onclick="selectMultiAnswer('4')">
+                    <div class="inner-div border border-2 rounded-3 border-warning d-flex align-items-center justify-content-center"
+                         id="4" onclick="selectMultiAnswer('4')">
                         <p class="">{{ question.multi4 }}</p>
                     </div>
                 {% endif %}
@@ -80,7 +84,9 @@
             <div class="col-12 col-lg-6 offset-lg-3">
                 {# {{ form_row(form.submit)}} #}
                 <div class="d-grid gap-2">
-                    <button type="submit" id="answer_question_submit" name="answer_question[submit]" class="btn btn-lg btn-primary">Answer</button>
+                    <button type="submit" id="answer_question_submit" name="answer_question[submit]"
+                            class="btn btn-lg btn-primary">Answer
+                    </button>
                 </div>
             </div>
         </div>

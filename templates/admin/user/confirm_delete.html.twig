@@ -3,15 +3,15 @@
 {% block title %}Confirm Delete{% endblock %}
 
 {% block body %}
-<div class="row justify-content-center">
-    <div class="col-8 col-lg-4">
-        <h1>Confirm Delete</h1>
-        <p>Are you sure you want to delete {{ user.username }}?</p>
-        <form action="{{ path('admin_user_delete', {'id': user.id}) }}" method="POST">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
-            <button type="submit" class="btn btn-danger">Yes, delete</button>
-            <a href="{{ path('admin_user') }}" class="btn btn-secondary">Cancel</a>
-        </form>
+    <div class="row justify-content-center">
+        <div class="col-8 col-lg-4">
+            <h1>Confirm Delete</h1>
+            <p>Are you sure you want to delete {{ user.username }}?</p>
+            <form action="{{ path('admin_user_delete', {'id': user.id}) }}" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
+                <button type="submit" class="btn btn-danger">Yes, delete</button>
+                <a href="{{ path('admin_user') }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}
