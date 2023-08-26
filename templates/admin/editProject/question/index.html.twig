@@ -3,9 +3,9 @@
 {% block title %}Hello LoginController!{% endblock %}
 
 {% block body %}
-    <a href="{{ path('admin_question_add', {'project': project.id}) }}" class="btn btn-primary" role="button">Add</a>
-    <a href="{{ path('admin_edit_project', {'project': project.id}) }}" class="btn btn-primary" role="button">Back to Project</a>
-    <div class="col-6">
+<div class="row justify-content-lg-center">
+    <div class="col-12 col-lg-8">
+        <a href="{{ path('admin_edit_project', {'project': project.id}) }}" class="btn btn-success" role="button"><i class="fa-solid fa-arrow-left"></i></a>
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
@@ -17,7 +17,6 @@
                 <th scope="col">Points</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -29,11 +28,18 @@
                     <td>{{ question.text|default }}</td>
                     <td>{{ question.type|convert_question_type }}</td>
                     <td>{{ question.points|default }}</td>
-                    <td><a href="{{ path('admin_question_edit', { 'project': project.id, 'question': question.id }) }}" class="btn btn-primary" role="button">Edit</a></td>
-                    <td><a href="{{ path('admin_question_delete_confirm', { 'project': project.id, 'question': question.id }) }}" class="btn btn-danger" role="button">Delete</a></td>
+                    <td class="table-align"><a href="{{ path('admin_question_edit', { 'project': project.id, 'question': question.id }) }}" class="btn btn-primary" role="button"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                    <td class="table-align"><a href="{{ path('admin_question_delete_confirm', { 'project': project.id, 'question': question.id }) }}" class="btn btn-danger" role="button"><i class="fa-regular fa-trash-can"></i></a></td>
                 </tr>
             {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="5"></th>
+                    <th colspan="3" class="table-align">Add question <a href="{{ path('admin_question_add', {'project': project.id}) }}" class="btn btn-primary" role="button"><i class="fa-solid fa-plus"></i></a></th>
+                </tr>
+            </tfoot>
         </table>
     </div>
+</div>
 {% endblock %}

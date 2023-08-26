@@ -3,55 +3,55 @@
 {% block title %}Hello LoginController!{% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-3">
 
-                {% include 'admin/editProject/components/users_in_project.html.twig' %}
-                {% include 'admin/editProject/components/locations_in_project.html.twig' %}
-                {% include 'admin/editProject/components/questions_in_project.html.twig' %}
-
-            </div>
-            <div class="col-xl-9">
-                <table class="table table-striped">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        {% for key,result in userArray %}
-                            <th scope="col">{{ result }}</th>
-                        {% endfor %}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for key,result in resultArray %}
-                        <tr>
-                            <td>{{ key }}</td>
-                            {% for userKey, userResult in userArray %}
-                                {% if result is defined and result[userKey] is defined %}
-                                    {% if result[userKey]['type'] == 1 %}
-                                        <td>{{ result[userKey]['score'] }}</td>
-                                    {% elseif result[userKey]['type'] == 2 %}
-                                        {% if result[userKey]['score'] is null%}
-                                            <td><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
-                                        {% else %}
-                                            <td><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
-                                        {%  endif %}
-                                    {% endif %}
-                                {% else %}
-                                    <td>-</td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                        <tr>
-                            <td>TotalScore</td>
-                            {% for score in totalResultArray %}
-                            <td>{{ score }}</td>
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-4">
+        {% include 'admin/editProject/components/users_in_project.html.twig' %}
+        <br>
+        {% include 'admin/editProject/components/locations_in_project.html.twig' %}
+        <br>
+        {% include 'admin/editProject/components/questions_in_project.html.twig' %}
+        <br>
     </div>
+    <div class="col-lg-6">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"></th>
+                {% for key,result in userArray %}
+                    <th class="text-center" scope="col">{{ result }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for key,result in resultArray %}
+                <tr>
+                    <td>{{ key }}</td>
+                    {% for userKey, userResult in userArray %}
+                        {% if result is defined and result[userKey] is defined %}
+                            {% if result[userKey]['type'] == 1 %}
+                                <td class="text-center">{{ result[userKey]['score'] }}</td>
+                            {% elseif result[userKey]['type'] == 2 %}
+                                {% if result[userKey]['score'] is null%}
+                                    <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
+                                {% else %}
+                                    <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
+                                {%  endif %}
+                            {% endif %}
+                        {% else %}
+                            <td class="text-center">-</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+                <tr>
+                    <td>TotalScore</td>
+                    {% for score in totalResultArray %}
+                    <td class="text-center">{{ score }}</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

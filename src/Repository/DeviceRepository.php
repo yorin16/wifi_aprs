@@ -58,6 +58,7 @@ class DeviceRepository extends ServiceEntityRepository
                 && $fieldType !== 'time'
                 && $fieldType !== 'date'
                 && $fieldType !== 'guid'
+                && $fieldType !== 'disabled'
                 && $fieldName !== 'id';
         });
     }

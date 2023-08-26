@@ -3,11 +3,15 @@
 {% block title %}Confirm Delete{% endblock %}
 
 {% block body %}
-    <h1>Confirm Delete</h1>
-    <p>Are you sure you want to delete {{ location.coordinate }}?</p>
-    <form action="{{ path('admin_location_delete', {'location': location.id, 'project': project.id}) }}" method="POST">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete_location_' ~ location.id) }}">
-        <button type="submit" class="btn btn-danger">Yes, delete</button>
-        <a href="{{ path('admin_edit_project', {'project': project.id}) }}" class="btn btn-secondary">Cancel</a>
-    </form>
+<div class="row justify-content-center">
+    <div class="col-8 col-lg-4">
+        <h1>Confirm Delete</h1>
+        <p>Are you sure you want to delete {{ location.coordinate }}?</p>
+        <form action="{{ path('admin_location_delete', {'location': location.id, 'project': project.id}) }}" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_location_' ~ location.id) }}">
+            <button type="submit" class="btn btn-danger">Yes, delete</button>
+            <a href="{{ path('admin_edit_project', {'project': project.id}) }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
 {% endblock %}

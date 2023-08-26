@@ -3,20 +3,21 @@
     var selectedDiv = null; // Track the currently selected div
 
     function selectMultiAnswer(id) {
-        document.getElementById('answer_question_selected_answer').value = id;
+        document.getElementById('answer_question_answer_selected_answer').value = id;
 
         const clickedDiv = document.getElementById(id);
 
         // Revert the color of the previously selected div, if any
         if (selectedDiv !== null) {
             selectedDiv.style.backgroundColor = selectedDiv.dataset.originalColor;
-            selectedDiv.querySelector('p').style.color = 'black'; // Set the text color to black
+            selectedDiv.querySelector('p').style.color = null; // Set the text color to black
         }
 
         // Darken the color of the clicked div
         const currentColor = window.getComputedStyle(clickedDiv).backgroundColor;
+        const compStyles = window.getComputedStyle(clickedDiv).borderColor;
         clickedDiv.dataset.originalColor = currentColor; // Store the original color
-        clickedDiv.style.backgroundColor = darkenColor(currentColor);
+        clickedDiv.style.backgroundColor = darkenColor(compStyles);
         clickedDiv.querySelector('p').style.color = 'white'; // Set the text color to white
 
         selectedDiv = clickedDiv; // Update the selected div
@@ -28,9 +29,9 @@
         const g = parseInt(rgb[1]);
         const b = parseInt(rgb[2]);
 
-        const darkerR = Math.floor(r * 0.5);
-        const darkerG = Math.floor(g * 0.5);
-        const darkerB = Math.floor(b * 0.5);
+        const darkerR = Math.floor(r * 0.7);
+        const darkerG = Math.floor(g * 0.7);
+        const darkerB = Math.floor(b * 0.7);
 
         return 'rgb(' + darkerR + ', ' + darkerG + ', ' + darkerB + ')';
     }
@@ -38,41 +39,49 @@
 </script>
 <div class="game">
     <div class="d-flex align-items-center justify-content-center title">
-        <h1>Multiple Choice</h1>
+        <h1 class="title-font">Multiple Choice</h1>
     </div>
 
     <div class="d-flex align-items-center justify-content-center question-text">
-        <p>{{ question.text }}</p>
+        <p class="question-font">{{ question.text }}</p>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-lg-6">
                 {% if(question.multi1 is not null) %}
-                    <div class="inner-div" style="background-color: red;" id="1" onclick="selectMultiAnswer('1')">
+                    <div class="inner-div border border-2 rounded-3 border-danger d-flex align-items-center justify-content-center" id="1" onclick="selectMultiAnswer('1')">
                         <p>{{ question.multi1 }}</p>
                     </div>
                 {% endif %}
             </div>
-            <div class="col-6">
+            <div class="col-12 col-lg-6">
                 {% if(question.multi2 is not null) %}
-                    <div class="inner-div" style="background-color: green;" id="2" onclick="selectMultiAnswer('2')">
+                    <div class="inner-div border border-2 rounded-3 border-success d-flex align-items-center justify-content-center" id="2" onclick="selectMultiAnswer('2')">
                         <p>{{ question.multi2 }}</p>
                     </div>
                 {% endif %}
             </div>
-            <div class="col-6">
+            <div class="col-12 col-lg-6">
                 {% if(question.multi3 is not null) %}
-                    <div class="inner-div" style="background-color: blue;" id="3" onclick="selectMultiAnswer('3')">
+                    <div class="inner-div border border-2 rounded-3 border-primary d-flex align-items-center justify-content-center" id="3" onclick="selectMultiAnswer('3')">
                         <p>{{ question.multi3 }}</p>
                     </div>
                 {% endif %}
             </div>
-            <div class="col-6">
+            <div class="col-12 col-lg-6">
                 {% if(question.multi4 is not null) %}
-                    <div class="inner-div" style="background-color: yellow;" id="4" onclick="selectMultiAnswer('4')">
-                        <p>{{ question.multi4 }}</p>
+                    <div class="inner-div border border-2 rounded-3 border-warning d-flex align-items-center justify-content-center" id="4" onclick="selectMultiAnswer('4')">
+                        <p class="">{{ question.multi4 }}</p>
                     </div>
                 {% endif %}
+            </div>
+        </div>
+        <div class="row game-submit">
+            <div class="col-12 col-lg-6 offset-lg-3">
+                {# {{ form_row(form.submit)}} #}
+                <div class="d-grid gap-2">
+                    <button type="submit" id="answer_question_submit" name="answer_question[submit]" class="btn btn-lg btn-primary">Answer</button>
+                </div>
             </div>
         </div>
     </div>
