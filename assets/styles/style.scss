@@ -5,14 +5,28 @@
   transform: translateX(-50%);
 }
 
-//[data-bs-theme="dark"] {
-//  .banana {
-//    content: url("/public/images/download.jpg");
-//  }
-//}
-//
-//[data-bs-theme="light"] {
-//  .banana {
-//    content: url("/public/images/download2.jpg");
-//  }
-//}
+.table-align {
+  text-align: right;
+}
+
+.logo {
+  max-width: 200px;
+}
+
+.title-font {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+[data-bs-theme="dark"] {
+  .header-logo {
+    content: url("/public/images/WiFiFox logo light.png");
+  }
+}
+
+[data-bs-theme="light"] {
+  .header-logo {
+    content: url("/public/images/WiFiFox logo dark.png");
+  }
+}

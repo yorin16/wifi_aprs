@@ -81,7 +81,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->getRoles();
 
-        return implode(',', $roles);
+        return implode("\n", str_replace("ROLE_", "", $roles));
     }
 
     public function setRoles(array $roles): self

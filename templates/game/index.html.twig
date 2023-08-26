@@ -6,6 +6,7 @@
     {{ form_start(form) }}
 
     {% if question.type == 1 %}
+        {{ form_row(form.answer.selected_answer) }}
         {% include 'game/multi.html.twig' %}
     {% elseif question.type == 2 %}
         {% include 'game/open.html.twig' %}
@@ -13,7 +14,8 @@
         <p>Question type template not found</p>
     {% endif %}
 
-    {{ form_end(form) }}
+
+    {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
 {% endblock %}
-
-

@@ -19,7 +19,8 @@
                 aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{{ path('Home') }}">Navbar</a>
+        <a class="navbar-brand" href="{{ path('Home') }}"><img src="" class="header-logo logo" alt="Example Image"></a>
+
         <div class="collapse navbar-collapse" id="navbarMain">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
@@ -50,15 +51,17 @@
             </ul>
             <button class="btn btn-dark shadow" id="btnSwitch">Toggle Mode</button>
         </div>
-        {% if project is defined %}
-            <div class="navbar-project-title">
-                {{ project.name }}
-            </div>
-        {% endif %}
     </div>
 </nav>
 
 <body>
-{% block body %}{% endblock %}
+    {% if project is defined %}
+        <div class="title-font">
+            {{ project.name }}
+        </div>
+    {% endif %}
+    <div class="container-fluid">
+        {% block body %}{% endblock %}
+    </div>
 </body>
 </html>

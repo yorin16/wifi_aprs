@@ -3,11 +3,15 @@
 {% block title %}Confirm Delete{% endblock %}
 
 {% block body %}
-    <h1>Confirm Delete</h1>
-    <p>Are you sure you want to delete {{ device.name }}?</p>
-    <form action="{{ path('admin_device_delete', {'id': device.id}) }}" method="POST">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete_device_' ~ device.id) }}">
-        <button type="submit" class="btn btn-danger">Yes, delete</button>
-        <a href="{{ path('admin_device') }}" class="btn btn-secondary">Cancel</a>
-    </form>
+    <div class="row justify-content-center">
+        <div class="col-8 col-lg-4">
+            <h1>Confirm Delete</h1>
+            <p>Are you sure you want to delete {{ device.name }}?</p>
+            <form action="{{ path('admin_device_delete', {'id': device.id}) }}" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete_device_' ~ device.id) }}">
+                <button type="submit" class="btn btn-danger">Yes, delete</button>
+                <a href="{{ path('admin_device') }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
 {% endblock %}
