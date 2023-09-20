@@ -6,6 +6,7 @@ use App\Entity\Answer;
 use App\Entity\User;
 use App\Form\Game\AnswerQuestionType;
 use App\Repository\DeviceRepository;
+use App\Service\EncryptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -16,12 +17,11 @@ class GameController extends AbstractController
 {
     public function __construct(
         private DeviceRepository $deviceRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private EncryptionService $encryptionService
     ){}
 
     //TODO: vraag blokeren waneer deze al is ingevuld door account
-    //TODO: antwoord selecteren, donkerder maken. id opslaan in hidden variable
-    //TODO: beantwoord knop toevoegen. die naar bedankt pagina gaat
 
     public function index($guid, Security $security, Request $request): Response
     {
@@ -52,7 +52,8 @@ class GameController extends AbstractController
 
             switch ($question->getType()){
                 case 1: //Multiple choice
-                    $answer->setMultiAnswer($form->get('selected_answer')->getData());
+                    $selectedAnswer = str_replace("multi","",$this->encryptionService->decryptData($form->getData()['answer']['selected_answer']));
+                    $answer->setMultiAnswer($selectedAnswer);
                     $answer->setPoints($question->getPoints());
                     break;
                 case 2: //Open

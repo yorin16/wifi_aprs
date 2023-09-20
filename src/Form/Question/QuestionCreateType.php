@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class QuestionCreateType extends AbstractType
 {
+    //TODO: past niet op mobile, kijken of er iets anders kan.
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $question = $options['data']['question'];

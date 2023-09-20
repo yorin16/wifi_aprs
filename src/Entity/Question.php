@@ -208,4 +208,39 @@ class Question
 
         return $this;
     }
+
+    public function getMultiAnswersAsArray(): array
+    {
+        $array = [
+            $this->encryptData('multi1') => $this->multi1,
+            $this->encryptData('multi2') => $this->multi2,
+            $this->encryptData('multi3') => $this->multi3,
+            $this->encryptData('multi4') => $this->multi4,
+
+        ];
+        return $this->shuffle_assoc($array);
+    }
+
+    //functions for inside the entity
+
+    private function encryptData($data): string
+    {
+        $cipher = "aes-256-cbc";
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $encrypted = openssl_encrypt($data, $cipher, getenv('ENCRYPTION_SERVICE_KEY'), 0, $iv);
+        return base64_encode($iv . $encrypted);
+    }
+
+    function shuffle_assoc($list) {
+        if (!is_array($list)) return $list;
+
+        $keys = array_keys($list);
+        shuffle($keys);
+        $random = array();
+        foreach ($keys as $key) {
+            $random[$key] = $list[$key];
+        }
+        return $random;
+    }
 }
