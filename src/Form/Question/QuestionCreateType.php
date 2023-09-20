@@ -28,7 +28,7 @@ class QuestionCreateType extends AbstractType
             ])
             ->add('multi1', TextType::class, [
                 'required' => false,
-                'label' => 'Option 1',
+                'label' => 'Option 1 (Always the correct answer)',
             ])
             ->add('multi2', TextType::class, [
                 'required' => false,

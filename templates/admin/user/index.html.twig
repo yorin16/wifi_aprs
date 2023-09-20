@@ -19,7 +19,7 @@
                 {% for user in users %}
                     <tr>
                         <td>{{ user.username }}</td>
-                        <td>{{ user.printedRoles }}</td>
+                        <td>{{ user.printedRoles|nl2br|raw }}</td>
                         <td>{{ user.project.name|default }}</td>
                         <td class="table-align"><a href="{{ path('admin_user_edit', {'id': user.id }) }}" class="btn btn-primary" role="button"><i class="fa-regular fa-pen-to-square"></i></a></td>
                         <td class="table-align"><a href="{{ path('admin_user_delete_confirm', {'id': user.id }) }}" class="btn btn-danger" role="button"><i class="fa-regular fa-trash-can"></i></a></td>

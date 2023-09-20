@@ -21,6 +21,7 @@ final class Version20230325153021 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE device (id INT AUTO_INCREMENT NOT NULL, guid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', name VARCHAR(255) NOT NULL, disabled TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('alter table device modify id int auto_increment');
         $this->addSql('CREATE TABLE location (id INT AUTO_INCREMENT NOT NULL, device_id INT DEFAULT NULL, project_id INT NOT NULL, coordinate VARCHAR(255) NOT NULL, INDEX IDX_5E9E89CB94A4C7D4 (device_id), INDEX IDX_5E9E89CB166D1F9C (project_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE project (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, selected_project_id INT DEFAULT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_8D93D649F85E0677 (username), INDEX IDX_8D93D64921ED5B7F (selected_project_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -36,6 +37,7 @@ final class Version20230325153021 extends AbstractMigration
         $this->addSql('ALTER TABLE location DROP FOREIGN KEY FK_5E9E89CB94A4C7D4');
         $this->addSql('ALTER TABLE location DROP FOREIGN KEY FK_5E9E89CB166D1F9C');
         $this->addSql('ALTER TABLE `user` DROP FOREIGN KEY FK_8D93D64921ED5B7F');
+        $this->addSql('ALTER TABLE device MODIFY id INT;');
         $this->addSql('DROP TABLE device');
         $this->addSql('DROP TABLE location');
         $this->addSql('DROP TABLE project');

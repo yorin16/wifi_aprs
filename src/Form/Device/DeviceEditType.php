@@ -12,7 +12,7 @@ class DeviceEditType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('disabled')
+//            ->add('disabled') //unused for now
             ->add('submit', SubmitType::class);
     }
 }
