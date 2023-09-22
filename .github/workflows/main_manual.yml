@@ -114,8 +114,8 @@ jobs:
           sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}} <<EOF
           # Your remote commands go here
           ls
-          git pull origin master
-          php ./bin/composer/composer.phar install --no-dev --optimize-autoloader
+          # git pull origin master
+          php bin/composer/composer.phar install --no-dev --optimize-autoloader
           APP_ENV=prod php bin/console cache:clear
           # Add any additional commands or setup here
           EOF
