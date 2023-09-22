@@ -33,11 +33,6 @@ jobs:
       - name: Clear Symfony Cache for prod
         run: php bin/console cache:clear
 
-      - name: npn -v
-        run: npm -v
-      - name: node-v
-        run: node-v
-
       - name: Make production envfile
         uses: SpicyPizza/create-envfile@v1
         with:
@@ -73,6 +68,9 @@ jobs:
       # - name: Debug SSH
       #   run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
 
+      - name: npm run build
+        run: npm run build
+
       - name: Remove var, vendor, and node_modules
         run: |
           rm -rf ./var ; rm -rf ./vendor ; rm -rf ./node_modules
@@ -101,10 +99,10 @@ jobs:
         run: |
           sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}} <<EOF
           # Your remote commands go here
+          cd www
           git pull origin master
-          composer install --no-dev --optimize-autoloader
+          php ./bin/composer/composer.phar install --no-dev --optimize-autoloader
           APP_ENV=prod php bin/console cache:clear
-          npm run build
           # Add any additional commands or setup here
           EOF
       # - name: Executing remote ssh commands
