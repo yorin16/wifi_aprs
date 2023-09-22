@@ -1,36 +1,72 @@
-name: Manual deploy to SSH
+name: Manual Symfony Deploy
 
 on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:  # Add manual trigger option
-
+  workflow_dispatch:
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          composer install --no-dev --optimize-autoloader
-          npm install
-          npm run build
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer:v2
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
         env:
-          NODE_ENV: production
+          update: true
 
-      - name: Deploy to SSH
-        uses: appleboy/ssh-action@master
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Make production envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_APP_ENV: prod
+          envkey_APP_DEBUG: false
+          envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
+          file_name: .env
+
+      - name: Copying files to server
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
+          port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
+          source: "./"
+          target: ""
+
+      - name: Executing remote ssh commands
+        uses: appleboy/ssh-action@v2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
+          port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
           script: |
-            cd /path/to/your/remote/project
             git pull origin master
             composer install --no-dev --optimize-autoloader
             APP_ENV=prod php bin/console cache:clear
