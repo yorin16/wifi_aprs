@@ -68,17 +68,20 @@ jobs:
       - name: Debug SSH
         run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
 
+      - name: remove temp folders
+        run: |
+          rm -rf ./var \
+          rm -fm ./vendor \
+          rm -rf ./node_modules
+
+      - name: Copy Files to Server
+        run: |
+          sshpass -p "${SSH_PASSWORD}" scp -P ${SSH_PORT} -r ./* ${SSH_USERNAME}@${SSH_HOST}:${REMOTE_TARGET}/
+ 
+
       # - name: Copying files to server
       #   run: |
-      #     sshpass -p ${{secrets.SSH_PASSWORD}} scp -P 22 -r \
-      #     --exclude "var" \
-      #     --exclude "vendor" \
-      #     --exclude "node_modules" \
-      #     ./* ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}:/   
-
-      - name: Copying files to server
-        run: |
-          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -p 22 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ./ && find . -type f ! -path './var/*' ! -path './vendor/*' ! -path './node_modules/*' -print0 | xargs -0 -I {} scp -P 22 {} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/"
+      #     sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -p 22 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ./ && find . -type f ! -path './var/*' ! -path './vendor/*' ! -path './node_modules/*' -print0 | xargs -0 -I {} scp -P 22 {} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/"
 
 
       # - name: Execute SSH commmands on remote server
