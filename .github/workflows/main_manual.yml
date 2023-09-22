@@ -49,7 +49,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
           port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
           source: "./"
-          target: ""
+          target: "/"
 
       - name: Executing remote ssh commands
         uses: appleboy/ssh-action@v0.1.4
