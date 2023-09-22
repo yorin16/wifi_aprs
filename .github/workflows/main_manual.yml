@@ -70,7 +70,11 @@ jobs:
 
       - name: Copying files to server
         run: |
-          sshpass -p ${{secrets.SSH_PASSWORD}} scp -P 22 -r ./* ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}:/   
+          sshpass -p ${{secrets.SSH_PASSWORD}} scp -P 22 -r \
+          --exclude "var" \
+          --exclude "vendor" \
+          --exclude "node_modules" \
+          ./* ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}:/   
 
       # - name: Execute SSH commmands on remote server
       #   uses: JimCronqvist/action-ssh@master
