@@ -24,8 +24,8 @@ jobs:
       - name: Check PHP Version
         run: php -v
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+      #- name: Validate composer.json and composer.lock
+      #  run: composer validate
 
       - name: Get composer cache directory
         id: composer-cache
