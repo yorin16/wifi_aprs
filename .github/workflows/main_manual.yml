@@ -23,8 +23,8 @@ jobs:
 
       # - name: Check PHP Version
       #   run: php -v
-
-  
+      - name: Copy .env.prod
+        run: cp .env.prod .env
 
       - name: Install Composer dependencies
         run: composer install --no-dev --optimize-autoloader
@@ -36,13 +36,10 @@ jobs:
         run: npm install
         
       - name: install encore
-        run: npm install @symfony/webpack-encore --save-dev
+        run: npm install @symfony/webpack-encore
 
       - name: encore -v
         run: encore -v
-
-      - name: Copy .env.prod
-        run: cp .env.prod .env
 
       - name: Make production envfile
         uses: SpicyPizza/create-envfile@v1
