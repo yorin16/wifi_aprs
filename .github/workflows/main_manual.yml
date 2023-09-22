@@ -41,15 +41,28 @@ jobs:
           envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
           file_name: .env
 
-      - name: Copying files to server
-        uses: appleboy/ssh-action@v1.0.0
+     # - name: Copying files to server
+      #  uses: appleboy/ssh-action@v1.0.0
+       # with:
+        #  host: ${{ secrets.SSH_HOST }}
+         # username: ${{ secrets.SSH_USER }}
+          #password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
+          #port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
+          #source: "./"
+          #target: "/"
+
+      - name: Execute SSH commmands on remote server
+        uses: JimCronqvist/action-ssh@master
+        env:
+          NAME: "Root"
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
-          port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
-          source: "./"
-          target: "/"
+          hosts: '519866325.swh.strato-hosting.eu@ssh.strato.com'
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          debug: true
+          command: |
+            ls -lah
+            echo "I am $NAME"
 
       - name: Executing remote ssh commands
         uses: appleboy/ssh-action@v1.0.0
