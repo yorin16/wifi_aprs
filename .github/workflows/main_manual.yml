@@ -56,8 +56,8 @@ jobs:
         env:
           NAME: "Root"
         with:
-          hosts: '519866325.swh.strato-hosting.eu:${{ secrets.SSH_PASSWORD }}@ssh.strato.com:22'
-          debug: true
+          hosts: '519866325.swh.strato-hosting.eu:${{ secrets.SSH_PASSWORD }}@ssh.strato.com'
+          debug: false
           command: |
             ls -lah
             echo "I am $NAME"
