@@ -41,7 +41,7 @@ jobs:
       - name: encore -v
         run: encore -v
 
-        - name: Copy .env.prod
+      - name: Copy .env.prod
         run: cp .env.prod .env
 
       - name: Make production envfile
