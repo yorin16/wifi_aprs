@@ -46,20 +46,24 @@ jobs:
           mkdir -p $HOME/.ssh
           touch $HOME/.ssh/known_hosts
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+
+      - name: Install sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
           
-      - name: Copying files to server
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
-          port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
-          options: -o PasswordAuthentication=yes  # Force password authentication
-          source: "./"
-          target: "/"
+      # - name: Copying files to server
+      #   uses: appleboy/ssh-action@v1.0.0
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
+      #     options: -o PasswordAuthentication=yes  # Force password authentication
+      #     source: "./"
+      #     target: "/"
           
       - name: Debug SSH
-        run: ssh -v -p 22 ${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_HOST }}
+        run: sshpass -p "${SSH_PASSWORD}" ssh -v -p 22 ${SSH_USERNAME}@${SSH_HOST}
 
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
