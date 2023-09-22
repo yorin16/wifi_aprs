@@ -61,6 +61,9 @@ jobs:
       #     options: -o PasswordAuthentication=yes  # Force password authentication
       #     source: "./"
       #     target: "/"
+
+      - name: Change Directory
+        run: ls
      
       - name: Debug SSH
         run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
