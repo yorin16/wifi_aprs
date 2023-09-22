@@ -61,9 +61,14 @@ jobs:
       #     options: -o PasswordAuthentication=yes  # Force password authentication
       #     source: "./"
       #     target: "/"
-          
+      - name: Debug SSH Variables
+        run: |
+            echo "SSH_USERNAME: ${SSH_USERNAME}"
+            echo "SSH_HOST: ${SSH_HOST}"
+            echo "SSH_PASSWORD: ${SSH_PASSWORD}"
+     
       - name: Debug SSH
-        run: sshpass -p "${SSH_PASSWORD}" ssh -v -p 22 ${SSH_USERNAME}@${SSH_HOST}
+        run: sshpass -p ${{SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{SSH_USERNAME}}@${{SSH_HOST}}
 
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
