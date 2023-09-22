@@ -42,7 +42,7 @@ jobs:
           file_name: .env
 
       - name: Copying files to server
-        uses: appleboy/scp-action@v0.1.4
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -52,7 +52,7 @@ jobs:
           target: "/"
 
       - name: Executing remote ssh commands
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
