@@ -36,7 +36,7 @@ jobs:
         run: npm install
         
       - name: install encore
-        run: npm install @symfony/webpack-encore
+        run: composer require symfony/webpack-encore-bundle
 
       - name: encore -v
         run: encore -v
