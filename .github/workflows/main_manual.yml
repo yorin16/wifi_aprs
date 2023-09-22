@@ -33,6 +33,12 @@ jobs:
       - name: Clear Symfony Cache for prod
         run: php bin/console cache:clear
 
+      - name: npm install
+        run: npm install
+
+      - name: encore -v
+        run: encore -v
+
       - name: Make production envfile
         uses: SpicyPizza/create-envfile@v1
         with:
