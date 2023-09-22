@@ -21,8 +21,8 @@ jobs:
         env:
           update: true
 
-      - name: Check PHP Version
-        run: php -v
+      # - name: Check PHP Version
+      #   run: php -v
 
       - name: Copy .env.prod
         run: cp .env.prod .env
@@ -32,6 +32,11 @@ jobs:
 
       - name: Clear Symfony Cache for prod
         run: php bin/console cache:clear
+
+      - name: npn -v
+        run: npm -v
+      - name: node-v
+        run: node-v
 
       - name: Make production envfile
         uses: SpicyPizza/create-envfile@v1
@@ -62,17 +67,15 @@ jobs:
       #     source: "./"
       #     target: "/"
 
-      - name: Change Directory
-        run: ls
+      # - name: Change Directory
+      #   run: ls
      
-      - name: Debug SSH
-        run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
+      # - name: Debug SSH
+      #   run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
 
-      - name: remove temp folders
+      - name: Remove var, vendor, and node_modules
         run: |
-          rm -rf ./var \
-          rm -fm ./vendor \
-          rm -rf ./node_modules
+          rm -rf ./var ; rm -rf ./vendor ; rm -rf ./node_modules
 
       - name: Copy Files to Server
         run: |
