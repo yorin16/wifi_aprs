@@ -60,7 +60,7 @@ jobs:
           target: ""
 
       - name: Executing remote ssh commands
-        uses: appleboy/ssh-action@vv0.1.4
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
