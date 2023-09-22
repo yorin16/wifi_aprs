@@ -27,6 +27,9 @@ jobs:
       #- name: Validate composer.json and composer.lock
       #  run: composer validate
 
+      - name: Clear Symfony Cache for prod
+        run: php bin/console cache:clear --env=prod
+
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -70,4 +73,5 @@ jobs:
             git pull origin master
             composer install --no-dev --optimize-autoloader
             APP_ENV=prod php bin/console cache:clear
+            npm run build
             # Add any additional Symfony-specific commands or setup here
