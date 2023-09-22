@@ -61,36 +61,43 @@ jobs:
       #     options: -o PasswordAuthentication=yes  # Force password authentication
       #     source: "./"
       #     target: "/"
-      - name: Debug SSH Variables
-        run: |
-            echo "SSH_USERNAME: ${{secrets.SSH_USERNAME}}"
-            echo "SSH_HOST: ${{secrets.SSH_HOST}}"
-            echo "SSH_PASSWORD: {{secrets.SSH_PASSWORD}}"
      
       - name: Debug SSH
         run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
 
-      - name: Execute SSH commmands on remote server
-        uses: JimCronqvist/action-ssh@master
-        env:
-          NAME: "Root"
-        with:
-          hosts: '519866325.swh.strato-hosting.eu:${{ secrets.SSH_PASSWORD }}@ssh.strato.com'
-          debug: false
-          command: |
-            ls -lah
-            echo "I am $NAME"
+      - name: Copying files to server
+        run: |
+          sshpass -p "${SSH_PASSWORD}" scp -P 22 -r ./path/to/local/files ${SSH_USERNAME}@${SSH_HOST}:~/path/to/remote/directory   
 
-      - name: Executing remote ssh commands
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
-          port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
-          script: |
-            git pull origin master
-            composer install --no-dev --optimize-autoloader
-            APP_ENV=prod php bin/console cache:clear
-            npm run build
-            # Add any additional Symfony-specific commands or setup here
+      # - name: Execute SSH commmands on remote server
+      #   uses: JimCronqvist/action-ssh@master
+      #   env:
+      #     NAME: "Root"
+      #   with:
+      #     hosts: '519866325.swh.strato-hosting.eu:${{ secrets.SSH_PASSWORD }}@ssh.strato.com'
+      #     debug: false
+      #     command: |
+      #       ls -lah
+      #       echo "I am $NAME"
+      - name: Executing remote SSH commands
+        run: |
+          sshpass -p "${SSH_PASSWORD}" ssh -p 22 ${SSH_USERNAME}@${SSH_HOST} <<EOF
+          # Your remote commands go here
+          git pull origin master
+          composer install --no-dev --optimize-autoloader
+          APP_ENV=prod php bin/console cache:clear
+          npm run build
+          # Add any additional commands or setup here
+      # - name: Executing remote ssh commands
+      #   uses: appleboy/ssh-action@v1.0.0
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
+      #     port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
+      #     script: |
+      #       git pull origin master
+      #       composer install --no-dev --optimize-autoloader
+      #       APP_ENV=prod php bin/console cache:clear
+      #       npm run build
+      #       # Add any additional Symfony-specific commands or setup here
