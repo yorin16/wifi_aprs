@@ -50,6 +50,13 @@ jobs:
           #port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
           #source: "./"
           #target: "/"
+
+      - name: Create known_hosts file
+        run: |
+          mkdir -p $HOME/.ssh
+          touch $HOME/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+          
       - name: Debug SSH
         run: ssh -v -p 22 ${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_HOST }}
         
