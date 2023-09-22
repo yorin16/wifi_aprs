@@ -63,12 +63,12 @@ jobs:
       #     target: "/"
       - name: Debug SSH Variables
         run: |
-            echo "SSH_USERNAME: ${SSH_USERNAME}"
-            echo "SSH_HOST: ${SSH_HOST}"
-            echo "SSH_PASSWORD: ${SSH_PASSWORD}"
+            echo "SSH_USERNAME: ${{secrets.SSH_USERNAME}}"
+            echo "SSH_HOST: ${{secrets.SSH_HOST}}"
+            echo "SSH_PASSWORD: {{secrets.SSH_PASSWORD}}"
      
       - name: Debug SSH
-        run: sshpass -p ${{SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{SSH_USERNAME}}@${{SSH_HOST}}
+        run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
 
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
