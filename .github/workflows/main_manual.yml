@@ -50,7 +50,9 @@ jobs:
           #port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
           #source: "./"
           #target: "/"
-
+      - name: Debug SSH
+        run: ssh -v -p 22 ${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}@${{ secrets.SSH_HOST }}
+        
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         env:
