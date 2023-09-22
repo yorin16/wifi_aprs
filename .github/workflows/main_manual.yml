@@ -56,9 +56,7 @@ jobs:
         env:
           NAME: "Root"
         with:
-          hosts: '519866325.swh.strato-hosting.eu@ssh.strato.com'
-          password: ${{ secrets.SSH_PASSWORD }}
-          port: ${{ secrets.SSH_PORT }}
+          hosts: '519866325.swh.strato-hosting.eu:${{ secrets.SSH_PASSWORD }}@ssh.strato.com:22'
           debug: true
           command: |
             ls -lah
