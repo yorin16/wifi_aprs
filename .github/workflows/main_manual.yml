@@ -35,6 +35,9 @@ jobs:
 
       - name: npm install
         run: npm install
+        
+      - name: install encore
+        run: npm install @symfony/webpack-encore --save-dev
 
       - name: encore -v
         run: encore -v
