@@ -67,7 +67,7 @@ jobs:
 
       - name: Copying files to server
         run: |
-          sshpass -p "${SSH_PASSWORD}" scp -P 22 -r ./path/to/local/files ${SSH_USERNAME}@${SSH_HOST}:~/path/to/remote/directory   
+          shpass -p ${{secrets.SSH_PASSWORD}} scp -P 22 -r ./ ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}:~/   
 
       # - name: Execute SSH commmands on remote server
       #   uses: JimCronqvist/action-ssh@master
@@ -81,13 +81,14 @@ jobs:
       #       echo "I am $NAME"
       - name: Executing remote SSH commands
         run: |
-          sshpass -p "${SSH_PASSWORD}" ssh -p 22 ${SSH_USERNAME}@${SSH_HOST} <<EOF
+          sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}} <<EOF
           # Your remote commands go here
           git pull origin master
           composer install --no-dev --optimize-autoloader
           APP_ENV=prod php bin/console cache:clear
           npm run build
           # Add any additional commands or setup here
+          EOF
       # - name: Executing remote ssh commands
       #   uses: appleboy/ssh-action@v1.0.0
       #   with:
