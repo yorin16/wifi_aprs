@@ -85,7 +85,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           port: 26
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./"
           target: "/"
 
