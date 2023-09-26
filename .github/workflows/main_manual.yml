@@ -95,19 +95,20 @@ jobs:
           username: 'xm108942'
           password: 'AvmLnu9v'
           port: 26
-          # key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./"
           target: "domains/wififox.nl/public_html/"
 
 
-      # - name: Copying files to server
-      #   uses: appleboy/ssh-action@v0.1.4
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: 'xm108942'
-      #     password: 'AvmLnu9v'
-      #     port: 26
-          # key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Composer install on the server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: 'xm108942'
+          password: 'AvmLnu9v'
+          port: 26
+          script: |
+            cd /domains/wififox.nl/public_html/
+            composer install
 
       # - name: Copy Files to Server
       #   run: |
