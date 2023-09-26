@@ -78,6 +78,15 @@ jobs:
       - name: Remove var, vendor, and node_modules
         run: |
           rm -rf ./var ; rm -rf ./vendor ; rm -rf ./node_modules
+  
+      - name: Copying files to server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: 'xm108942'
+          password: 'AvmLnu9v'
+          port: 26
+          script: ls
 
       - name: Copying files to server
         uses: appleboy/scp-action@v0.1.4
@@ -91,16 +100,16 @@ jobs:
           target: "/"
 
 
-      # - name: Copying files to server
-      #   uses: appleboy/ssh-action@v0.1.4
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: 'xm108942'
-      #     password: 'AvmLnu9v'
-      #     port: 26
-      #     # key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     source: "./"
-      #     target: "/"
+      - name: Copying files to server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: 'xm108942'
+          password: 'AvmLnu9v'
+          port: 26
+          # key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "./"
+          target: "/"
 
       # - name: Copy Files to Server
       #   run: |
