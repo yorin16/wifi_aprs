@@ -44,16 +44,16 @@ jobs:
       # - name: encore -v
       #   run: encore -v
 
-      # - name: Copy .env.prod
-      #   run: cp .env.prod .env
+      - name: Copy .env.prod
+        run: cp .env.prod .env
 
-      # - name: Make production envfile
-      #   uses: SpicyPizza/create-envfile@v1
-      #   with:
-      #     envkey_APP_ENV: prod
-      #     envkey_APP_DEBUG: false
-      #     envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
-      #     file_name: .env
+      - name: Make production envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_APP_ENV: prod
+          envkey_APP_DEBUG: true
+          envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
+          file_name: .env
 
       - name: Create known_hosts file
         run: |
@@ -83,9 +83,10 @@ jobs:
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
+          username: 'xm108942'
+          password: 'AvmLnu9v'
           port: 26
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./"
           target: "/"
 
