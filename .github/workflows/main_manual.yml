@@ -97,7 +97,7 @@ jobs:
           port: 26
           # key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./"
-          target: "/public_html/"
+          target: "domains/wififox.nl/public_html/"
 
 
       # - name: Copying files to server
