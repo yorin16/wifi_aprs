@@ -79,7 +79,7 @@ jobs:
         run: |
           rm -rf ./var ; rm -rf ./vendor ; rm -rf ./node_modules
   
-      - name: Copying files to server
+      - name: ssh do ls
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -100,16 +100,14 @@ jobs:
           target: "/"
 
 
-      - name: Copying files to server
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: 'xm108942'
-          password: 'AvmLnu9v'
-          port: 26
+      # - name: Copying files to server
+      #   uses: appleboy/ssh-action@v0.1.4
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: 'xm108942'
+      #     password: 'AvmLnu9v'
+      #     port: 26
           # key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./"
-          target: "/"
 
       # - name: Copy Files to Server
       #   run: |
