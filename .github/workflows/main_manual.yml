@@ -107,7 +107,7 @@ jobs:
           password: 'AvmLnu9v'
           port: 26
           script: |
-            cd /domains/wififox.nl/public_html/
+            cd domains/wififox.nl/public_html/
             composer install
 
       # - name: Copy Files to Server
