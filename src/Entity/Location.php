@@ -30,6 +30,9 @@ class Location
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $coordinateHint = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -101,6 +104,18 @@ class Location
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCoordinateHint(): ?string
+    {
+        return $this->coordinateHint;
+    }
+
+    public function setCoordinateHint(string $coordinateHint): static
+    {
+        $this->coordinateHint = $coordinateHint;
 
         return $this;
     }
