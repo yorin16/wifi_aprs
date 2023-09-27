@@ -1,4 +1,4 @@
-name: Manual Symfony Deploy
+name: Manual Symfony Deploy in PROD mode
 
 on:
   workflow_dispatch:
@@ -21,11 +21,6 @@ jobs:
         env:
           update: true
 
-      # - name: Check PHP Version
-      #   run: php -v
-      # - name: Copy .env.prod
-      #   run: cp .env.prod .env
-
       - name: Install Composer dependencies
         run: composer install --optimize-autoloader
 
@@ -37,23 +32,9 @@ jobs:
 
       - name: yarn install
         run: yarn run encore production
-        
-      # - name: install encore
-      #   run: composer require symfony/webpack-encore-bundle
-
-      # - name: encore -v
-      #   run: encore -v
 
       - name: Copy .env.prod
         run: cp .env.prod .env
-
-      # - name: Make production envfile
-      #   uses: SpicyPizza/create-envfile@v1
-      #   with:
-      #     envkey_APP_ENV: prod
-      #     envkey_APP_DEBUG: true
-      #     envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
-      #     file_name: .env
 
       - name: Create known_hosts file
         run: |
@@ -61,39 +42,19 @@ jobs:
           touch $HOME/.ssh/known_hosts
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
 
-      # - name: Install sshpass
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y sshpass
-        
-      # - name: Change Directory
-      #   run: ls
-     
-      # - name: Debug SSH
-      #   run: sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}
-
       - name: npm run build
         run: npm run build
 
       - name: Remove var, vendor, and node_modules
         run: |
           rm -rf ./var ; rm -rf ./vendor ; rm -rf ./node_modules
-  
-      - name: ssh do ls
-        uses: appleboy/ssh-action@v0.1.4
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: 'xm108942'
-          password: 'AvmLnu9v'
-          port: 26
-          script: ls
 
       - name: Copying files to server
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: 'xm108942'
-          password: 'AvmLnu9v'
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: 26
           source: "./"
           target: "domains/wififox.nl/public_html/"
@@ -103,56 +64,10 @@ jobs:
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: 'xm108942'
-          password: 'AvmLnu9v'
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: 26
           script: |
             cd domains/wififox.nl/public_html/
             composer install
             php bin/console doctrine:migrations:migrate
-
-      # - name: Copy Files to Server
-      #   run: |
-      #     sshpass -p "${{secrets.SSH_PASSWORD}}" scp -P 22 -r ./* ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}}:/
- 
-
-      # - name: Copying files to server
-      #   run: |
-      #     sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -p 22 ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ./ && find . -type f ! -path './var/*' ! -path './vendor/*' ! -path './node_modules/*' -print0 | xargs -0 -I {} scp -P 22 {} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/"
-
-
-      # - name: Execute SSH commmands on remote server
-      #   uses: JimCronqvist/action-ssh@master
-      #   env:
-      #     NAME: "Root"
-      #   with:
-      #     hosts: '519866325.swh.strato-hosting.eu:${{ secrets.SSH_PASSWORD }}@ssh.strato.com'
-      #     debug: false
-      #     command: |
-      #       ls -lah
-      #       echo "I am $NAME"
-      
-      # - name: Executing remote SSH commands
-      #   run: |
-      #     sshpass -p ${{secrets.SSH_PASSWORD}} ssh -o StrictHostKeyChecking=no -v -p 22 ${{secrets.SSH_USERNAME}}@${{secrets.SSH_HOST}} <<EOF
-      #     # Your remote commands go here
-      #     ls
-      #     # git pull origin master
-      #     php bin/composer/composer.phar install --no-dev --optimize-autoloader
-      #     APP_ENV=prod php bin/console cache:clear
-      #     # Add any additional commands or setup here
-      #     EOF
-      
-      # - name: Executing remote ssh commands
-      #   uses: appleboy/ssh-action@v1.0.0
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USER }}
-      #     password: ${{ secrets.SSH_PASSWORD }}  # Use your SSH password here
-      #     port: ${{ secrets.SSH_PORT }}  # Optional, specify your SSH port
-      #     script: |
-      #       git pull origin master
-      #       composer install --no-dev --optimize-autoloader
-      #       APP_ENV=prod php bin/console cache:clear
-      #       npm run build
-      #       # Add any additional Symfony-specific commands or setup here
