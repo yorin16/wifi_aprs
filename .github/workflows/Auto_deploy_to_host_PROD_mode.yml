@@ -72,4 +72,4 @@ jobs:
           script: |
             cd domains/wififox.nl/public_html/
             composer install
-            php bin/console doctrine:migrations:migrate
+            php bin/console doctrine:migrations:migrate -n
