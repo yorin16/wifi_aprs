@@ -34,7 +34,7 @@ jobs:
         run: yarn run encore production
 
       - name: Copy .env.acc
-        run: cp .env.prod .env
+        run: cp .env.acc .env
 
       - name: Create known_hosts file
         run: |
