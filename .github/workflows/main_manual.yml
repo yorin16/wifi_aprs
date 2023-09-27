@@ -107,8 +107,9 @@ jobs:
           password: 'AvmLnu9v'
           port: 26
           script: |
-            cd /domains/wififox.nl/public_html/
+            cd domains/wififox.nl/public_html/
             composer install
+            php bin/console doctrine:migrations:migrate
 
       # - name: Copy Files to Server
       #   run: |
