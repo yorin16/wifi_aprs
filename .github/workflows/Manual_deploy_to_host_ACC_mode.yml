@@ -1,0 +1,73 @@
+name: Manual Symfony Deploy in ACC mode
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+          tools: composer:v2
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+        env:
+          update: true
+
+      - name: Install Composer dependencies
+        run: composer install --optimize-autoloader
+
+      - name: Clear Symfony Cache for prod
+        run: php bin/console cache:clear
+
+      - name: npm install
+        run: npm install
+
+      - name: yarn install
+        run: yarn run encore production
+
+      - name: Copy .env.acc
+        run: cp .env.prod .env
+
+      - name: Create known_hosts file
+        run: |
+          mkdir -p $HOME/.ssh
+          touch $HOME/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+
+      - name: npm run build
+        run: npm run build
+
+      - name: Remove var, vendor, and node_modules
+        run: |
+          rm -rf ./var ; rm -rf ./vendor ; rm -rf ./node_modules
+
+      - name: Copying files to server
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 26
+          source: "./"
+          target: "domains/wififox.nl/public_html/"
+
+
+      - name: Composer install on the server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 26
+          script: |
+            cd domains/wififox.nl/public_html/
+            composer install
+            php bin/console doctrine:migrations:migrate
