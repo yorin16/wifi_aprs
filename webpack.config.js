@@ -1,11 +1,12 @@
 const Encore = require('@symfony/webpack-encore');
-const isProduction = process.env.NODE_ENV === 'production';
+
+const isDev = process.env.npm_lifecycle_event === 'dev';
 
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
-const publicPath = isProduction ? '/public/build/' : '/build';
+const publicPath = isDev ? '/build' : '/public/build/';
 
 Encore
     .setOutputPath('public/build/')
@@ -16,8 +17,8 @@ Encore
     .enableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
-    .enableSourceMaps(!isProduction)
-    .enableVersioning(isProduction)
+    .enableSourceMaps(!isDev)
+    .enableVersioning(isDev)
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = '3.23';
