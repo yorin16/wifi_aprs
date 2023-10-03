@@ -38,7 +38,7 @@ class RegistrationFormType extends AbstractType
                     'attr'  =>  array('class' => 'form-control',
                         'style' => 'margin:5px 0;'),
                     'choices' =>[
-                            'user' => 'ROLE_USER',
+                            'User' => 'ROLE_USER',
                             'Team' => 'ROLE_TEAM',
                         ],
                     'multiple' => true,

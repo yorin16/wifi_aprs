@@ -3,6 +3,7 @@
 namespace App\Controller\Game;
 
 use App\Entity\Answer;
+use App\Entity\Question;
 use App\Entity\User;
 use App\Form\Game\AnswerQuestionType;
 use App\Repository\DeviceRepository;
@@ -16,10 +17,12 @@ use Symfony\Component\HttpFoundation\Response;
 class GameController extends AbstractController
 {
     public function __construct(
-        private DeviceRepository $deviceRepository,
+        private DeviceRepository       $deviceRepository,
         private EntityManagerInterface $entityManager,
-        private EncryptionService $encryptionService
-    ){}
+        private EncryptionService      $encryptionService
+    )
+    {
+    }
 
     //TODO: vraag blokeren waneer deze al is ingevuld door account
 
@@ -28,12 +31,16 @@ class GameController extends AbstractController
         /* @var User $user */
         $user = $security->getUser();
 
-        if($user === null)
-        {
+        if ($user === null) {
             return $this->render('NotLoggedIn.html.twig');
         }
 
         $question = $this->deviceRepository->getQuestionByDevice($guid, $user);
+
+        if (!$question instanceof Question) {
+            $this->addFlash('game_error', $question);
+            return $this->redirectToRoute('game_question_not_found');
+        }
 
         $form = $this->createForm(AnswerQuestionType::class, null, [
             'question_id' => $question->getId(),
@@ -50,9 +57,9 @@ class GameController extends AbstractController
             $answer->setUser($user);
             $answer->setQuestion($question);
 
-            switch ($question->getType()){
+            switch ($question->getType()) {
                 case 1: //Multiple choice
-                    $selectedAnswer = str_replace("multi","",$this->encryptionService->decryptData($form->getData()['answer']['selected_answer']));
+                    $selectedAnswer = str_replace("multi", "", $this->encryptionService->decryptData($form->getData()['answer']['selected_answer']));
                     $answer->setMultiAnswer($selectedAnswer);
                     $answer->setPoints($question->getPoints());
                     break;
@@ -65,19 +72,27 @@ class GameController extends AbstractController
             $this->entityManager->persist($answer);
             $this->entityManager->flush();
 
-           return $this->redirectToRoute('game_answered_question', [
-                'question' =>  $question->getId()
+            return $this->redirectToRoute('game_answered_question', [
+                'question' => $question->getId()
             ]);
         }
 
-        return $this->render('game/index.html.twig',[
+        return $this->render('game/index.html.twig', [
             'question' => $question,
             'form' => $form->createView(),
         ]);
     }
 
-    public function answered(): Response
+    public function answered(Question $question): Response
     {
-        return $this->render('game/answered_question.html.twig');
+        $location = $question->getLocation();
+        return $this->render('game/answered_question.html.twig', [
+            'location' => $location
+        ]);
+    }
+
+    public function QuestionNotFoundAction(): Response
+    {
+        return $this->render('game/question_not_found.html.twig');
     }
 }

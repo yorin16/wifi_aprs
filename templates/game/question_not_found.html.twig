@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Error{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="alert alert-warning text-center">
+                    <h2>Oops, something went wrong!</h2>
+                    {% for message in app.flashes('game_error') %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                    <p>Please try again later or contact support if the problem persists.</p>
+                    <a href="{{ path('admin_device') }}" class="btn btn-primary mt-3">Go Back to Device List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

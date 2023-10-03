@@ -21,6 +21,7 @@ class LocationCreateType extends AbstractType
                 'placeholder' => 'No Device',
                 'required' => false
             ])
+            ->add('coordinateHint')
             ->add('submit', SubmitType::class);
     }
 }

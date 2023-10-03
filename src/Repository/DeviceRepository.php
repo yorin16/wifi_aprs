@@ -63,14 +63,30 @@ class DeviceRepository extends ServiceEntityRepository
         });
     }
 
-    public function getQuestionByDevice(string $guid, User $user): Question
+    public function getQuestionByDevice(string $guid, User $user): string|Question
     {
         /* @var Device $device */
         $device = $this->findOneBy(['guid' => $guid]);
+
+        if($device === null)
+        {
+            return 'Device not found';
+        }
+
         $selectedProject = $user->getProject();
+
+        if($selectedProject === null)
+        {
+            return 'no project selected for user';
+        }
 
         /* @var Location $location */
         $location = $this->locationRepository->findOneBy(['Device' => $device, 'Project' => $selectedProject]);
+
+        if($location === null)
+        {
+            return 'no location set for device';
+        }
 
         return $location->getQuestion();
     }
