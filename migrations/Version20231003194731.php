@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20231003194731 extends AbstractMigration
+{
+    public function getDescription(): string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE answer ADD recieved_random_location_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE answer ADD CONSTRAINT FK_DADD4A257A3A4D64 FOREIGN KEY (recieved_random_location_id) REFERENCES location (id)');
+        $this->addSql('CREATE INDEX IDX_DADD4A257A3A4D64 ON answer (recieved_random_location_id)');
+    }
+
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE answer DROP FOREIGN KEY FK_DADD4A257A3A4D64');
+        $this->addSql('DROP INDEX IDX_DADD4A257A3A4D64 ON answer');
+        $this->addSql('ALTER TABLE answer DROP recieved_random_location_id');
+    }
+}

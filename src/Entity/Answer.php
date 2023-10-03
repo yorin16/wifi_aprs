@@ -31,6 +31,9 @@ class Answer
     #[ORM\Column(nullable: true)]
     private ?int $points = null;
 
+    #[ORM\ManyToOne(inversedBy: 'answers')]
+    private ?Location $ReceivedRandomLocation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Answer
     public function setPoints(?int $points): self
     {
         $this->points = $points;
+
+        return $this;
+    }
+
+    public function getReceivedRandomLocation(): ?Location
+    {
+        return $this->ReceivedRandomLocation;
+    }
+
+    public function setReceivedRandomLocation(?Location $ReceivedRandomLocation): static
+    {
+        $this->ReceivedRandomLocation = $ReceivedRandomLocation;
 
         return $this;
     }

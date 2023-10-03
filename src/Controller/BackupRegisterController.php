@@ -16,7 +16,7 @@ class BackupRegisterController extends AbstractController
     {
     }
 
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $submittedPassword = $request->get('password');
 

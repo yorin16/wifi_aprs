@@ -9,6 +9,10 @@ backup_register:
     path: /register
     controller: App\Controller\BackupRegisterController::index
     methods: GET
+#TODO: remove this test
+sentry_test:
+    path: /sentrytest
+    controller: App\Controller\SentryTestController::index
 
 # Main Routes
 Home:
@@ -121,3 +125,6 @@ game_answered_question:
 game_question_not_found:
     path: /game/error/questionNotFound
     controller: App\Controller\Game\GameController::QuestionNotFoundAction
+game_already_answered:
+    path: /game/error/answered
+    controller: App\Controller\Game\GameController::alreadyAnswered

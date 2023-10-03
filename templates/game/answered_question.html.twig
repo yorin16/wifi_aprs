@@ -2,10 +2,16 @@
 
 {% block body %}
     <div class="row d-flex align-items-center justify-content-center">
+        {% if hasHint %}
         <div class="col-8 col-lg-4 answered">
             <h1 class="title-font">Answered</h1>
-            <h2>{{ location.coordinateHint }}</h2>
+            <h2>{{ locationHint }}</h2>
         </div>
+        {% else %}
+            <div class="col-8 col-lg-4 answered">
+                <h1 class="title-font">No Answer available</h1>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 

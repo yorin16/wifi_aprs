@@ -21,6 +21,8 @@ class ProjectController extends AbstractController
 
     public function index(): Response
     {
+        //TODO: add "link button" to project page to open new tab for result page for not logged in people. sharable via whatsapp
+        //TODO: for later improve this to seperate page with selectable dropdown.
         $fields = $this->projectRepository->getFields();
         $projects = $this->projectRepository->findAll();
 

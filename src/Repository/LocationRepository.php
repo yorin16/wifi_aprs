@@ -39,28 +39,17 @@ class LocationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Location[] Returns an array of Location objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findUnansweredLocationsByUserAndProject($userId, $projectId)
+    {
+        return $this->createQueryBuilder('l')
+            ->leftJoin('l.question', 'q')
+            ->leftJoin('q.answers', 'a', 'WITH', 'a.user = :userId')
+            ->andWhere('l.Project = :projectId')
+            ->andWhere('a.id IS NULL')
+            ->setParameter('userId', $userId)
+            ->setParameter('projectId', $projectId)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Location
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
