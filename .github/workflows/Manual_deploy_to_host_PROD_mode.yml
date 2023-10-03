@@ -58,6 +58,7 @@ jobs:
           port: 26
           source: "./"
           target: "domains/wififox.nl/public_html/"
+          overwrite: true
 
 
       - name: Composer install on the server
