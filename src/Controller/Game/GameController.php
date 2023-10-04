@@ -86,8 +86,10 @@ class GameController extends AbstractController
     public function answered(Question $question): Response
     {
         $location = $question->getLocation();
+        $device = $location->getDevice();
         return $this->render('game/answered_question.html.twig', [
-            'location' => $location
+            'location' => $location,
+            'device' => $device
         ]);
     }
 

@@ -4,7 +4,12 @@
     <div class="row d-flex align-items-center justify-content-center">
         <div class="col-8 col-lg-4 answered">
             <h1 class="title-font">Answered</h1>
-            <h2>{{ location.coordinateHint }}</h2>
+            <br>
+            <h2>Locatie:</h2>
+            <h3>{{ device.name }}</h3> {# id, name #}
+            <br>
+            <h2>Hint:</h2>
+            <h3>{{ location.coordinateHint }}</h3>
         </div>
     </div>
 {% endblock %}
