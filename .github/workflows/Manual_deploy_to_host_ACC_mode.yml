@@ -21,6 +21,9 @@ jobs:
         env:
           update: true
 
+      - name: Copy .env.acc
+        run: cp .env.acc .env
+
       - name: Install Composer dependencies
         run: composer install --optimize-autoloader
 
@@ -32,9 +35,6 @@ jobs:
 
       - name: yarn install
         run: yarn run encore production
-
-      - name: Copy .env.acc
-        run: cp .env.acc .env
 
       - name: Create known_hosts file
         run: |
