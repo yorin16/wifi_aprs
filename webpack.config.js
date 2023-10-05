@@ -1,6 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
 
-const isDev = process.env.npm_lifecycle_event === 'dev' || 'watch';
+const isDev = process.env.npm_lifecycle_event === 'dev' || process.env.npm_lifecycle_event === 'watch';
 
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
