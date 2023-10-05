@@ -49,6 +49,9 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]
     private Collection $answers;
 
+    public const MULTI_QUESTION_TYPE = 1;
+    public const OPEN_QUESTION_TYPE = 2;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();

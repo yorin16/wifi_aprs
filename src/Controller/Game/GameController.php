@@ -69,12 +69,16 @@ class GameController extends AbstractController
             $answer->setQuestion($question);
 
             switch ($question->getType()) {
-                case 1: //Multiple choice
+                case Question::MULTI_QUESTION_TYPE:
                     $selectedAnswer = str_replace("multi", "", $this->encryptionService->decryptData($form->getData()['answer']['selected_answer']));
                     $answer->setMultiAnswer($selectedAnswer);
-                    $answer->setPoints($question->getPoints());
+                    if ($selectedAnswer === "1") {
+                        $answer->setPoints($question->getPoints());
+                    } else {
+                        $answer->setPoints(0);
+                    }
                     break;
-                case 2: //Open
+                case Question::OPEN_QUESTION_TYPE:
                     $answer->setOpen($form->getData()['answer']['open']);
                     break;
                 default:
@@ -89,8 +93,17 @@ class GameController extends AbstractController
             if ($project === null) {
                 return $this->redirectToRoute('Home');
             }
+            $this->entityManager->persist($answer);
+            $this->entityManager->flush();
 
-            $unAnsweredLocations = $this->locationRepository->findUnansweredLocationsByUserAndProject($user->getId(), $project->getId());
+            $unAnsweredLocations = $this->locationRepository->findUnansweredLocationsByUserAndProject($user->getId(), $project->getId(), $answer);
+
+            if (count($unAnsweredLocations) === 0) {
+                return $this->redirectToRoute('game_answered_question', [
+                    'question' => $question->getId(),
+                ]);
+            }
+
             $randomLocation = array_rand($unAnsweredLocations);
             $answer->setReceivedRandomLocation($unAnsweredLocations[$randomLocation]);
 
@@ -98,7 +111,7 @@ class GameController extends AbstractController
             $this->entityManager->flush();
 
             return $this->redirectToRoute('game_answered_question', [
-                'question' => $question->getId()
+                'question' => $question->getId(),
             ]);
         }
 
@@ -110,22 +123,45 @@ class GameController extends AbstractController
 
     public function answered(Question $question): Response
     {
-        //TODO: add wrong answer page
-        //TODO: add open answer page
-
         /** @var User $user */
         $user = $this->getUser();
         if ($user === null) {
             return $this->redirectToRoute('Home');
         }
 
-        /** @var Answer $location */
-        $location = $this->answerRepository->findOneBy(['user' => $user->getId(), 'question' => $question->getId()]);
-        $locationHint = $location?->getReceivedRandomLocation()->getCoordinateHint();
+        /** @var Answer $answer */
+        $answer = $this->answerRepository->findOneBy(['user' => $user->getId(), 'question' => $question->getId()]);
+        $hintLocation = $answer?->getReceivedRandomLocation();
+
+        $answerCorrect = null;
+        switch ($question->getType()) {
+            case Question::MULTI_QUESTION_TYPE:
+                if ($answer->getMultiAnswer() === 1) {
+                    $answerCorrect = true;
+                } else {
+                    $answerCorrect = false;
+                }
+                break;
+            case Question::OPEN_QUESTION_TYPE:
+                $locationHint = null;
+                break;
+        }
+
+        if ($hintLocation === null) {
+            return $this->render('game/answered_question.html.twig', [
+                'locationHint' => null,
+                'answerCorrect' => $answerCorrect,
+                'device' => null,
+            ]);
+        }
+
+        $device = $hintLocation->getDevice();
+        $locationHint = $hintLocation->getCoordinateHint();
 
         return $this->render('game/answered_question.html.twig', [
-            'hasHint' => (bool)$location,
-            'locationHint' => $locationHint
+            'locationHint' => $locationHint,
+            'answerCorrect' => $answerCorrect,
+            'device' => $device,
         ]);
     }
 

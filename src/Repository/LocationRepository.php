@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Answer;
 use App\Entity\Location;
+use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,17 +42,60 @@ class LocationRepository extends ServiceEntityRepository
         }
     }
 
-    public function findUnansweredLocationsByUserAndProject($userId, $projectId)
+    public function findUnansweredLocationsByUserAndProject($userId, $projectId, Answer $answer)
     {
-        return $this->createQueryBuilder('l')
-            ->leftJoin('l.question', 'q')
-            ->leftJoin('q.answers', 'a', 'WITH', 'a.user = :userId')
-            ->andWhere('l.Project = :projectId')
-            ->andWhere('a.id IS NULL')
-            ->setParameter('userId', $userId)
+        /** @var AnswerRepository $answerRepository */
+//        $answerRepository = $this->getEntityManager()->getRepository(Answer::class);
+        $answersByUser = $this->getEntityManager()->createQueryBuilder()
+            ->select('a')
+            ->from('App:Answer', 'a')
+            ->leftJoin('a.question', 'q')
+            ->where('q.Project = :projectId')
+            ->andWhere('a.user = :userId')
             ->setParameter('projectId', $projectId)
+            ->setParameter('userId', $userId)
             ->getQuery()
             ->getResult();
+
+        $answerLocations = [];
+        $locations = [];
+        foreach ($answersByUser as $answer) {
+            $answerLocations[] = $answer->getQuestion()->getLocation();
+        }
+
+        /** @var LocationRepository $locationsRepository */
+        $locationsRepository = $this->getEntityManager()->getRepository(Location::class);
+        $partValidLocations = $this->getEntityManager()->createQueryBuilder()
+            ->select('l')
+            ->from(Location::class, 'l')
+            ->join('l.question', 'q')
+            ->where('l.Project = :projectId')
+            ->andWhere('q.id IS NOT NULL')
+            ->setParameter('projectId', $projectId)
+            ->getQuery()
+            ->execute();
+
+        foreach ($partValidLocations as $partValidLocation) {
+            if ($partValidLocation->getQuestion() !== null) {
+                $locations[] = $partValidLocation;
+            }
+        }
+
+        /** @var Location $location */
+        $answerLocationIds = array_map(function ($location) {
+            return $location->getId();
+        }, $answerLocations);
+
+// Filtering $locations array
+        /** @var Location $location */
+        $filteredLocations = array_filter($locations, function ($location) use ($answerLocationIds) {
+            // Check if the location's ID exists in $answerLocationIds
+            return !in_array($location->getId(), $answerLocationIds);
+        });
+
+
+        return $filteredLocations;
+
     }
 
 }

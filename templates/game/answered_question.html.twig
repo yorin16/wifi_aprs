@@ -2,15 +2,36 @@
 
 {% block body %}
     <div class="row d-flex align-items-center justify-content-center">
-        {% if hasHint %}
+        {% if answerCorrect is same as(null) %}
+            <h1>Open answer points will be rewarded later</h1>
+        {% elseif answerCorrect is same as(false) %}
+            <h1>Answer Incorrect</h1>
+        {% elseif answerCorrect is same as(true) %}
+            <h1>Answer Correct</h1>
+        {% else %}
+            <h1>Unknown</h1>
+        {% endif %}
+
+        {% if locationHint %}
+{#            multi question#}
         <div class="col-8 col-lg-4 answered">
             <h1 class="title-font">Answered</h1>
+            <br>
+            <h2>Locatie:</h2>
+            <h3>{{ device.name }}</h3>
+            <br>
+            <h2>Hint:</h2>
+            <h3>{{ location.coordinateHint }}</h3>
             <h2>{{ locationHint }}</h2>
         </div>
         {% else %}
+{#            Open question#}
             <div class="col-8 col-lg-4 answered">
-                <h1 class="title-font">No Answer available</h1>
+                <h1 class="title-font">Answered</h1>
             </div>
+            {% if device is same as(null) %}
+                <h2>No more locations or no more questions.</h2>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}

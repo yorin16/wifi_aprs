@@ -77,7 +77,7 @@ class DeviceRepository extends ServiceEntityRepository
 
         if($selectedProject === null)
         {
-            return 'no project selected for user';
+            return 'No project selected for user';
         }
 
         /* @var Location $location */
@@ -85,7 +85,12 @@ class DeviceRepository extends ServiceEntityRepository
 
         if($location === null)
         {
-            return 'no location set for device';
+            return 'No location set for device';
+        }
+
+        if($location->getQuestion() === null)
+        {
+            return 'No Question for device';
         }
 
         return $location->getQuestion();
