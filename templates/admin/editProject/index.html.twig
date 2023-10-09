@@ -13,6 +13,7 @@
             <br>
         </div>
         <div class="col-lg-6">
+            Result view for non-users: <a href="{{ path('Result_view', {'project' : project.id }) }}" target="_blank" class="btn btn-info" role="button"><i class="fa-solid fa-link"></i></a>
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
@@ -25,11 +26,11 @@
                 <tbody>
                 {% for key,result in resultArray %}
                     <tr>
-                        <td>{{ key }}</td>
+                        <td>{{ result[0].device.name }}</td>
                         {% for userKey, userResult in userArray %}
                             {% if result is defined and result[userKey] is defined %}
                                 {% if result[userKey]['type'] == 1 %}
-                                    <td class="text-center">{{ result[userKey]['score'] }}</td>
+                                    <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
                                 {% elseif result[userKey]['type'] == 2 %}
                                     {% if result[userKey]['score'] is null%}
                                         <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>

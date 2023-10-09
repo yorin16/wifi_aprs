@@ -128,3 +128,8 @@ game_question_not_found:
 game_already_answered:
     path: /game/error/answered
     controller: App\Controller\Game\GameController::alreadyAnswered
+
+#Result page
+Result_view:
+    path: /result/{project}
+    controller: App\Controller\Result\ResultController::index
