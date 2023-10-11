@@ -42,14 +42,17 @@ class QuestionEditType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '2M',
+                        'maxSize' => '16M',
                         'mimeTypes' => [
                             'image/jpeg',
-                            'image/png',
+//                            'image/png',
                         ],
-                        'extensions' => ['jpg', 'jpeg', 'png'],
-                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg, .png',
-                        'mimeTypesMessage' => 'Please upload a valid JPG or PNG image',
+                        'extensions' => ['jpg', 'jpeg'],
+//                        'extensions' => ['jpg', 'jpeg', 'png'],
+                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg',
+//                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg, .png',
+                        'mimeTypesMessage' => 'Please upload a valid JPG image',
+//                        'mimeTypesMessage' => 'Please upload a valid JPG or PNG image',
                         'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Max allowed size is {{ limit }} {{ suffix }}.',
                     ])
                 ],
