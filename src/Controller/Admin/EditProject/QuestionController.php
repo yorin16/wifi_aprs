@@ -10,12 +10,14 @@ use App\Form\Question\QuestionCreateType;
 use App\Form\Question\QuestionEditType;
 use App\Repository\AnswerRepository;
 use App\Repository\ProjectRepository;
+use App\Service\PhotoUploadService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class QuestionController extends AbstractController
 {
@@ -26,11 +28,10 @@ class QuestionController extends AbstractController
     public function __construct(
         private ProjectRepository      $projectRepository,
         private AnswerRepository $answerRepository,
-        private EntityManagerInterface $entityManager)
+        private EntityManagerInterface $entityManager,
+        private PhotoUploadService $photoUploadService)
     {
     }
-
-    //TODO: add correct answer option
 
     public function index($project): Response
     {
@@ -44,7 +45,7 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    public function add(Project $project, Request $request): RedirectResponse|Response
+    public function add(Project $project, Request $request, SluggerInterface $slugger): RedirectResponse|Response
     {
         $question = new Question();
         $locations = $project->getLocations();
@@ -54,6 +55,14 @@ class QuestionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $question->setProject($this->projectRepository->find($project->getId()));
             $question->setText($form->get('text')->getData());
+
+            $image = $form->get('image')->getData();
+
+            if ($image) {
+                $newFilename = $this->photoUploadService->AddQuestionFile($image, $this->getParameter('question_images'));
+                $question->setImage($newFilename);
+            }
+
             $question->setType($form->get('type')->getData());
             $question->setMulti1($form->get('multi1')->getData());
             $question->setMulti2($form->get('multi2')->getData());
@@ -74,7 +83,7 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, Question $question, Project $project): RedirectResponse|Response
+    public function edit(Request $request, Question $question, Project $project, SluggerInterface $slugger): RedirectResponse|Response
     {
         $locations = $project->getLocations();
         $form = $this->createForm(QuestionEditType::class, ['question' => $question, 'projectId' => $project, 'locations' => $locations]);
@@ -83,6 +92,14 @@ class QuestionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $question->setText($formData['text']);
+            $image = $formData['image'];
+            if($image !== null) {
+                if (($image->getClientOriginalName() !== $question->getImage())) {
+                    $newFilename = $this->photoUploadService->EditQuestionFile($question->getImage(), $image, $this->getParameter('question_images'));
+                    $question->setImage($newFilename);
+                }
+            }
+
             $question->setType($formData['type']);
             $question->setMulti1($form->get('multi1')->getData());
             $question->setMulti2($form->get('multi2')->getData());
@@ -129,6 +146,7 @@ class QuestionController extends AbstractController
     public function delete(Project $project, Question $question, EntityManagerInterface $entityManager, Request $request): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete_question_' . $question->getId(), $request->request->get('_token'))) {
+            $this->photoUploadService->RemoveImage($question->getImage(), $this->getParameter('question_images'));
             $entityManager->remove($question);
             $entityManager->flush();
             $this->addFlash('success', 'Question deleted');

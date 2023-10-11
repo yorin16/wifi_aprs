@@ -4,23 +4,56 @@ namespace App\Form\Question;
 
 use App\Controller\Admin\EditProject\QuestionController;
 use App\Entity\Location;
+use App\Entity\Question;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\HttpFoundation\File\File as ImageFile;
 
 class QuestionEditType extends AbstractType
 {
+    public function __construct(private ParameterBagInterface $parameterBag){}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var Question $question */
         $question = $options['data']['question'];
         $questionLocation = $question->getLocation();
+
+        if ($question->getImage()) {
+            $imagePath = $this->parameterBag->get('question_images') . '/' . $question->getImage();
+            $file = new ImageFile($imagePath);
+        } else {
+            $file = null;
+        }
 
         $builder
             ->add('text', TextType::class, [
                 'data' => $question->getText(),
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'image',
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'extensions' => ['jpg', 'jpeg', 'png'],
+                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg, .png',
+                        'mimeTypesMessage' => 'Please upload a valid JPG or PNG image',
+                        'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Max allowed size is {{ limit }} {{ suffix }}.',
+                    ])
+                ],
+                'data' => $file
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => [

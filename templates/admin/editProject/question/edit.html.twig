@@ -6,7 +6,12 @@
     <div class="row justify-content-lg-center">
         <div class="col-12 col-lg-5">
             <h1>Question</h1>
-            {{ form(form) }}
+            {{ form_start(form) }}
+                {{ form_row(form.text)}}
+                <p>Original Image: {{ form.children['image'].vars.data.filename|split('-')|slice(0, -1)|join('-') }}.jpg</p>
+                {{ form_row(form.image)}}
+                {{ form_rest(form)}}
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

@@ -6,10 +6,12 @@ use App\Controller\Admin\EditProject\QuestionController;
 use App\Entity\Location;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 class QuestionCreateType extends AbstractType
 {
@@ -20,6 +22,24 @@ class QuestionCreateType extends AbstractType
         $questionLocation = $question->getLocation();
         $builder
             ->add('text', TextType::class)
+            ->add('image', FileType::class, [
+                'label' => 'image',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '3072K',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'extensions' => ['jpg', 'jpeg', 'png'],
+                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg, .png',
+                        'mimeTypesMessage' => 'Please upload a valid JPG or PNG image',
+                        'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Max allowed size is {{ limit }} {{ suffix }}.',
+                    ])
+                ]
+            ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Multiple Choice' => QuestionController::TYPE_MULTI,

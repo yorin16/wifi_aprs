@@ -31,12 +31,14 @@
                             {% if result is defined and result[userKey] is defined %}
                                 {% if result[userKey]['type'] == 1 %}
                                     <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
-                                {% elseif result[userKey]['type'] == 2 %}
+                                {% elseif result[userKey]['type'] == 2 and result[userKey]['user'] is not null %}
                                     {% if result[userKey]['score'] is null%}
                                         <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
                                     {% else %}
                                         <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
                                     {%  endif %}
+                                {% else %}
+                                    <td class="text-center">-</td>
                                 {% endif %}
                             {% else %}
                                 <td class="text-center">-</td>

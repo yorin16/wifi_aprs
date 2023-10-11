@@ -49,6 +49,9 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]
     private Collection $answers;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public const MULTI_QUESTION_TYPE = 1;
     public const OPEN_QUESTION_TYPE = 2;
 
@@ -245,5 +248,17 @@ class Question
             $random[$key] = $list[$key];
         }
         return $random;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }

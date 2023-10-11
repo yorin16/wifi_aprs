@@ -15,7 +15,9 @@ class VisibleAnswerType extends AbstractType
         if ($options['visible'] == 1) {
             $builder->add('selected_answer', HiddenType::class);
         } elseif($options['visible'] == 2) {
-            $builder->add('open', TextareaType::class);
+            $builder->add('open', TextareaType::class,[
+                "label" => false
+            ]);
         }
     }
 
