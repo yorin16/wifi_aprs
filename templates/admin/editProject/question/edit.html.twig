@@ -8,7 +8,9 @@
             <h1>Question</h1>
             {{ form_start(form) }}
                 {{ form_row(form.text)}}
+            {%if form.children['image'].vars.data %}
                 <p>Original Image: {{ form.children['image'].vars.data.filename|split('-')|slice(0, -1)|join('-') }}.jpg</p>
+            {% endif %}
                 {{ form_row(form.image)}}
                 {{ form_rest(form)}}
             {{ form_end(form) }}

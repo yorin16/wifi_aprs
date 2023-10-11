@@ -42,6 +42,10 @@
         <h1 class="title-font">Multiple Choice</h1>
     </div>
 
+    <div class="d-flex align-items-center justify-content-center question-image">
+        <img src="{{ asset('uploads/questionImages/' ~ question.image) }}" width='50%'>
+    </div>
+
     <div class="d-flex align-items-center justify-content-center question-text">
         <p class="question-font">{{ question.text }}</p>
     </div>
