@@ -114,6 +114,10 @@ admin_question_delete_confirm:
 admin_question_fill_score:
     path: /admin/edit_project/{project}/question/{question}/{user}/editscore
     controller: App\Controller\Admin\EditProject\QuestionController::editsScore
+admin_question_delete_image:
+    path: /admin/edit_project/{project}/question/{question}/delete_image
+    controller: App\Controller\Admin\EditProject\QuestionController::deleteImage
+
 
 # Game
 game_device:

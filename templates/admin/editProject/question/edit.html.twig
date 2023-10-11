@@ -9,7 +9,11 @@
             {{ form_start(form) }}
                 {{ form_row(form.text)}}
             {%if form.children['image'].vars.data %}
-                <p>Original Image: {{ form.children['image'].vars.data.filename|split('-')|slice(0, -1)|join('-') }}.jpg</p>
+                <div>
+                    Delete image: <a href="{{ path('admin_question_delete_image', {'project': project.id, 'question': question.id}) }}" class="btn btn-danger" role="button"><i class="fa-regular fa-trash-can"></i></a>
+                    <p>Original Image: {{ form.children['image'].vars.data.filename|split('-')|slice(0, -1)|join('-') }}.jpg</p>
+                </div>
+
             {% endif %}
                 {{ form_row(form.image)}}
                 {{ form_rest(form)}}

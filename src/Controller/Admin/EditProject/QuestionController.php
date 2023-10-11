@@ -119,6 +119,8 @@ class QuestionController extends AbstractController
 
         return $this->render('admin/editProject/question/edit.html.twig', [
             'form' => $form->createView(),
+            'project' => $project,
+            'question' => $question
         ]);
     }
 
@@ -156,11 +158,20 @@ class QuestionController extends AbstractController
         return $this->redirectToRoute('admin_question', ['project' => $project->getId()]);
     }
 
+    public function deleteImage(Project $project, Question $question): RedirectResponse
+    {
+        $this->photoUploadService->RemoveImage($question->getImage(), $this->getParameter('question_images'));
+        $question->setImage(null);
+        $this->entityManager->persist($question);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('admin_question_edit', ['project' => $project->getId(), 'question' => $question->getId()]);
+    }
+
     public function confirmDelete(Project $project, Question $question): Response
     {
         return $this->render('admin/editProject/question/confirm_delete.html.twig', [
-            'project' => $project,
-            'question' => $question
+            'project' => $project->getId(),
+            'question' => $question->getId()
         ]);
     }
 }
