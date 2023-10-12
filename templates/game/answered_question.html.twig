@@ -5,44 +5,52 @@
 
         {% if questionType == 1 %}
             {% if answerCorrect is same as(true) %}
-                <h1>Answer Correct</h1>
+        <div class="col-12 col-lg-12 answered">
+                <h1 class="title-font">Answer Correct</h1>
+        </div>
             {% elseif answerCorrect is same as(false) %}
-                <h1>Answer Incorrect</h1>
+            <div class="col-12 col-lg-12 answered">
+                <h1 class="title-font">Answer Incorrect</h1>
+            </div>
             {% endif %}
         {% elseif questionType == 2 %}
-            <h1>Open answer points will be rewarded later</h1>
+            <h1 class="title-font">Open answer points will be rewarded later</h1>
         {% elseif questionType == 3 %}
-            <h1>Photo answer points will be rewarded later</h1>
+            <h1 class="title-font">Photo answer points will be rewarded later</h1>
         {% endif %}
 
         {% if questionType == 1 %}
-            {% if locationHint %}
-                {#            multi question#}
-                <div class="col-8 col-lg-4 answered">
-                    <h1 class="title-font">Answered</h1>
-                    <br>
-                    <h2>Locatie:</h2>
-                    <h3>{{ device.name }}</h3>
-                    <br>
-                    <h2>Hint:</h2>
-                    <h2>{{ locationHint }}</h2>
-                </div>
-            {% else %}
+{#            {% if locationHint %}#}
+{#                #}{#            multi question#}
+{#                <div class="col-8 col-lg-4 answered">#}
+{#                    <h1 class="title-font">Answered</h1>#}
+{#                    <br>#}
+{#                    <h2>Locatie:</h2>#}
+{#                    <h3>{{ device.name }}</h3>#}
+{#                    <br>#}
+{#                    <h2>Hint:</h2>#}
+{#                    <h2>{{ locationHint }}</h2>#}
+{#                </div>#}
+{#            {% else %}#}
                 {#            Open question#}
                 <div class="col-8 col-lg-4 answered">
                     <h1 class="title-font">Answered</h1>
+                    {% if device is same as(null) %}
+                        {#                    <h2>No more locations or no more questions.</h2>#}
+                        <p class="title-sub-font">Go to next location</p>
+                    {% endif %}
                 </div>
-                {% if device is same as(null) %}
-                    <h2>No more locations or no more questions.</h2>
-                {% endif %}
-            {% endif %}
+
+{#            {% endif %}#}
         {% elseif questionType == 2 %}
             <div class="col-8 col-lg-4 answered">
                 <h1 class="title-font">Answered</h1>
+                <p class="title-sub-font">Go to next location</p>
             </div>
         {% elseif questionType == 3 %}
             <div class="col-8 col-lg-4 answered">
                 <h1 class="title-font">Answered</h1>
+                <p class="title-sub-font">Go to next location</p>
             </div>
         {% endif %}
 

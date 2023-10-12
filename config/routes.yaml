@@ -134,6 +134,9 @@ game_already_answered:
     controller: App\Controller\Game\GameController::alreadyAnswered
 
 #Result page
-Result_view:
+result_view:
     path: /result/{project}
     controller: App\Controller\Result\ResultController::index
+result_show_photo:
+    path: /result/show-photo/{answer}
+    controller: App\Controller\Result\ResultController::showPhoto

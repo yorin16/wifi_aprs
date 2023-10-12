@@ -32,7 +32,10 @@
                                 {% if result[userKey]['score'] is null%}
                                     <td class="text-center">-</td>
                                 {% else %}
-                                    <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
+                                    <td class="text-center">
+                                        {{ result[userKey]['score']|default(0) }}
+                                        <a href="{{ path('result_show_photo', {'answer': result[userKey]['answer'].id }) }}" class="btn btn-primary">Open Photo</a>
+                                    </td>
                                 {%  endif %}
                             {% endif %}
                         {% else %}

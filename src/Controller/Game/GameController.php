@@ -152,7 +152,7 @@ class GameController extends AbstractController
                 }
                 break;
             case Question::OPEN_QUESTION_TYPE:
-                $questionType = Question::MULTI_QUESTION_TYPE;
+                $questionType = Question::OPEN_QUESTION_TYPE;
                 break;
             case Question::PHOTO_QUESTION_TYPE:
                 $questionType = Question::PHOTO_QUESTION_TYPE;

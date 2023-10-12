@@ -2,6 +2,7 @@
 
 namespace App\Controller\Result;
 
+use App\Entity\Answer;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -39,6 +40,12 @@ class ResultController extends AbstractController
             'userArray' => $userArray,
             'resultArray' => $resultArray,
             'totalResultArray' => $totalResultArray
+        ]);
+    }
+    public function showPhoto(Answer $answer): Response
+    {
+        return $this->render('/Result/showImage.html.twig',[
+            'image' => $answer->getImage()
         ]);
     }
 

@@ -3,9 +3,11 @@
         <h1 class="title-font">Open Question</h1>
     </div>
 
+    {% if question.image is not null %}
     <div class="d-flex align-items-center justify-content-center question-image">
-        <img src="{{ asset('uploads/questionImages/' ~ question.image) }}" width='50%'>
+        <img src="{{ asset('uploads/questionImages/' ~ question.image) }}" width='50%' alt="">
     </div>
+    {% endif %}
 
     <div class="d-flex align-items-center justify-content-center question-text">
         <p class="question-font">{{ question.text }}</p>

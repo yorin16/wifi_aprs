@@ -55,7 +55,8 @@ class ResultService
                         'type' => $question->getType(),
                         'user' => $score->getUser(),
                         'device' => $device,
-                        'question' => $question
+                        'question' => $question,
+                        'answer' => $score
                     ];
 
                     $resultArray[$question->getId()][] = $results;

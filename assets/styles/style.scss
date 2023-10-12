@@ -19,6 +19,11 @@
   font-weight: 900;
 }
 
+.title-sub-font {
+  text-align: center;
+  font-size: 28px;
+}
+
 [data-bs-theme="dark"] {
   .header-logo {
     content: url("/public/images/WiFiFox logo light.png");
