@@ -45,7 +45,7 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    public function add(Project $project, Request $request, SluggerInterface $slugger): RedirectResponse|Response
+    public function add(Project $project, Request $request): RedirectResponse|Response
     {
         $question = new Question();
         $locations = $project->getLocations();
@@ -59,7 +59,7 @@ class QuestionController extends AbstractController
             $image = $form->get('image')->getData();
 
             if ($image) {
-                $newFilename = $this->photoUploadService->AddQuestionFile($image, $this->getParameter('question_images'));
+                $newFilename = $this->photoUploadService->AddPhotoFile($image, $this->getParameter('question_images'));
                 $question->setImage($newFilename);
             }
 
@@ -83,7 +83,7 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, Question $question, Project $project, SluggerInterface $slugger): RedirectResponse|Response
+    public function edit(Request $request, Question $question, Project $project): RedirectResponse|Response
     {
         $locations = $project->getLocations();
         $form = $this->createForm(QuestionEditType::class, ['question' => $question, 'projectId' => $project, 'locations' => $locations]);
@@ -95,7 +95,7 @@ class QuestionController extends AbstractController
             $image = $formData['image'];
             if($image !== null) {
                 if (($image->getClientOriginalName() !== $question->getImage())) {
-                    $newFilename = $this->photoUploadService->EditQuestionFile($question->getImage(), $image, $this->getParameter('question_images'));
+                    $newFilename = $this->photoUploadService->EditPhotoFile($question->getImage(), $image, $this->getParameter('question_images'));
                     $question->setImage($newFilename);
                 }
             }
@@ -111,7 +111,7 @@ class QuestionController extends AbstractController
             }else {
                 $question->setPoints(NULL);
             }
-            $question->setLocation($formData['location'] ?? $question->getLocation());
+            $question->setLocation($formData['location']);
             $this->entityManager->persist($question);
             $this->entityManager->flush();
             return $this->redirectToRoute('admin_question', ['project' => $project->getId()]);

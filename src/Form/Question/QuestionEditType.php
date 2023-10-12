@@ -62,6 +62,7 @@ class QuestionEditType extends AbstractType
                 'choices' => [
                     'Multiple Choice' => QuestionController::TYPE_MULTI,
                     'Open' => QuestionController::TYPE_OPEN,
+                    'Make a Photo' =>  QuestionController::TYPE_PHOTO,
                 ],
                 'placeholder' => 'Select a question type',
                 'data' => $question->getType(),

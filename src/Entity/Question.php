@@ -54,6 +54,7 @@ class Question
 
     public const MULTI_QUESTION_TYPE = 1;
     public const OPEN_QUESTION_TYPE = 2;
+    public const PHOTO_QUESTION_TYPE = 3;
 
     public function __construct()
     {

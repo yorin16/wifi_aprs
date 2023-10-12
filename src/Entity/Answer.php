@@ -34,6 +34,9 @@ class Answer
     #[ORM\ManyToOne(inversedBy: 'answers')]
     private ?Location $ReceivedRandomLocation = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,6 +110,18 @@ class Answer
     public function setReceivedRandomLocation(?Location $ReceivedRandomLocation): static
     {
         $this->ReceivedRandomLocation = $ReceivedRandomLocation;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

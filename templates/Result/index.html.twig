@@ -28,6 +28,12 @@
                                 {% else %}
                                     <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
                                 {%  endif %}
+                            {% elseif result[userKey]['type'] == 3 %}
+                                {% if result[userKey]['score'] is null%}
+                                    <td class="text-center">-</td>
+                                {% else %}
+                                    <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
+                                {%  endif %}
                             {% endif %}
                         {% else %}
                             <td class="text-center">-</td>

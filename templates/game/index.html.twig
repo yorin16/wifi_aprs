@@ -10,6 +10,8 @@
         {% include 'game/multi.html.twig' %}
     {% elseif question.type == 2 %}
         {% include 'game/open.html.twig' %}
+    {% elseif question.type == 3 %}
+        {% include 'game/photo.html.twig' %}
     {% else %}
         <p>Question type template not found</p>
     {% endif %}

@@ -4,10 +4,20 @@
 
 {% block body %}
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-4">
-            <h1>Edit Score</h1>
-            <p>{{ answer.open }}</p>
-            {{ form(form) }}
-        </div>
+        {% if answer.question.type == 2 %}
+            <div class="col-12 col-lg-4">
+                <h1>Edit Open Question Score</h1>
+                <p>{{ answer.open }}</p>
+                {{ form(form) }}
+            </div>
+        {% elseif answer.question.type == 3 %}
+            <div class="col-12 col-lg-4">
+                <h1>Edit Photo Question Score</h1>
+                <img src="{{ asset('uploads/answerImages/' ~ answer.image) }}" width='50%' alt="">
+                {{ form(form) }}
+            </div>
+        {% endif %}
+
+
     </div>
 {% endblock %}

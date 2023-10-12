@@ -12,7 +12,7 @@ class PhotoUploadService
     {
     }
 
-    public function AddQuestionFile($image, $imageBaseUrl): string
+    public function AddPhotoFile($image, $imageBaseUrl): string
     {
         $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
         // this is needed to safely include the file name as part of the URL
@@ -34,7 +34,7 @@ class PhotoUploadService
         return $newFilename;
     }
 
-    public function EditQuestionFile($oldFilename, $newImage, $imageBaseUrl): string
+    public function EditPhotoFile($oldFilename, $newImage, $imageBaseUrl): string
     {
         // Check if the old file exists before attempting to delete it
         if ($oldFilename && $this->filesystem->exists($imageBaseUrl . '/' . $oldFilename)) {
@@ -75,22 +75,27 @@ class PhotoUploadService
 
         for ($i = 0; $i < $maxIterations; $i++) {
             $image = imagecreatefromjpeg($sourcePath);
-            $exif = exif_read_data($sourcePath);
+            try {
+                $exif = exif_read_data($sourcePath);
 
-            // Check for EXIF orientation and rotate the image if needed
-            if (!empty($exif['Orientation'])) {
-                switch ($exif['Orientation']) {
-                    case 3:
-                        $image = imagerotate($image, 180, 0);
-                        break;
-                    case 6:
-                        $image = imagerotate($image, -90, 0);
-                        break;
-                    case 8:
-                        $image = imagerotate($image, 90, 0);
-                        break;
+                // Check for EXIF orientation and rotate the image if needed
+                if (!empty($exif['Orientation'])) {
+                    switch ($exif['Orientation']) {
+                        case 3:
+                            $image = imagerotate($image, 180, 0);
+                            break;
+                        case 6:
+                            $image = imagerotate($image, -90, 0);
+                            break;
+                        case 8:
+                            $image = imagerotate($image, 90, 0);
+                            break;
+                    }
                 }
+            } catch (\ErrorException $exception) {
+
             }
+
 
             // Rest of the code remains the same
             ob_start();

@@ -9,8 +9,8 @@ use App\Form\Game\AnswerQuestionType;
 use App\Repository\AnswerRepository;
 use App\Repository\DeviceRepository;
 use App\Repository\LocationRepository;
-use App\Repository\QuestionRepository;
 use App\Service\EncryptionService;
+use App\Service\PhotoUploadService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -23,14 +23,11 @@ class GameController extends AbstractController
         private DeviceRepository       $deviceRepository,
         private EntityManagerInterface $entityManager,
         private EncryptionService      $encryptionService,
-        private QuestionRepository     $questionRepository,
         private AnswerRepository       $answerRepository,
-        private LocationRepository     $locationRepository
+        private LocationRepository     $locationRepository,
+        private PhotoUploadService     $photoUploadService
     )
-    {
-    }
-
-    //TODO: vraag blokeren waneer deze al is ingevuld door account
+    {}
 
     public function index($guid, Security $security, Request $request): Response
     {
@@ -81,6 +78,14 @@ class GameController extends AbstractController
                 case Question::OPEN_QUESTION_TYPE:
                     $answer->setOpen($form->getData()['answer']['open']);
                     break;
+                case Question::PHOTO_QUESTION_TYPE:
+                    $image = $form->getData()['answer']['image'];
+                    if($image !== null) {
+                        if (($image->getClientOriginalName() !== $question->getImage())) {
+                            $newFilename = $this->photoUploadService->AddPhotoFile($image, $this->getParameter('answer_images'));
+                            $answer->setImage($newFilename);
+                        }
+                    }
                 default:
             }
 
@@ -134,8 +139,12 @@ class GameController extends AbstractController
         $hintLocation = $answer?->getReceivedRandomLocation();
 
         $answerCorrect = null;
+        $locationHint = null;
+        $questionType = null;
+        $device = null;
         switch ($question->getType()) {
             case Question::MULTI_QUESTION_TYPE:
+                $questionType = Question::MULTI_QUESTION_TYPE;
                 if ($answer->getMultiAnswer() === 1) {
                     $answerCorrect = true;
                 } else {
@@ -143,25 +152,24 @@ class GameController extends AbstractController
                 }
                 break;
             case Question::OPEN_QUESTION_TYPE:
-                $locationHint = null;
+                $questionType = Question::MULTI_QUESTION_TYPE;
+                break;
+            case Question::PHOTO_QUESTION_TYPE:
+                $questionType = Question::PHOTO_QUESTION_TYPE;
                 break;
         }
 
-        if ($hintLocation === null) {
-            return $this->render('game/answered_question.html.twig', [
-                'locationHint' => null,
-                'answerCorrect' => $answerCorrect,
-                'device' => null,
-            ]);
-        }
+        if (!$hintLocation === null) {
+            $device = $hintLocation->getDevice();
+            $locationHint = $hintLocation->getCoordinateHint();
 
-        $device = $hintLocation->getDevice();
-        $locationHint = $hintLocation->getCoordinateHint();
+        }
 
         return $this->render('game/answered_question.html.twig', [
             'locationHint' => $locationHint,
             'answerCorrect' => $answerCorrect,
             'device' => $device,
+            'questionType' => $questionType
         ]);
     }
 

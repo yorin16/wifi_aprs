@@ -37,7 +37,8 @@ class ResultService
                     'score' => null,
                     'type' => $question->getType(),
                     'user' => null,
-                    'device' => $device
+                    'device' => $device,
+                    'question' => $question
                 ];
 
                 $resultArray[$question->getId()][] = $results;
@@ -53,7 +54,8 @@ class ResultService
                         'score' => $score->getPoints(),
                         'type' => $question->getType(),
                         'user' => $score->getUser(),
-                        'device' => $device
+                        'device' => $device,
+                        'question' => $question
                     ];
 
                     $resultArray[$question->getId()][] = $results;

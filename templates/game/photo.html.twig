@@ -1,0 +1,30 @@
+<div class="game">
+    <div class="d-flex align-items-center justify-content-center title">
+        <h1 class="title-font">Photo Question</h1>
+    </div>
+
+    {% if question.image is not null %}
+    <div class="d-flex align-items-center justify-content-center question-image">
+        <img src="{{ asset('uploads/questionImages/' ~ question.image) }}" width='50%' alt="">
+    </div>
+    {% endif %}
+
+    <div class="d-flex align-items-center justify-content-center question-text">
+        <p class="question-font">{{ question.text }}</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {{ form_row(form.answer) }}
+        </div>
+        <div class="row game-submit">
+            <div class="col-12 col-lg-6 offset-lg-3">
+                <div class="d-grid gap-2">
+                    <button type="submit" id="answer_question_submit" name="answer_question[submit]"
+                            class="btn btn-lg btn-primary">Answer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
