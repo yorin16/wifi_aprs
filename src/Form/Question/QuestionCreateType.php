@@ -28,7 +28,7 @@ class QuestionCreateType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '3072K',
+                        'maxSize' => '16M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
