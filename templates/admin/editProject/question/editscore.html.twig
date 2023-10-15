@@ -7,17 +7,22 @@
         {% if answer.question.type == 2 %}
             <div class="col-12 col-lg-4">
                 <h1>Edit Open Question Score</h1>
-                <p>{{ answer.open }}</p>
+
+                <p>Question: {{ answer.question.text }}</p>
+                <p>Additional text: {{ answer.question.open }}</p>
+
+                <p>Antwoord:<br>
+                    {{ answer.open }}</p>
                 {{ form(form) }}
             </div>
         {% elseif answer.question.type == 3 %}
             <div class="col-12 col-lg-4">
                 <h1>Edit Photo Question Score</h1>
+                <p>Question: {{ answer.question.text }}</p>
                 <img src="{{ asset('uploads/answerImages/' ~ answer.image) }}" width='50%' alt="">
                 {{ form(form) }}
             </div>
         {% endif %}
-
 
     </div>
 {% endblock %}

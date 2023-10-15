@@ -8,10 +8,13 @@
             <h1>Question</h1>
             {{ form_start(form) }}
                 {{ form_row(form.text)}}
-            {%if form.children['image'].vars.data %}
+            {%if form.vars.data.image %}
                 <div>
                     Delete image: <a href="{{ path('admin_question_delete_image', {'project': project.id, 'question': question.id}) }}" class="btn btn-danger" role="button"><i class="fa-regular fa-trash-can"></i></a>
-                    <p>Original Image: {{ form.children['image'].vars.data.filename|split('-')|slice(0, -1)|join('-') }}.jpg</p>
+{#                    <p>Original Image: {{ form.children['image'].vars.data.filename|split('-')|slice(0, -1)|join('-') }}.{{ form.children['image'].vars.data.extension }}</p>#}
+                    <p>Original Image: {{ form.vars.data.image|split('-')|slice(0, -1)|join('-') ~ '.' ~ form.vars.data.image|split('.')|last }}</p>
+
+
                 </div>
 
             {% endif %}

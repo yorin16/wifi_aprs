@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\File\File as ImageFile;
 
@@ -23,7 +24,7 @@ class QuestionEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Question $question */
-        $question = $options['data']['question'];
+        $question = $options['question'];
         $questionLocation = $question->getLocation();
 
         if ($question->getImage()) {
@@ -35,28 +36,26 @@ class QuestionEditType extends AbstractType
 
         $builder
             ->add('text', TextType::class, [
+                'label' => 'Question',
                 'data' => $question->getText(),
             ])
             ->add('image', FileType::class, [
-                'label' => 'image',
+                'label' => 'Image',
+                'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '16M',
                         'mimeTypes' => [
                             'image/jpeg',
-//                            'image/png',
+                            'image/png',
                         ],
-                        'extensions' => ['jpg', 'jpeg'],
-//                        'extensions' => ['jpg', 'jpeg', 'png'],
-                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg',
-//                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg, .png',
-                        'mimeTypesMessage' => 'Please upload a valid JPG image',
-//                        'mimeTypesMessage' => 'Please upload a valid JPG or PNG image',
+                        'extensions' => ['jpg', 'jpeg', 'png'],
+                        'extensionsMessage' => 'Allowed file extensions are: .jpg, .jpeg, .png',
+                        'mimeTypesMessage' => 'Please upload a valid JPG or PNG image',
                         'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Max allowed size is {{ limit }} {{ suffix }}.',
                     ])
                 ],
-                'data' => $file
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
@@ -88,6 +87,7 @@ class QuestionEditType extends AbstractType
                 'data' => $question->getMulti4(),
             ])
             ->add('open', TextType::class, [
+                'label' => 'Extra info',
                 'required' => false, //niet nodig, nog onduidelijk wat ik hiermee ga doen
                 'data' => $question->getOpen()
             ])
@@ -96,27 +96,38 @@ class QuestionEditType extends AbstractType
                 'required' => false
             ])
             ->add('location', ChoiceType::class, [
-                'label' => 'Locations',
-                'choices' => $options['data']['locations'],
-                'choice_label' => function ($location) {
+                'label' => 'Location',
+                'choices' => $options['locations'],
+                'choice_label' => function ($location) use ($question) {
                     $name = $location->getName();
-                    $question = $location->getQuestion();
-                    if ($question) {
-                        return "{$name} (Already used)";
+                    $QeustionLocation = $location->getQuestion();
+
+                    if ($QeustionLocation) {
+                        return "{$name} -- In use";
                     }
+
+                    if($question === null || $QeustionLocation === null || $question->getLocation() === null) {
+                        return $name;
+                    }
+
+                    if ($QeustionLocation->getLocation()->getId() === $question->getLocation()->getId()) {
+                        return "{$name} -- Current Location";
+                    }
+
                     return $name;
                 },
                 'choice_value' => 'id',
                 'placeholder' => 'Select a location',
                 'required' => false,
                 'choice_attr' => function ($choice, $key, $value) use ($questionLocation) {
-                    $attrs = ['class' => 'text-white'];
+//                    $attrs = ['class' => 'text-white'];
+                    $attrs = [];
                     if ($choice instanceof Location && ($questionLocation !== null && $choice->getId() === $questionLocation->getId())) {
                         $attrs['selected'] = 'selected';
-                        $attrs['class'] = ' text-white';
+//                        $attrs['class'] = ' text-white';
                     }else if ($choice instanceof Location && $choice->getQuestion() !== null) {
                         $attrs['disabled'] = 'disabled';
-                        $attrs['class'] = ' text-muted';
+//                        $attrs['class'] = ' text-muted';
                     }
 
                     return $attrs;
@@ -124,5 +135,15 @@ class QuestionEditType extends AbstractType
                 'data' => $questionLocation ? $questionLocation->getId() : null,
             ])
             ->add('submit', SubmitType::class);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'question' => false,
+            'projectId' => false,
+            'locations' => false,
+        ]);
+
     }
 }

@@ -23,7 +23,7 @@ class RegistrationFormType extends AbstractType
             ->add('username')
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
-                'label' => 'password',
+                'label' => 'Password',
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank(['message' => 'Please enter a password',]),
@@ -38,7 +38,7 @@ class RegistrationFormType extends AbstractType
                     'attr'  =>  array('class' => 'form-control',
                         'style' => 'margin:5px 0;'),
                     'choices' =>[
-                            'User' => 'ROLE_USER',
+                            'Editor' => 'ROLE_USER',
                             'Team' => 'ROLE_TEAM',
                         ],
                     'multiple' => true,

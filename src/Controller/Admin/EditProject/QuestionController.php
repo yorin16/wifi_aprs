@@ -86,32 +86,33 @@ class QuestionController extends AbstractController
     public function edit(Request $request, Question $question, Project $project): RedirectResponse|Response
     {
         $locations = $project->getLocations();
-        $form = $this->createForm(QuestionEditType::class, ['question' => $question, 'projectId' => $project, 'locations' => $locations]);
+        $form = $this->createForm(QuestionEditType::class, $question,
+            ['question' => $question, 'projectId' => $project, 'locations' => $locations]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
-            $question->setText($formData['text']);
-            $image = $formData['image'];
+            $question->setText($formData->getText());
+            $image = $form->get('image')->getData();
             if($image !== null) {
-                if (($image->getClientOriginalName() !== $question->getImage())) {
+                if ($image->getClientOriginalName() !== $question->getImage()) {
                     $newFilename = $this->photoUploadService->EditPhotoFile($question->getImage(), $image, $this->getParameter('question_images'));
                     $question->setImage($newFilename);
                 }
             }
 
-            $question->setType($formData['type']);
+            $question->setType($formData->getType());
             $question->setMulti1($form->get('multi1')->getData());
             $question->setMulti2($form->get('multi2')->getData());
             $question->setMulti3($form->get('multi3')->getData());
             $question->setMulti4($form->get('multi4')->getData());
             $question->setOpen($form->get('open')->getData());
-            if($formData['type'] == self::TYPE_MULTI){
-                $question->setPoints($formData['points']);
+            if($formData->getType() == self::TYPE_MULTI){
+                $question->setPoints($formData->getPoints());
             }else {
                 $question->setPoints(NULL);
             }
-            $question->setLocation($formData['location']);
+            $question->setLocation($formData->getLocation());
             $this->entityManager->persist($question);
             $this->entityManager->flush();
             return $this->redirectToRoute('admin_question', ['project' => $project->getId()]);
@@ -170,8 +171,8 @@ class QuestionController extends AbstractController
     public function confirmDelete(Project $project, Question $question): Response
     {
         return $this->render('admin/editProject/question/confirm_delete.html.twig', [
-            'project' => $project->getId(),
-            'question' => $question->getId()
+            'project' => $project,
+            'question' => $question
         ]);
     }
 }

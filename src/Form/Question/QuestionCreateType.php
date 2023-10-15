@@ -21,9 +21,11 @@ class QuestionCreateType extends AbstractType
         $question = $options['data']['question'];
         $questionLocation = $question->getLocation();
         $builder
-            ->add('text', TextType::class)
+            ->add('text', TextType::class, [
+                'label' => 'Question'
+            ])
             ->add('image', FileType::class, [
-                'label' => 'image',
+                'label' => 'Image',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -65,17 +67,18 @@ class QuestionCreateType extends AbstractType
                 'label' => 'Option 4',
             ])
             ->add('open', TextType::class, [
+                'label' => 'Extra info',
                 'required' => false, //niet nodig, nog onduidelijk wat ik hiermee ga doen
             ])
             ->add('points', NumberType::class)
             ->add('location', ChoiceType::class, [
-                'label' => 'Locations',
+                'label' => 'Location',
                 'choices' => $options['data']['locations'],
                 'choice_label' => function ($location) {
                     $name = $location->getName();
                     $question = $location->getQuestion();
                     if ($question) {
-                        return "{$name} (Already used)";
+                        return "{$name} -- In use";
                     }
                     return $name;
                 },
@@ -83,13 +86,14 @@ class QuestionCreateType extends AbstractType
                 'placeholder' => 'Select a location',
                 'required' => false,
                 'choice_attr' => function ($choice, $key, $value) use ($questionLocation) {
-                    $attrs = ['class' => 'text-white'];
+//                    $attrs = ['class' => 'text-white'];
+                    $attrs = [];
                     if ($choice instanceof Location && ($questionLocation !== null && $choice->getId() === $questionLocation->getId())) {
                         $attrs['selected'] = 'selected';
-                        $attrs['class'] = ' text-white';
+//                        $attrs['class'] = ' text-white';
                     }else if ($choice instanceof Location && $choice->getQuestion() !== null) {
                         $attrs['disabled'] = 'disabled';
-                        $attrs['class'] = ' text-muted';
+//                        $attrs['class'] = ' text-muted';
                     }
 
                     return $attrs;

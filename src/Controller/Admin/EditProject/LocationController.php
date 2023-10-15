@@ -36,10 +36,21 @@ class LocationController extends AbstractController
 
         $location = new Location();
         $location->setProject($project);
-        $form = $this->createForm(LocationCreateType::class, $location);
+
+        $devicesInProject = [];
+        foreach($project->getLocations() as $projectLocation){
+            $devicesInProject[] = $projectLocation->getDevice();
+        }
+        $currentDevice = $location->getDevice();
+
+        $form = $this->createForm(LocationCreateType::class, ['devicesInProject' => $devicesInProject, 'location' => $location, 'currentDevice' => $currentDevice]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $location->setName($form->getData()['name']);
+            $location->setCoordinate($form->getData()['coordinate']);
+            $location->setDevice($form->getData()['device']);
+
             $this->entityManager->persist($location);
             $this->entityManager->flush();
 
@@ -53,7 +64,16 @@ class LocationController extends AbstractController
 
     public function edit(Request $request, Project $project, Location $location): Response
     {
-        $form = $this->createForm(LocationEditType::class, $location);
+        $devicesInProject = [];
+        foreach ($project->getLocations() as $projectLocation) {
+            $devicesInProject[] = $projectLocation->getDevice();
+        }
+        $currentDevice = $location->getDevice();
+
+        $form = $this->createForm(LocationEditType::class, $location, [
+            'devicesInProject' => $devicesInProject,
+            'currentDevice' => $currentDevice,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

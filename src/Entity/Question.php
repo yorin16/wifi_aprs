@@ -16,7 +16,7 @@ class Question
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'question', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'question', cascade: ['persist'])]
     private ?Location $Location = null;
 
     #[ORM\Column(length: 1024)]

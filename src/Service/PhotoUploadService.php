@@ -19,6 +19,7 @@ class PhotoUploadService
         $safeFilename = $this->slugger->slug($originalFilename);
         $newFilename = $safeFilename . '-' . uniqid() . '.' . $image->guessExtension();
 
+        $mineType = $image->getMimeType();
         // Move the file to the directory where brochures are stored
         try {
             $image->move(
@@ -29,7 +30,7 @@ class PhotoUploadService
         } catch (FileException $e) {
         }
 
-        $this->resizeImage($imageBaseUrl . '/' . $newFilename, $imageBaseUrl . '/' . $newFilename, 2000000);
+        $this->resizeImage($imageBaseUrl . '/' . $newFilename, $imageBaseUrl . '/' . $newFilename, 2000000, $mineType);
 
         return $newFilename;
     }
@@ -47,6 +48,7 @@ class PhotoUploadService
         $newFilename = $safeFilename . '-' . uniqid() . '.' . $newImage->guessExtension();
 
         // Move the file to the directory where brochures are stored
+        $mineType = $newImage->getMimeType();
         try {
             $newImage->move(
                 $imageBaseUrl,
@@ -56,7 +58,7 @@ class PhotoUploadService
         } catch (FileException $e) {
         }
 
-        $this->resizeImage($imageBaseUrl . '/' . $newFilename, $imageBaseUrl . '/' . $newFilename, 2000000);
+        $this->resizeImage($imageBaseUrl . '/' . $newFilename, $imageBaseUrl . '/' . $newFilename, 2000000, $mineType);
 
         return $newFilename;
     }
@@ -68,15 +70,26 @@ class PhotoUploadService
         }
     }
 
-    public function resizeImage($sourcePath, $targetPath, $targetSizeInBytes): void
+    public function resizeImage(string $sourcePath, string $targetPath, int $targetSizeInBytes, string $mimeType): void
     {
         $quality = 75;
         $maxIterations = 10;
 
+        switch ($mimeType) {
+            case 'image/jpeg':
+            case 'image/jpg':
+                $image = imagecreatefromjpeg($sourcePath);
+                break;
+            case 'image/png':
+                $image = imagecreatefrompng($sourcePath);
+                break;
+            default:
+                throw new \InvalidArgumentException('Unsupported image type.');
+        }
+
         for ($i = 0; $i < $maxIterations; $i++) {
-            $image = imagecreatefromjpeg($sourcePath);
             try {
-                $exif = exif_read_data($sourcePath);
+                $exif = @exif_read_data($sourcePath);
 
                 // Check for EXIF orientation and rotate the image if needed
                 if (!empty($exif['Orientation'])) {
@@ -93,15 +106,18 @@ class PhotoUploadService
                     }
                 }
             } catch (\ErrorException $exception) {
-
+                // Handle EXIF read error if needed
             }
 
-
-            // Rest of the code remains the same
             ob_start();
-            imagejpeg($image, null, $quality);
+            if ($mimeType === 'image/jpeg' || $mimeType === 'image/jpg') {
+                imagejpeg($image, null, $quality);
+            } elseif ($mimeType === 'image/png') {
+                imagepng($image, null, 9); // Use maximum compression for PNG
+            }
             $imageData = ob_get_contents();
             ob_end_clean();
+
             imagedestroy($image);
 
             $currentSize = strlen($imageData);
@@ -112,10 +128,13 @@ class PhotoUploadService
             } else {
                 $width = imagesx($image);
                 $height = imagesy($image);
-                $newWidth = $width * 0.9;
-                $newHeight = $height * 0.9;
+                $newWidth = $width * 0.75;
+                $newHeight = $height * 0.75;
                 $image = imagescale($image, $newWidth, $newHeight);
-                $quality -= 10;
+
+                if ($quality > 10) {
+                    $quality -= 20;
+                }
             }
         }
     }
