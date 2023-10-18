@@ -8,6 +8,12 @@
             <div class="col-12 col-lg-4">
                 <h1>Edit Open Question Score</h1>
 
+                {% if answer.question.image is not null %}
+                    <div class="d-flex align-items-center justify-content-center question-image">
+                        <img src="{{ asset('uploads/questionImages/' ~ answer.question.image) }}" width='50%' alt="">
+                    </div>
+                {% endif %}
+
                 <p>Question: {{ answer.question.text }}</p>
                 <p>Additional text: {{ answer.question.open }}</p>
 
@@ -18,6 +24,11 @@
         {% elseif answer.question.type == 3 %}
             <div class="col-12 col-lg-4">
                 <h1>Edit Photo Question Score</h1>
+                {% if answer.question.image is not null %}
+                    <div class="d-flex align-items-center justify-content-center question-image">
+                        <img src="{{ asset('uploads/questionImages/' ~ answer.question.image) }}" width='50%' alt="">
+                    </div>
+                {% endif %}
                 <p>Question: {{ answer.question.text }}</p>
                 <img src="{{ asset('uploads/answerImages/' ~ answer.image) }}" width='50%' alt="">
                 {{ form(form) }}
