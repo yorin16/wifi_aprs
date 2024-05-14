@@ -6,7 +6,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 console.log(process.env.npm_lifecycle_event);
-const publicPath = isDev ? '/build' : '/public/build/';
+const publicPath = isDev ? '/build' : '/build/';
 
 Encore
     .setOutputPath('public/build/')
