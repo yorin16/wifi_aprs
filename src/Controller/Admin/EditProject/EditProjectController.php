@@ -47,7 +47,7 @@ class EditProjectController extends AbstractController
             $userArray[] = $user->getUsername();
         }
 
-        $resultArray = $this->resultService->getAllResultsForUsers($questions);
+        $resultArray = $this->resultService->getAllResultsForUsers($questions, $users);
         $totalResultArray = $this->resultService->getTotalResultForUsers($project, $users);
 
         return $this->render('admin/editProject/index.html.twig', [

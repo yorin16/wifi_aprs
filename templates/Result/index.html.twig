@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ result[0].device.name }}</td>
                     {% for userKey, userResult in userArray %}
-                        {% if result is defined and result[userKey] is defined %}
+                        {% if result is defined and result[userKey] is defined and result[userKey]['user'] is not null %}
                             {% if result[userKey]['type'] == 1 %}
                                 <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
                             {% elseif result[userKey]['type'] == 2 %}

@@ -14,7 +14,7 @@ class ResultService
     {
     }
 
-    public function getAllResultsForUsers($questions): array
+    public function getAllResultsForUsers($questions, $users): array
     {
         $resultArray = [];
 
@@ -44,22 +44,38 @@ class ResultService
                 $resultArray[$question->getId()][] = $results;
             } else {
                 $resultArray[$question->getId()] = [];
-                foreach ($scores as $score) {
-                    $device = $score->getQuestion()->getLocation()->getDevice();
-
-                    if ($device === null) {
-                        continue;
+                foreach ($users as $user) {
+                    $userFound = false;
+                    foreach ($scores as $score) {
+                        if ($score->getUser() === $user) {
+                            $device = $score->getQuestion()->getLocation()->getDevice();
+                            if ($device === null) {
+                                continue;
+                            }
+                            $results = [
+                                'score' => $score->getPoints(),
+                                'type' => $question->getType(),
+                                'user' => $score->getUser(),
+                                'device' => $device,
+                                'question' => $question,
+                                'answer' => $score
+                            ];
+                            $userFound = true;
+                            $resultArray[$question->getId()][] = $results;
+                        }
                     }
-                    $results = [
-                        'score' => $score->getPoints(),
-                        'type' => $question->getType(),
-                        'user' => $score->getUser(),
-                        'device' => $device,
-                        'question' => $question,
-                        'answer' => $score
-                    ];
-
-                    $resultArray[$question->getId()][] = $results;
+                    if (!$userFound) {
+                        // If user not found in scores, add null score
+                        $results = [
+                            'score' => null,
+                            'type' => $question->getType(),
+                            'user' => null,
+                            'device' => $device,
+                            'question' => $question,
+                            'answer' => $score
+                        ];
+                        $resultArray[$question->getId()][] = $results;
+                    }
                 }
             }
         }

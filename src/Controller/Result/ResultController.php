@@ -32,7 +32,7 @@ class ResultController extends AbstractController
         foreach ($users as $user) {
             $userArray[] = $user->getUsername();
         }
-        $resultArray = $this->resultService->getAllResultsForUsers($questions);
+        $resultArray = $this->resultService->getAllResultsForUsers($questions, $users);
         $totalResultArray = $this->resultService->getTotalResultForUsers($project, $users);
 
         return $this->render('/Result/index.html.twig', [
