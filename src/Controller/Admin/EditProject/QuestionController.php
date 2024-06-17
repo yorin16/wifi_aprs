@@ -71,6 +71,7 @@ class QuestionController extends AbstractController
             $question->setOpen($form->get('open')->getData());
             $question->setPoints($form->get('points')->getData());
             $question->setLocation($form->get('location')->getData());
+            $question->setHint($form->get('hint')->getData());
 
             $this->entityManager->persist($question);
             $this->entityManager->flush();
@@ -113,6 +114,7 @@ class QuestionController extends AbstractController
                 $question->setPoints(NULL);
             }
             $question->setLocation($formData->getLocation());
+            $question->setHint($form->get('hint')->getData());
             $this->entityManager->persist($question);
             $this->entityManager->flush();
             return $this->redirectToRoute('admin_question', ['project' => $project->getId()]);

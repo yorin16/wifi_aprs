@@ -52,6 +52,9 @@ class Question
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $Hint = null;
+
     public const MULTI_QUESTION_TYPE = 1;
     public const OPEN_QUESTION_TYPE = 2;
     public const PHOTO_QUESTION_TYPE = 3;
@@ -259,6 +262,18 @@ class Question
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getHint(): ?string
+    {
+        return $this->Hint;
+    }
+
+    public function setHint(?string $Hint): static
+    {
+        $this->Hint = $Hint;
 
         return $this;
     }

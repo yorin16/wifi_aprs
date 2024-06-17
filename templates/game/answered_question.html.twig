@@ -34,9 +34,13 @@
 {#            {% else %}#}
                 {#            Open question#}
                 <div class="col-8 col-lg-4 answered">
+                    {% if hint is not null %}
+                        <h1 class="title-font">Hint</h1>
+                        <p class="title-sub-font">{{ hint }}</p>
+                    {% endif %}
                     <h1 class="title-font">Answered</h1>
                     {% if device is same as(null) %}
-                        {#                    <h2>No more locations or no more questions.</h2>#}
+                        {#  <h2>No more locations or no more questions.</h2>#}
                         <p class="title-sub-font">Go to next location</p>
                     {% endif %}
                 </div>

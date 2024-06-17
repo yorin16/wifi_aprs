@@ -165,11 +165,16 @@ class GameController extends AbstractController
 
         }
 
+        if($answerCorrect === true){
+            $hint = $question->getHint();
+        }
+
         return $this->render('game/answered_question.html.twig', [
             'locationHint' => $locationHint,
             'answerCorrect' => $answerCorrect,
             'device' => $device,
-            'questionType' => $questionType
+            'questionType' => $questionType,
+            'hint' => $hint ?? null
         ]);
     }
 
