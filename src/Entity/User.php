@@ -35,6 +35,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Answer::class, orphanRemoval: true)]
     private Collection $answers;
 
+    #[ORM\ManyToOne]
+    private ?Question $lastOpenedQuestion = null;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -166,6 +169,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $answer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLastOpenedQuestion(): ?Question
+    {
+        return $this->lastOpenedQuestion;
+    }
+
+    public function setLastOpenedQuestion(?Question $lastOpenedQuestion): static
+    {
+        $this->lastOpenedQuestion = $lastOpenedQuestion;
 
         return $this;
     }

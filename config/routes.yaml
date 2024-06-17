@@ -132,6 +132,9 @@ game_question_not_found:
 game_already_answered:
     path: /game/error/answered
     controller: App\Controller\Game\GameController::alreadyAnswered
+game_answer_previous_first:
+    path: /game/error/answerPreviousFirst
+    controller: App\Controller\Game\GameController::answerPreviousFirst
 
 #Result page
 result_view:

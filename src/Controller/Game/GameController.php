@@ -57,6 +57,18 @@ class GameController extends AbstractController
 
         $form->handleRequest($request);
 
+        // set lastQuestion on user to protect multiple scanning multiple
+        if($user->getLastOpenedQuestion() !== null){
+            if($question->getId() !== $user->getLastOpenedQuestion()->getId())
+            {
+                return $this->redirectToRoute('game_answer_previous_first');
+            }
+        }
+
+        $user->setLastOpenedQuestion($question);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
         if ($form->isSubmitted() && $form->isValid()) {
             // Handle form submission and processing here
 
@@ -134,6 +146,11 @@ class GameController extends AbstractController
             return $this->redirectToRoute('Home');
         }
 
+        //reset lastOpenedQuestion
+        $user->setLastOpenedQuestion(null);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
         /** @var Answer $answer */
         $answer = $this->answerRepository->findOneBy(['user' => $user->getId(), 'question' => $question->getId()]);
         $hintLocation = $answer?->getReceivedRandomLocation();
@@ -186,5 +203,10 @@ class GameController extends AbstractController
     public function alreadyAnswered(): Response
     {
         return $this->render('game/question_already_answered.html.twig');
+    }
+
+    public function answerPreviousFirst(): Response
+    {
+        return $this->render('game/answer_previous_question_first.twig');
     }
 }

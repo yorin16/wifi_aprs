@@ -32,7 +32,7 @@ class Location
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $coordinateHint = null;
 
     #[ORM\OneToMany(mappedBy: 'ReceivedRandomLocation', targetEntity: Answer::class)]
