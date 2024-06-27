@@ -86,6 +86,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 //        return implode("\n", str_replace("ROLE_", "", $roles));
         $roles = array_map(function($role) {
+            if($role === 'ROLE_USER'){
+                $role = 'ROLE_EDITOR';
+            }
             return str_replace("ROLE_", "", $role);
         }, $roles);
 
