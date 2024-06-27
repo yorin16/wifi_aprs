@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-12 col-lg-6">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th class="text-center" scope="col">Question</th>
+                    <th class="text-center" scope="col">Answer</th>
+                    <th class="text-center" scope="col">Hint</th>
+                    <th class="text-center" scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for question in questions %}
+                        <tr>
+                            <td>{{ question.text }}</td>
+                            <td>{{ question.multiAnswer }}</td>
+                            <td>{{ question.Hint }}</td>
+                            <td><a href="{{ path('game_answered_questions_detail', {'project': project.id, 'answer': question.answer_id }) }}" class="btn btn-success" role="button"><i class="fa-solid fa-arrow-right"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}

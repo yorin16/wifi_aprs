@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Answer;
 use App\Entity\Location;
 use App\Entity\Project;
 use App\Entity\Question;
@@ -103,5 +104,19 @@ class ProjectRepository extends ServiceEntityRepository
             ->setParameter('project_id', $projectId)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function getAnsweredQuestionsForUserInProject($projectId, $userId): array
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        return $queryBuilder->select('q.id as question_id','q.text', 'q.Hint', 'a.open', 'a.multiAnswer', 'a.points', 'a.image', 'a.id as answer_id')
+            ->from(Question::class, 'q')
+            ->leftJoin(Answer::class, 'a', 'WITH', 'q.id = a.question')
+            ->where('q.Project = :project_id')
+            ->andWhere('a.user = :user_id')
+            ->setParameter('project_id', $projectId)
+            ->setParameter('user_id', $userId)
+            ->getQuery()
+            ->getResult();
     }
 }

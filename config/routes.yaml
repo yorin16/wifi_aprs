@@ -135,6 +135,12 @@ game_already_answered:
 game_answer_previous_first:
     path: /game/error/answerPreviousFirst
     controller: App\Controller\Game\GameController::answerPreviousFirst
+game_answered_questions:
+    path: /game/answers/{project}
+    controller: App\Controller\Game\GameController::viewAnswers
+game_answered_questions_detail:
+    path: /game/answersDetail/{project}/{answer}
+    controller: App\Controller\Game\GameController::viewAnswersDetail
 
 #Result page
 result_view:

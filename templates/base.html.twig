@@ -39,6 +39,12 @@
                     </li>
                 {% endif %}
 
+                {% if is_granted('ROLE_TEAM') and user_projects() is not null %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('game_answered_questions', {'project': user_projects().id}) }}">View Answered Questions</a>
+                    </li>
+                {% endif %}
+
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-lg-center">
+    <div class="col-12 col-lg-5">
+        <a href="{{ path('game_answered_questions', {'project': project.id}) }}" class="btn btn-success" role="button"><i class="fa-solid fa-arrow-left"></i></a>
+        <p>Answered Question:</p>
+
+        <div>
+            <div>
+                <h6>
+                    Question Type:
+                    {% if question.type == 1 %}
+                        Multiple Choice
+                    {% elseif question.type == 2 %}
+                        Open Question
+                    {% elseif question.type == 3 %}
+                        Image Question
+                    {% else %}
+                        Question type template not found
+                    {% endif %}
+                </h6>
+            </div>
+            <div>
+                <h3>Question:</h3>
+                <p>{{ question.text }}</p>
+            </div>
+            {% if question.image is not null %}
+                <div>
+                    <h3>Question Image:</h3>
+                    <img src="{{ asset('uploads/questionImages/' ~ question.image) }}" style="height:30vh;object-fit: contain;" alt="">
+                </div>
+            {% endif %}
+            <div>
+                <h3>Answer:</h3>
+
+                    {% if question.type == 1 %}
+                        <p>{{ attribute(question, 'multi' ~ answer.multianswer) }}</p>
+                    {% elseif question.type == 2 %}
+                       <p>{{ answer.open }}</p>
+                    {% elseif question.type == 3 %}
+                        <img src="{{ asset('uploads/answerImages/' ~ answer.image) }}" style="height:30vh;object-fit: contain;" alt="">
+                    {% else %}
+                        <p>Question type template not found</p>
+                    {% endif %}
+
+            </div>
+            <div>
+                <h3>Hint:</h3>
+                <p>
+                    {{ question.hint }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}

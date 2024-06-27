@@ -9,6 +9,7 @@ use App\Form\Game\AnswerQuestionType;
 use App\Repository\AnswerRepository;
 use App\Repository\DeviceRepository;
 use App\Repository\LocationRepository;
+use App\Repository\ProjectRepository;
 use App\Service\EncryptionService;
 use App\Service\PhotoUploadService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +26,8 @@ class GameController extends AbstractController
         private EncryptionService      $encryptionService,
         private AnswerRepository       $answerRepository,
         private LocationRepository     $locationRepository,
-        private PhotoUploadService     $photoUploadService
+        private PhotoUploadService     $photoUploadService,
+        private ProjectRepository      $projectRepository,
     )
     {}
 
@@ -135,6 +137,37 @@ class GameController extends AbstractController
         return $this->render('game/index.html.twig', [
             'question' => $question,
             'form' => $form->createView(),
+        ]);
+    }
+
+    public function viewAnswers($project, Security $security): Response
+    {
+
+        $questions = $this->projectRepository->getAnsweredQuestionsForUserInProject($project, $security->getUser());
+        $project = $this->projectRepository->find($project);
+
+        return $this->render('game/view_answers.html.twig', [
+            'questions' => $questions,
+            'project' => $project
+        ]);
+    }
+
+    public function viewAnswersDetail($project, $answer, Security $security): Response
+    {
+        $answer = $this->answerRepository->find($answer);
+
+        if($answer->getUser() !== $security->getUser()) {
+            return $this->redirectToRoute('Home');
+        }
+
+        $question = $answer->getQuestion();
+        $project = $this->projectRepository->find($project);
+
+        return $this->render('game/view_answers_detail.html.twig', [
+            'project' => $project,
+            'question' => $question,
+            'answer' => $answer
+            
         ]);
     }
 
