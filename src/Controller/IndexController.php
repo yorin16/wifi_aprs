@@ -11,17 +11,12 @@ class IndexController extends AbstractController
 {
     public function index(Security $security): Response
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $security->getUser();
-
-        if($user === null) {
-            $project = null;
-        } else {
-            $project = $user->getProject()->getId();
-        }
+        $projectId = $user?->getProject()?->getId();
 
         return $this->render('index.html.twig', [
-            'projectId' =>  $project
+            'projectId' => $projectId
         ]);
     }
 }
