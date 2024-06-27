@@ -20,9 +20,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for question in questions %}
+                {% for key,question in questions %}
                     <tr>
-                        <th scope="row">{{ question.id }}</th>
+                        <th scope="row">{{ key + 1 }}</th>
                         <td>{{ question.location.name|default }}</td>
                         <td>{{ question.location.coordinate|default }}</td>
                         <td>{{ question.text|default }}</td>

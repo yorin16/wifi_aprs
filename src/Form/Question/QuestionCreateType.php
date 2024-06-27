@@ -101,7 +101,7 @@ class QuestionCreateType extends AbstractType
                 },
                 'data' => $questionLocation ? $questionLocation->getId() : null,
             ])
-            ->add('hint', TextareaType::class)
+            ->add('hint', TextareaType::class, ['required' => false])
             ->add('submit', SubmitType::class);
     }
 }

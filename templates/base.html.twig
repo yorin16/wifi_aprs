@@ -43,6 +43,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('game_answered_questions', {'project': user_projects().id}) }}">View Answered Questions</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('result_view', {'project': user_projects().id}) }}">Result</a>
+                    </li>
                 {% endif %}
 
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}

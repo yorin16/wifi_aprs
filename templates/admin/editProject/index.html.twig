@@ -26,30 +26,32 @@
                 <tbody>
                 {% for key,result in resultArray %}
                     <tr>
-                        <td>{{ result[0].device.name }}</td>
-                        {% for userKey, userResult in userArray %}
-                            {% if result is defined and result[userKey] is defined and result[userKey]['user'] is not null %}
-                                {% if result[userKey]['type'] == 1 %}
-                                    <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
-                                {% elseif result[userKey]['type'] == 2 and result[userKey]['user'] is not null %}
-                                    {% if result[userKey]['score'] is null%}
-                                        <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
+                        {% if result is not empty and result[0] is not null %}
+                            <td>{{ result[0].device.name }}</td>
+                            {% for userKey, userResult in userArray %}
+                                {% if result is defined and result[userKey] is defined and result[userKey]['user'] is not null %}
+                                    {% if result[userKey]['type'] == 1 %}
+                                        <td class="text-center">{{ result[userKey]['score']|default(0) }}</td>
+                                    {% elseif result[userKey]['type'] == 2 and result[userKey]['user'] is not null %}
+                                        {% if result[userKey]['score'] is null%}
+                                            <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
+                                        {% else %}
+                                            <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
+                                        {%  endif %}
+                                    {% elseif result[userKey]['type'] == 3  and result[userKey]['user'] is not null %}
+                                        {% if result[userKey]['score'] is null%}
+                                            <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
+                                        {% else %}
+                                            <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
+                                        {%  endif %}
                                     {% else %}
-                                        <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
-                                    {%  endif %}
-                                {% elseif result[userKey]['type'] == 3  and result[userKey]['user'] is not null %}
-                                    {% if result[userKey]['score'] is null%}
-                                        <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="btn btn-primary">Add Points</a></td>
-                                    {% else %}
-                                        <td class="text-center"><a href="{{ path('admin_question_fill_score', {'project' : project.id, 'question' : key, 'user': result[userKey]['user'].id}) }}" class="">{{ result[userKey]['score'] }}</a></td>
-                                    {%  endif %}
+                                        <td class="text-center">-</td>
+                                    {% endif %}
                                 {% else %}
                                     <td class="text-center">-</td>
                                 {% endif %}
-                            {% else %}
-                                <td class="text-center">-</td>
-                            {% endif %}
-                        {% endfor %}
+                            {% endfor %}
+                        {% endif %}
                     </tr>
                 {% endfor %}
                     <tr>
