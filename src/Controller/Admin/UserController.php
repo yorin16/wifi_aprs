@@ -57,13 +57,18 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function edit($id, Request $request, User $user): RedirectResponse|Response
+    public function edit($id, Request $request, User $user, UserPasswordHasherInterface $passwordHasher): RedirectResponse|Response
     {
 
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $plainPassword = $form->get('plainPassword')->getData();
+            if ($plainPassword) {
+                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
+            }
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             return $this->redirectToRoute('admin_user');
